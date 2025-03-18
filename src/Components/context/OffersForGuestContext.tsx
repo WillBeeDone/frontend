@@ -1,5 +1,11 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { IOfferGuest } from '../types/OfferInterfaces';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { IOfferGuest } from "../../Components/types/OfferInterfaces";
 
 interface OffersContextType {
   offersListForGuest: IOfferGuest[];
@@ -7,11 +13,15 @@ interface OffersContextType {
 }
 
 // Створення контексту
-const OffersForGuestContext = createContext<OffersContextType | undefined>(undefined);
+const OffersForGuestContext = createContext<OffersContextType | undefined>(
+  undefined
+);
 
 // Провайдер контексту
 export const OffersProvider = ({ children }: { children: ReactNode }) => {
-  const [offersListForGuest, setOffersListForGuest] = useState<IOfferGuest[]>([]);
+  const [offersListForGuest, setOffersListForGuest] = useState<IOfferGuest[]>(
+    []
+  );
 
   // Функція для отримання оферів з сервера
   const fetchOffers = async () => {
@@ -19,7 +29,6 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
       const response = await fetch("https://api.example.com/offers"); // API-запит
       const data: IOfferGuest[] = await response.json();
       setOffersListForGuest(data);
-
     } catch (error) {
       console.error("Помилка при отриманні оферів:", error);
     }

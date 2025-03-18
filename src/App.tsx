@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import "./App.css";
-
-function App() {
-  return (
-    <>
-      <h1>WillBeeDone</h1>
-    </>
-=======
 //import { useState } from 'react'
 //import reactLogo from './assets/react.svg'
 //import viteLogo from '/vite.svg'
@@ -14,10 +5,10 @@ import "./App.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./layout/Layout";
 
-import Main from "./components/main/Main";
-import LoginForm from "./components/loginForm/LoginForm";
-import NoPage from "./components/noPage/NoPage";
-import GuestOfferPage from "./components/offerPage/GuestOfferPage";
+import Main from "./Components/main/Main";
+import LoginForm from "./Components/loginForm/LoginForm";
+import NoPage from "./Components/noPage/NoPage";
+import GuestOfferPage from "./Components/offerPage/GuestOfferPage";
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -39,7 +30,6 @@ function App() {
         </Route>
       </Routes>
     </HashRouter>
->>>>>>> a19ad0eb20c92b68d31b160b4f41083bdfb47157
   );
 }
 
