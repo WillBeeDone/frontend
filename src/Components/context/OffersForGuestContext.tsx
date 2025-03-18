@@ -1,27 +1,13 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { IOfferGuest, IOfferUser, IOfferAdmin } from './../Components/types/OfferInterfaces';
-// Оновлений інтерфейс офера
+import { IOfferGuest } from '../types/OfferInterfaces';
 
-// interface IOfferGuest {
-//   id: number;
-//   title: string;
-//   name: string;
-//   profilePicture: string;
-//   location: string;
-//   category: string;
-//   gallery: string[];
-//   price: number;
-//   description: string;
-// }
-
-// Тип контексту
 interface OffersContextType {
   offersListForGuest: IOfferGuest[];
   fetchOffers: () => void;
 }
 
 // Створення контексту
-const OffersContext = createContext<OffersContextType | undefined>(undefined);
+const OffersForGuestContext = createContext<OffersContextType | undefined>(undefined);
 
 // Провайдер контексту
 export const OffersProvider = ({ children }: { children: ReactNode }) => {
@@ -33,6 +19,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
       const response = await fetch("https://api.example.com/offers"); // API-запит
       const data: IOfferGuest[] = await response.json();
       setOffersListForGuest(data);
+
     } catch (error) {
       console.error("Помилка при отриманні оферів:", error);
     }
@@ -44,15 +31,15 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <OffersContext.Provider value={{ offersListForGuest, fetchOffers }}>
+    <OffersForGuestContext.Provider value={{ offersListForGuest, fetchOffers }}>
       {children}
-    </OffersContext.Provider>
+    </OffersForGuestContext.Provider>
   );
 };
 
 // Кастомний хук для використання контексту
 export const useOffers = () => {
-  const context = useContext(OffersContext);
+  const context = useContext(OffersForGuestContext);
   if (!context) {
     throw new Error("useOffers має використовуватися всередині OffersProvider");
   }

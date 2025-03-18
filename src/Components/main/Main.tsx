@@ -4,6 +4,7 @@ import style from "./Main.module.css";
 import Button from "../button/Button";
 import ShowAllElements from "../showAllElements/ShowAllElements";
 import { offersListForAdmin, offersListForGuest } from "../../test data/Offer";
+import GuestOffer from "../offer/GuestOffer";
 
 
 interface IMain {
@@ -16,7 +17,7 @@ interface IMain {
 export default function Main({
   text = "text",
 }: IMain): JSX.Element {
-  const [registerArray, setregisterArray] = useState<IRegisterSchemaValues[]>([]);
+  
     
 
 
@@ -37,8 +38,8 @@ export default function Main({
           
            
               
-        <ShowAllElements array={offersListForGuest}/>
-               
+        {/* <ShowAllElements array={offersListForGuest}/> */}
+        <GuestOffer/>       
             
           
 
@@ -53,3 +54,5 @@ export default function Main({
     </>
   );
 }
+
+
