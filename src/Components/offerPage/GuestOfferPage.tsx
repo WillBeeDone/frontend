@@ -1,17 +1,17 @@
 import { useParams, Link } from "react-router-dom";
-//import { useOffers } from "../context/OffersForGuestContext";
+//import { useGuestOffers } from "../context/OffersForGuestContext";
 import style from "./GuestOfferPage.module.css";
 import { offersListForGuest } from "../../test data/Offer";
-import { IOfferGuest } from "../types/OfferInterfaces";
+
 
 const GuestOfferPage = () => {
-  //const { offersListForGuest } = useOffers();
+  //const { offersListForGuest } = useGuestOffers();
   const { id } = useParams<{ id?: string }>();
 
   const offer = offersListForGuest.find((offer) => offer.id === Number(id));
   // временно использую тест-данные test data - Offer - offersListForGuest
   
-  //const offer:IOfferGuest = offersListForGuest.map((offer) => ( offer.id === Number(id)));
+ 
 
 
        

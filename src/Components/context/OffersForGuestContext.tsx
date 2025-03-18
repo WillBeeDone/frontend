@@ -1,47 +1,44 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { IOfferGuest } from '../types/OfferInterfaces';
+import { IOfferGuest } from "../types/OfferInterfaces";
 
 interface OffersContextType {
   offersListForGuest: IOfferGuest[];
-  fetchOffers: () => void;
+  selectedCity: string;
+  setSelectedCity: (city: string) => void;
+  fetchOffers: (city?: string) => void;
 }
 
-// Створення контексту
 const OffersForGuestContext = createContext<OffersContextType | undefined>(undefined);
 
-// Провайдер контексту
 export const OffersProvider = ({ children }: { children: ReactNode }) => {
   const [offersListForGuest, setOffersListForGuest] = useState<IOfferGuest[]>([]);
+  const [selectedCity, setSelectedCity] = useState<string>("berlin"); // дефолт - "berlin"
 
-  // Функція для отримання оферів з сервера
-  const fetchOffers = async () => {
+  const fetchOffers = async (city: string = selectedCity) => {
     try {
-      const response = await fetch("https://api.example.com/offers"); // API-запит
+      const response = await fetch(`https://api.example.com/offers?city=${city}`);
       const data: IOfferGuest[] = await response.json();
       setOffersListForGuest(data);
-
     } catch (error) {
-      console.error("Помилка при отриманні оферів:", error);
+      console.error("Mistake while offers receive:", error);
     }
   };
 
-  // Виклик при завантаженні компонента
   useEffect(() => {
     fetchOffers();
-  }, []);
+  }, [selectedCity]);
 
   return (
-    <OffersForGuestContext.Provider value={{ offersListForGuest, fetchOffers }}>
+    <OffersForGuestContext.Provider value={{ offersListForGuest, selectedCity, setSelectedCity, fetchOffers }}>
       {children}
     </OffersForGuestContext.Provider>
   );
 };
 
-// Кастомний хук для використання контексту
-export const useOffers = () => {
+export const useGuestOffers = () => {
   const context = useContext(OffersForGuestContext);
   if (!context) {
-    throw new Error("useOffers має використовуватися всередині OffersProvider");
+    throw new Error("Offers do not used inside OffersProvider");
   }
   return context;
 };

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import style from "./Header.module.css";
 import { NavLink } from "react-router-dom";
+import GetCities from "../citySelector/GetCities";
 
 
 
@@ -22,16 +23,16 @@ interface ILink {
     links,
   }: IHeaderProps): JSX.Element {
 
-    const cities = [
-      { city: "Berlin" },
-      { city: "Leipzig" },
-      { city: "Magdeburg" },
-      { city: "Halle" },
-      { city: "Hamburg" }
-    ].map(({ city }) => ({
-      city,
-      value: city.charAt(0).toLowerCase() + city.substring(1)
-    }));
+    // const cities = [
+    //   { city: "Berlin" },
+    //   { city: "Leipzig" },
+    //   { city: "Magdeburg" },
+    //   { city: "Halle" },
+    //   { city: "Hamburg" }
+    // ].map(({ city }) => ({
+    //   city,
+    //   value: city.charAt(0).toLowerCase() + city.substring(1)
+    // }));
     return (
       <header
        
@@ -51,7 +52,7 @@ interface ILink {
         
          ))}
 
-<select className="chooseCity">
+{/* <select className="chooseCity">
     <option value="">Choose city</option>
       <option value="all">All</option>
       {cities.map((element, index) => (
@@ -59,9 +60,9 @@ interface ILink {
           {element.city}
         </option>
       ))}
-    </select>
+    </select> */}
 
-
+      <GetCities/>
 
       </header>
     );

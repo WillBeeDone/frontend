@@ -35,22 +35,12 @@ export default function Main({
         </div>
 
        
-          
-           
-              
-        {/* <ShowAllElements array={offersListForGuest}/> */}
         <GuestOffer/>       
             
-          
-
          
-        
       </div>
 
-      {/* <div>
-        <LoginSchema />
-        <RegisterSchema />
-      </div> */}
+     
     </>
   );
 }
