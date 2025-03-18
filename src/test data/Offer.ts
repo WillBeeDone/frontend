@@ -1,26 +1,15 @@
+import { IOfferGuest, IOfferUser, IOfferAdmin } from './../Components/types/OfferInterfaces';
 //all fields of Offer entity : id, userId(user), title, name(user), profilePicture(user), location(user), category, photos from gallery, price, description, email(user), phone number(user)
 
 // IOfferGuest: title, name, profilePicture, location, category, photos from gallery, price, description
 // IOfferUser: IOfferGuest + email(user), phone number(user)
 // IOfferAdmin - IOfferUser +  id, userId(user)
 
-interface IOfferGuest {
-  title:string, name:string,profilePicture:string,location:string,category:string, gallery:string[], price:number,description:string
-    
-    }
 
-interface IOfferUser extends IOfferGuest{
-    email:string,phone:string
-}
-
-
-interface IOfferAdmin extends IOfferUser {
-id:number,userId:number
-
-}
 
 export const offersListForGuest:IOfferGuest[] = [
     {
+        id: 1,
         title:"title1",
         name: "name1",
         profilePicture:"profilePicture1",
@@ -31,6 +20,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 2,
         title:"title2",
         name: "name2",
         profilePicture:"profilePicture2",
@@ -41,6 +31,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 3,
         title:"title3",
         name: "name3",
         profilePicture:"profilePicture3",
@@ -51,6 +42,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2","image3"],
       },
       {
+        id: 4,
         title:"title4",
         name: "name4",
         profilePicture:"profilePicture4",
@@ -62,6 +54,7 @@ export const offersListForGuest:IOfferGuest[] = [
       },
      
       {
+        id: 5,
         title:"title5",
         name: "name5",
         profilePicture:"profilePicture5",
@@ -72,6 +65,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2", "image3"],
       },
       {
+        id: 6,
         title:"title6",
         name: "name6",
         profilePicture:"profilePicture6",
@@ -82,6 +76,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1"],
       },
       {
+        id: 7,
         title:"title7",
         name: "name7",
         profilePicture:"profilePicture7",
@@ -92,6 +87,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2", "image3"],
       },
       {
+        id: 8,
         title:"title8",
         name: "name8",
         profilePicture:"profilePicture8",
@@ -102,6 +98,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 9,
         title:"title9",
         name: "name9",
         profilePicture:"profilePicture9",
@@ -112,6 +109,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 10,
         title:"title10",
         name: "name10",
         profilePicture:"profilePicture10",
@@ -125,7 +123,10 @@ export const offersListForGuest:IOfferGuest[] = [
 
 
 
+
+
       {
+        id: 1,
         title:"title1",
         name: "name1",
         profilePicture:"profilePicture1",
@@ -136,6 +137,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 2,
         title:"title2",
         name: "name2",
         profilePicture:"profilePicture2",
@@ -146,6 +148,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 3,
         title:"title3",
         name: "name3",
         profilePicture:"profilePicture3",
@@ -156,6 +159,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2","image3"],
       },
       {
+        id: 4,
         title:"title4",
         name: "name4",
         profilePicture:"profilePicture4",
@@ -167,6 +171,7 @@ export const offersListForGuest:IOfferGuest[] = [
       },
      
       {
+        id: 5,
         title:"title5",
         name: "name5",
         profilePicture:"profilePicture5",
@@ -177,6 +182,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2", "image3"],
       },
       {
+        id: 6,
         title:"title6",
         name: "name6",
         profilePicture:"profilePicture6",
@@ -187,6 +193,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1"],
       },
       {
+        id: 7,
         title:"title7",
         name: "name7",
         profilePicture:"profilePicture7",
@@ -197,6 +204,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2", "image3"],
       },
       {
+        id: 8,
         title:"title8",
         name: "name8",
         profilePicture:"profilePicture8",
@@ -207,6 +215,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 9,
         title:"title9",
         name: "name9",
         profilePicture:"profilePicture9",
@@ -217,6 +226,7 @@ export const offersListForGuest:IOfferGuest[] = [
         gallery: ["image1", "image2"],
       },
       {
+        id: 10,
         title:"title10",
         name: "name10",
         profilePicture:"profilePicture10",
@@ -226,11 +236,11 @@ export const offersListForGuest:IOfferGuest[] = [
         location:"location10",
         gallery: ["image1", "image2"],
       }
-
 ];
 
 export const offersListForUser:IOfferUser[] = [
     {
+        id: 1,
         title:"title1",
         name: "name1",
         profilePicture:"profilePicture1",
@@ -243,6 +253,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone1"
       },
       {
+        id: 2,
         title:"title2",
         name: "name2",
         profilePicture:"profilePicture2",
@@ -255,6 +266,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone2"
       },
       {
+        id: 3,
         title:"title3",
         name: "name3",
         profilePicture:"profilePicture3",
@@ -267,6 +279,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone3"
       },
       {
+        id: 4,
         title:"title4",
         name: "name4",
         profilePicture:"profilePicture4",
@@ -280,6 +293,7 @@ export const offersListForUser:IOfferUser[] = [
       },
      
       {
+        id: 5,
         title:"title5",
         name: "name5",
         profilePicture:"profilePicture5",
@@ -292,6 +306,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone5"
       },
       {
+        id: 6,
         title:"title6",
         name: "name6",
         profilePicture:"profilePicture6",
@@ -304,6 +319,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone6"
       },
       {
+        id: 7,
         title:"title7",
         name: "name7",
         profilePicture:"profilePicture7",
@@ -316,6 +332,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone7"
       },
       {
+        id: 8,
         title:"title8",
         name: "name8",
         profilePicture:"profilePicture8",
@@ -328,6 +345,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone8"
       },
       {
+        id: 9,
         title:"title9",
         name: "name9",
         profilePicture:"profilePicture9",
@@ -340,6 +358,7 @@ export const offersListForUser:IOfferUser[] = [
         phone:"phone19"
       },
       {
+        id: 10,
         title:"title10",
         name: "name10",
         profilePicture:"profilePicture10",
