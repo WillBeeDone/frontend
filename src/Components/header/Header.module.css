@@ -1,0 +1,44 @@
+.header {
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    
+    width: 100%;
+    /* height: 80px; */
+    gap: 15px;
+    padding: 0px 20px;
+
+    /* background-color: rgb(206, 103, 0); */
+    margin-bottom: 15px;
+  }
+
+  .header a {
+    color: white;
+  }
+
+  .header a:hover{
+    text-decoration: underline;
+  }
+  
+  .linkActive {
+    text-decoration: underline;
+    color: blueviolet !important;
+    background-color: aquamarine;
+    border-radius: 4px;
+  }
+  
+  .totalAmount {
+    color: rgb(187, 94, 199);
+    font-size: 18px;
+    font-style: oblique;
+}
+
+.userInfo {
+
+  color: aquamarine;
+  margin-right: 10px;
+  text-decoration: underline;
+  /* border: 1px solid rgb(241, 238, 238); */
+  padding: 3px;
+}
