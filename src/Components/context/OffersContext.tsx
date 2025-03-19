@@ -7,24 +7,24 @@ interface OffersContextType {
   setSelectedCity: (city: string) => void;
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
-  //selectedKeyWord: string;
-  //setSelectedKeyWord: string;
+  selectedKeyWord: string;
+  setSelectedKeyWord: (category: string) => void;
 
   fetchOffers: (city?: string, category?: string, keyWord?: string) => void;
 }
 
-// TODO добавить setSelectedKeyWord и selectedKeyWord
+
 const OffersContext = createContext<OffersContextType | undefined>(undefined);
 
 export const OffersProvider = ({ children }: { children: ReactNode }) => {
   const [offerCards, setOfferCards] = useState<IOfferCard[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  //const [selectedKeyWord,  setSelectedKeyWord] = useState<string>("all");
+  const [selectedKeyWord,  setSelectedKeyWord] = useState<string>("");
 
-  const fetchOffers = async (city: string = selectedCity, category: string = selectedCategory,) => {
+  const fetchOffers = async (city: string = selectedCity, category: string = selectedCategory, keyWord: string = selectedKeyWord || "all") => {
     try {
-      const response = await fetch(`https://api.example.com/offers?city=${city}&category=${category}`);
+      const response = await fetch(`https://api.example.com/offers?city=${city}&category=${category}&keyWord=${keyWord}`);
       const data: IOfferCard[] = await response.json();
       setOfferCards(data);
     } catch (error) {
@@ -34,11 +34,11 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchOffers();
-  }, [selectedCity, selectedCategory]);
+  }, [selectedCity, selectedCategory,selectedKeyWord]);
 
   
   return (
-    <OffersContext.Provider value={{ offerCards, selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, fetchOffers }}>
+    <OffersContext.Provider value={{ offerCards, selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedKeyWord, setSelectedKeyWord, fetchOffers }}>
       {children}
     </OffersContext.Provider>
   );
