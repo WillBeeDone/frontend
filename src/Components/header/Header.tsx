@@ -2,6 +2,7 @@ import { JSX } from "react";
 import style from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
+import {useOffers} from "../context/OffersContext"
 
 interface ILink {
   text: React.ReactNode;
@@ -14,6 +15,11 @@ interface IHeaderProps {
 }
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
+
+  const { setSelectedCity, setSelectedCategory } = useOffers();
+
+
+
  
   return (
     <header className={style.header}>
@@ -29,8 +35,11 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         </NavLink>
       ))}
 
-      <DropDown url="" text="cities"/>
       
+      <DropDown url="" text="cities"  onChange={setSelectedCity}/>
+      
+      <DropDown  url="" text="categories" onChange={setSelectedCategory} />
+
     </header>
   );
 }

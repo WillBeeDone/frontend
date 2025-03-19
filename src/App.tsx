@@ -9,6 +9,7 @@ import Main from "./components/main/Main";
 import LoginForm from "./components/loginForm/LoginForm";
 import NoPage from "./components/noPage/NoPage";
 import GuestOfferPage from "./components/offerPage/GuestOfferPage";
+import { OffersProvider } from "./components/context/OffersContext";
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -17,6 +18,7 @@ function App() {
     /*<> <ShowAllElements array={offersListForGuest}/> </>*/
   }
   return (
+    <OffersProvider>
     <HashRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -30,6 +32,7 @@ function App() {
         </Route>
       </Routes>
     </HashRouter>
+    </OffersProvider>
   );
 }
 
