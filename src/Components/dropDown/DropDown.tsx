@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import style from "./DropDown.module.css"
 
 interface IDataForSelector {
   element: string;
