@@ -1,41 +1,28 @@
-import { useFormik } from "formik";
-import { useState } from "react";
+
 import style from "./Main.module.css";
-import Button from "../button/Button";
-import ShowAllElements from "../showAllElements/ShowAllElements";
-import { offersListForAdmin, offersListForGuest } from "../../test data/Offer";
-import GuestOffer from "../offer/GuestOffer";
+import OfferCard from "../offer/OfferCard";
+import { JSX } from "react";
+import Banner from "../banner/Banner";
 
+export default function Main(): JSX.Element {
 
-interface IMain {
-  text?: string;
-}
-
-
-
-
-export default function Main({
-  text = "text",
-}: IMain): JSX.Element {
-  
     
-
-
-
   return (
     <>
       <div className={style.mainContainer}>
         
 
         <div className={style.inputZoneMainContainer}>
-        
+
+        <Banner/>
+
           <div className={style.inputZoneItem}>
           <p>control panel here</p>
           </div>
         </div>
 
        
-        <GuestOffer/>       
+        <OfferCard/>       
             
          
       </div>

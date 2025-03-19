@@ -1,10 +1,11 @@
-import { JSX, useEffect } from "react";
+import { JSX } from "react";
 import style from "./Header.module.css";
 import { NavLink } from "react-router-dom";
-import GetCities from "../citySelector/GetCities";
+import DropDown from "../dropDown/DropDown";
+import {useOffers} from "../context/OffersContext"
 
 interface ILink {
-  text: React.ReactNode;  // Это позволяет передавать и строки, и JSX элементы
+  text: React.ReactNode;
   path: string;
 }
 
@@ -14,16 +15,12 @@ interface IHeaderProps {
 }
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
-  // const cities = [
-  //   { city: "Berlin" },
-  //   { city: "Leipzig" },
-  //   { city: "Magdeburg" },
-  //   { city: "Halle" },
-  //   { city: "Hamburg" },
-  // ].map(({ city }) => ({
-  //   city,
-  //   value: city.charAt(0).toLowerCase() + city.substring(1),
-  // }));
+
+  const { setSelectedCity, setSelectedCategory } = useOffers();
+
+
+
+ 
   return (
     <header className={style.header}>
       {links.map(({ text, path }, index) => (
@@ -38,16 +35,11 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         </NavLink>
       ))}
 
-      {/* <select className={style.chooseCity}>
-        <option value="">Choose city</option>
-        <option value="all">All</option>
-        {cities.map((element, index) => (
-          <option key={index} value={element.value}>
-            {element.city}
-          </option>
-        ))}
-      </select> */}
-      <GetCities/>
+      
+      <DropDown url="" text="cities"  onChange={setSelectedCity}/>
+      
+      <DropDown  url="" text="categories" onChange={setSelectedCategory} />
+
     </header>
   );
 }

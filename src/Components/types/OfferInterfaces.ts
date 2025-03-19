@@ -1,13 +1,20 @@
-export interface IOfferGuest {
-    id: number,title:string, name:string,profilePicture:string,location:string,category:string, gallery:string[], price:number,description:string
+
+   
+export interface IOfferCard {
+    id: number,firstName:string, secondName:string, location:string, title:string, category:string, price:number,description:string, profilePicture:string
+      
+      }
+         
+export interface IGuestOfferPage {
+    id: number,firstName:string, secondName:string, location:string, title:string, category:string, price:number,description:string, profilePicture:string, gallery:string[]
       
       }
   
-  export interface IOfferUser extends IOfferGuest{
-      email:string,phone:string
+  export interface IUserOfferPage extends IGuestOfferPage{
+      email:string, phone:string
   }
   
   
-  export interface IOfferAdmin extends IOfferUser {
+  export interface IAdminOfferPage extends IUserOfferPage {
   userId:number
   }
