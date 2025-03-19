@@ -12,6 +12,17 @@ export interface IGuestOfferPage {
 
 */
 
+const list = [
+  { element: "Berlin" },
+  { element: "Leipzig" },
+  { element: "Magdeburg" },
+  { element: "Halle" },
+  { element: "Hamburg" }
+].map(({ element }) => ({
+  element,
+  value: element.charAt(0).toLowerCase() + element.substring(1)
+}));
+  
 
 import {
   IOfferCard,IGuestOfferPage

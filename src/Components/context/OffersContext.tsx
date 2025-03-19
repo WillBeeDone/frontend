@@ -12,7 +12,7 @@ const OffersContext = createContext<OffersContextType | undefined>(undefined);
 
 export const OffersProvider = ({ children }: { children: ReactNode }) => {
   const [offerCards, setOffersListForGuest] = useState<IOfferCard[]>([]);
-  const [selectedCity, setSelectedCity] = useState<string>("berlin"); // дефолт - "berlin"
+  const [selectedCity, setSelectedCity] = useState<string>("all");
 
   const fetchOffers = async (city: string = selectedCity) => {
     try {
