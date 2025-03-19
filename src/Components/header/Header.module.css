@@ -1,16 +1,17 @@
 .header {
 
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    
-    width: 100%;
-    /* height: 80px; */
-    gap: 15px;
-    padding: 0px 20px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 
-    /* background-color: rgb(206, 103, 0); */
-    margin-bottom: 15px;
+  width: 100%;
+  height: 117px;
+  gap: 15px;
+  padding: 0px 20px;
+
+  background-color: #FAFAFA;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #000; /* Нижняя граница */
   }
 
   .header a {
@@ -21,12 +22,6 @@
     text-decoration: underline;
   }
   
-  .linkActive {
-    text-decoration: underline;
-    color: blueviolet !important;
-    background-color: aquamarine;
-    border-radius: 4px;
-  }
   
   .totalAmount {
     color: rgb(187, 94, 199);
@@ -41,4 +36,13 @@
   text-decoration: underline;
   /* border: 1px solid rgb(241, 238, 238); */
   padding: 3px;
+}
+
+.chooseCity {
+  width: 170px;
+  height: 26px;
+  border-radius: 10px;
+  background-color: #FAFAFA;
+  color: #000;
+  border: 2px solid #000;
 }
