@@ -17,7 +17,7 @@ export default function Layout() {
   return (
     <>
     <div className={style.boxForHeader}>
-      <Header links={headerElementsGuest} />
+      <Header links={headerElementsGuest}/>
     </div>
 
     <main className={style.main}>  
