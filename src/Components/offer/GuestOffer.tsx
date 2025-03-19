@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useOffers } from "../context/OffersForGuestContext";
+//import { useGuestOffers } from "../context/OffersForGuestContext";
 import style from"./GuestOffer.module.css";
 import { offersListForGuest } from "../../test data/Offer";
 
@@ -13,7 +13,7 @@ export default function GuestOffer({
     
       
    
-    //const { offersListForGuest } = useOffers();
+    //const { offersListForGuest } = useGuestOffers();
     // временно использую тест-данные test data - Offer - offersListForGuest
 
 
