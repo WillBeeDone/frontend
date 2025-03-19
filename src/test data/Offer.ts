@@ -23,6 +23,19 @@ const list = [
   value: element.charAt(0).toLowerCase() + element.substring(1)
 }));
   
+const list2 = [
+  { element: "Plumber" },
+  { element: "Electrician" },
+  { element: "Computer Technician " },
+  { element: "Pet Care" },
+  { element: "Cleaning" }
+].map(({ element }) => ({
+  element,
+  value: element.charAt(0).toLowerCase() + element.substring(1)
+}));
+
+
+
 
 import {
   IOfferCard,IGuestOfferPage
