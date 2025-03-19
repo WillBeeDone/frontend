@@ -2,6 +2,7 @@ import { JSX, useEffect } from "react";
 import style from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import GetCities from "../citySelector/GetCities";
+import MyButton from "../myButton/MyButton";
 
 interface ILink {
   text: React.ReactNode;  // Это позволяет передавать и строки, и JSX элементы
@@ -37,6 +38,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           {text}
         </NavLink>
       ))}
+
+     
 
       {/* <select className={style.chooseCity}>
         <option value="">Choose city</option>

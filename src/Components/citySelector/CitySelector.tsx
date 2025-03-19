@@ -1,4 +1,6 @@
+import styles from "./CitySelector.module.css"
 import { useState } from "react";
+
 
 interface ICity {
   city: string;
@@ -22,7 +24,7 @@ const CitySelector = ({ cities, onCityChange }: CitySelectorProps) => {
   };
 
   return (
-    <select className="chooseCity" value={selectedCity} onChange={handleChange}>
+    <select className={styles.dropdown} value={selectedCity} onChange={handleChange}>
       <option value="all">All cities</option>
       {cities.map((element, index) => (
         <option key={index} value={element.value}>
