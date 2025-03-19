@@ -1,23 +1,23 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { IOfferGuest } from "../types/OfferInterfaces";
+import { IOfferCard } from "../types/OfferInterfaces";
 
 interface OffersContextType {
-  offersListForGuest: IOfferGuest[];
+  offerCards: IOfferCard[];
   selectedCity: string;
   setSelectedCity: (city: string) => void;
   fetchOffers: (city?: string) => void;
 }
 
-const OffersForGuestContext = createContext<OffersContextType | undefined>(undefined);
+const OffersContext = createContext<OffersContextType | undefined>(undefined);
 
 export const OffersProvider = ({ children }: { children: ReactNode }) => {
-  const [offersListForGuest, setOffersListForGuest] = useState<IOfferGuest[]>([]);
-  const [selectedCity, setSelectedCity] = useState<string>("berlin"); // дефолт - "berlin"
+  const [offerCards, setOffersListForGuest] = useState<IOfferCard[]>([]);
+  const [selectedCity, setSelectedCity] = useState<string>("all");
 
   const fetchOffers = async (city: string = selectedCity) => {
     try {
       const response = await fetch(`https://api.example.com/offers?city=${city}`);
-      const data: IOfferGuest[] = await response.json();
+      const data: IOfferCard[] = await response.json();
       setOffersListForGuest(data);
     } catch (error) {
       console.error("Mistake while offers receive:", error);
@@ -29,14 +29,14 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   }, [selectedCity]);
 
   return (
-    <OffersForGuestContext.Provider value={{ offersListForGuest, selectedCity, setSelectedCity, fetchOffers }}>
+    <OffersContext.Provider value={{ offerCards, selectedCity, setSelectedCity, fetchOffers }}>
       {children}
-    </OffersForGuestContext.Provider>
+    </OffersContext.Provider>
   );
 };
 
-export const useGuestOffers = () => {
-  const context = useContext(OffersForGuestContext);
+export const useOffers = () => {
+  const context = useContext(OffersContext);
   if (!context) {
     throw new Error("Offers do not used inside OffersProvider");
   }

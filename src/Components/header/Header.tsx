@@ -1,7 +1,7 @@
-import { JSX, useEffect } from "react";
+import { JSX } from "react";
 import style from "./Header.module.css";
 import { NavLink } from "react-router-dom";
-import GetCities from "../citySelector/GetCities";
+import DropDown from "../dropDown/DropDown";
 
 interface ILink {
   text: React.ReactNode;
@@ -29,8 +29,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         </NavLink>
       ))}
 
+      <DropDown url="" text="cities"/>
       
-      <GetCities/>
     </header>
   );
 }

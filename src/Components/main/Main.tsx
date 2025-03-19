@@ -1,26 +1,13 @@
-import { useFormik } from "formik";
-import { useState } from "react";
+
 import style from "./Main.module.css";
-import Button from "../button/Button";
-import ShowAllElements from "../showAllElements/ShowAllElements";
-import { offersListForAdmin, offersListForGuest } from "../../test data/Offer";
-import GuestOffer from "../offer/GuestOffer";
 
 
-interface IMain {
-  text?: string;
-}
+import OfferCard from "../offer/OfferCard";
 
 
+export default function Main(): JSX.Element {
 
-
-export default function Main({
-  text = "text",
-}: IMain): JSX.Element {
-  
     
-
-
 
   return (
     <>
@@ -35,7 +22,7 @@ export default function Main({
         </div>
 
        
-        <GuestOffer/>       
+        <OfferCard/>       
             
          
       </div>
