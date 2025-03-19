@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom"
 import style from "./Layout.module.css"
 import Footer from "../components/footer/Footer"
 import Header from "../components/header/Header"
+import Button from "../Components/button/Button";
 
 
 
@@ -34,6 +35,11 @@ export default function Layout() {
     </div>
 
     <div className={style.boxForBanner}>
+      <div>
+        <label htmlFor="key-word">What do you need help with?</label>
+        <input type="text" name="" id="key-word" />
+        <Button type="button" text="Search"/>
+      </div>
       <img src="/5871.png" alt="" />
       <img src="/girl1.png" alt="" />
       <img src="/portrait-young-beautiful1.png" alt="" />
