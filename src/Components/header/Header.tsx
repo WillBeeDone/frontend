@@ -1,11 +1,17 @@
-import { JSX, useEffect } from "react";
+import { JSX } from "react";
 import style from "./Header.module.css";
 import { NavLink } from "react-router-dom";
+<<<<<<< HEAD
 import GetCities from "../citySelector/GetCities";
 import MyButton from "../myButton/MyButton";
+import DropDown from "../dropDown/DropDown";
+=======
+import DropDown from "../dropDown/DropDown";
+import {useOffers} from "../context/OffersContext"
+>>>>>>> ff9ee19b106022572dcda0e3c51c71dfd421fea7
 
 interface ILink {
-  text: React.ReactNode;  // Это позволяет передавать и строки, и JSX элементы
+  text: React.ReactNode;
   path: string;
 }
 
@@ -15,16 +21,12 @@ interface IHeaderProps {
 }
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
-  // const cities = [
-  //   { city: "Berlin" },
-  //   { city: "Leipzig" },
-  //   { city: "Magdeburg" },
-  //   { city: "Halle" },
-  //   { city: "Hamburg" },
-  // ].map(({ city }) => ({
-  //   city,
-  //   value: city.charAt(0).toLowerCase() + city.substring(1),
-  // }));
+
+  const { setSelectedCity, setSelectedCategory } = useOffers();
+
+
+
+ 
   return (
     <header className={style.header}>
       {links.map(({ text, path }, index) => (
@@ -39,18 +41,11 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         </NavLink>
       ))}
 
-     
+      
+      <DropDown url="" text="cities"  onChange={setSelectedCity}/>
+      
+      <DropDown  url="" text="categories" onChange={setSelectedCategory} />
 
-      {/* <select className={style.chooseCity}>
-        <option value="">Choose city</option>
-        <option value="all">All</option>
-        {cities.map((element, index) => (
-          <option key={index} value={element.value}>
-            {element.city}
-          </option>
-        ))}
-      </select> */}
-      <GetCities/>
     </header>
   );
 }
