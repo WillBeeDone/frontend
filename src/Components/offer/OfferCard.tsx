@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 //import { useOffers } from "../context/OffersContext";
 import style from"./OfferCard.module.css";
 import { offerCards } from "../../test data/Offer";
+import { JSX } from "react";
 
 export default function OfferCard(): JSX.Element {   
    

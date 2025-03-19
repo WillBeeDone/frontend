@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
 import style from "./DropDown.module.css"
 
 interface IDataForSelector {
