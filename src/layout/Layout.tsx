@@ -13,18 +13,10 @@ export default function Layout() {
       text: <img src="/logoWillBeeDone1.png" alt="Logo" style={{ width: '140px', height: 'auto' }} />, 
       path: "/" 
     },
-    { 
-      text: <MyButton  />, 
-      path: "#" // Укажите корректный путь или обработчик
-    },
-    { 
-      text: <MyButton />, 
-      path: "#" // Укажите корректный путь или обработчик
-    },
+  
    ];
 
   
-
   return (
     <>
     <div className={style.boxForHeader}>

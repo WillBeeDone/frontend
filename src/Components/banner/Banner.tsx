@@ -15,10 +15,7 @@ export default function Banner(): JSX.Element {
 
 
       </div>
-      <img src="/5871.png" alt="" />
-      <img src="/girl1.png" alt="" />
-      <img src="/portrait-young-beautiful1.png" alt="" />
-      <img src="/pngkit_cleaning-lady-png_5559431.png" alt="" />
+    
     </div>
   )
 }
