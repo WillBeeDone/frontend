@@ -18,7 +18,7 @@ export default function Layout() {
 
   const headerElementsGuest = [
     { 
-      text: <img src="/logo WillBeeDone 1.png" alt="Logo" style={{ width: '140px', height: 'auto' }} />, 
+      text: <img src="/logoWillBeeDone1.png" alt="Logo" style={{ width: '140px', height: 'auto' }} />, 
       path: "/" 
     },
     { text: "Sign In", path: "sign-in-form" },
@@ -34,10 +34,10 @@ export default function Layout() {
     </div>
 
     <div className={style.boxForBanner}>
-      <img src="/public/587 1.png" alt="" />
-      <img src="/public/girl 1.png" alt="" />
-      <img src="/public/portrait-young-beautiful 1.png" alt="" />
-      <img src="/public/pngkit_cleaning-lady-png_555943 1.png" alt="" />
+      <img src="/5871.png" alt="" />
+      <img src="/girl1.png" alt="" />
+      <img src="/portrait-young-beautiful1.png" alt="" />
+      <img src="/pngkit_cleaning-lady-png_5559431.png" alt="" />
     </div>
 
     <main className={style.main}>  
