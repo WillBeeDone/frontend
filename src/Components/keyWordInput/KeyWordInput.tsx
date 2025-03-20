@@ -5,7 +5,7 @@ interface IKeyWordInputProps {
 }
 
 
-function MyInput({className, name, type, placeholder, label, require, value, onChange }:IKeyWordInputProps):JSX.Element {
+function KeyWordInput({className, name, type, placeholder, label, require, value, onChange }:IKeyWordInputProps):JSX.Element {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
@@ -23,4 +23,4 @@ function MyInput({className, name, type, placeholder, label, require, value, onC
   );
 }
 
-export default MyInput;
+export default KeyWordInput;
