@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
 import { useOffers } from "../context/OffersContext";
-import sortAscIcon from "/sort-from-high.png"; // Іконка для сортування ↑
-import sortDescIcon from "/sort-from-low.png"; // Іконка для сортування ↓
+import sortAscIcon from "/sort-from-high.png";
+import sortDescIcon from "/sort-from-low.png";
 
 interface IMyButtonProps {
   type?: "button" | "submit" | "reset";
@@ -27,6 +27,7 @@ function MyButton({
 }: IMyButtonProps) {
   const navigate = useNavigate();
   const { offerCards, setOfferCards} = useOffers();
+
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleClick = () => {
@@ -36,6 +37,8 @@ function MyButton({
     func(); // Виклик переданої функції
 
    
+
+
     if (isSortButton) {
       const sortedOffers = [...offerCards].sort((a, b) =>
         sortOrder === "asc" ? a.price - b.price : b.price - a.price
