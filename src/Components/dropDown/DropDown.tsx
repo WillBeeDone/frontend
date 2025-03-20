@@ -60,7 +60,7 @@ export default function DropDown({ url, text = "elements", onChange }: IDropDown
 
   return (
     <select className={style.dropdown} value={selectedElement} onChange={handleChange}>
-      <option value="all">All {text}</option>
+      <option value="all" disabled>{text}</option>
       {list.map((el, index) => (
         <option key={index} value={el.value}>
           {el.element}
