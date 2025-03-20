@@ -5,7 +5,11 @@ import "./App.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./layout/Layout";
 
-
+import Main from "./components/main/Main";
+import LoginForm from "./components/loginForm/LoginForm";
+import NoPage from "./components/noPage/NoPage";
+import GuestOfferPage from "./components/offerPage/GuestOfferPage";
+import { OffersProvider } from "./components/context/OffersContext";
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -14,7 +18,21 @@ function App() {
     /*<> <ShowAllElements array={offersListForGuest}/> </>*/
   }
   return (
-   <><p>Hello</p></>
+    <OffersProvider>
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Main />} />
+
+            <Route path="sign-in-form" element={<LoginForm />} />
+            <Route path="log-in-form" element={<LoginForm />} />
+            <Route path="offer/:id" element={<GuestOfferPage />} />
+
+            <Route path="*" element={<NoPage />} />
+          </Route>
+        </Routes>
+      </HashRouter>
+    </OffersProvider>
   );
 }
 
