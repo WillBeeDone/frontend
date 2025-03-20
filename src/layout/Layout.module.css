@@ -38,7 +38,7 @@
 }
 
 .boxForBanner {
-  background-image: url("/pattern-icon-13.jpg");
+
   background-size: cover; /* Растягивает на всю область */
   background-position: center; /* Центрирует */
   background-repeat: no-repeat; /* Отключает повтор */
