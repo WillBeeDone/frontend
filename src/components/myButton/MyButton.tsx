@@ -26,7 +26,7 @@ function MyButton({
   isSortButton = false,
 }: IMyButtonProps) {
   const navigate = useNavigate();
-  const { offerCards, setOfferCards} = useOffers();
+  const { offerCards, setOfferCards } = useOffers();
 
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
@@ -35,9 +35,6 @@ function MyButton({
       navigate(to); // Переход на іншу сторінку
     }
     func(); // Виклик переданої функції
-
-   
-
 
     if (isSortButton) {
       const sortedOffers = [...offerCards].sort((a, b) =>
@@ -60,9 +57,12 @@ function MyButton({
       })}
       disabled={disabled}
     >
-      {text}
       {isSortButton ? (
-        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" className={styles.sortButton}/>
+        <img
+          src={sortOrder === "asc" ? sortAscIcon : sortDescIcon}
+          alt="Sort"
+          className={styles.sortButton}
+        />
       ) : (
         text
       )}
