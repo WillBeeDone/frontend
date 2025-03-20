@@ -1,4 +1,4 @@
-import style from "./Main.module.css";
+import styles from "./Main.module.css";
 import OfferCard from "../offer/OfferCard";
 import { JSX } from "react";
 import Banner from "../banner/Banner";
@@ -10,13 +10,13 @@ export default function Main(): JSX.Element {
 
   return (
     <>
-      <div className={style.mainContainer}>
-        <div className={style.inputZoneMainContainer}>
+      <div className={styles.mainContainer}>
+        <div className={styles.inputZoneMainContainer}>
           <Banner />
 
-          <div className={style.inputZoneItem}>
+          <div className={styles.inputZoneItem}>
             <p>control panel here</p>
-            <DropDown url="" text="categories" onChange={setSelectedCategory} />
+            <DropDown url="" text="categories" onChange={setSelectedCategory} switcher={2}/>
           </div>
         </div>
 

@@ -35,7 +35,7 @@ const list2 = [
 import {
   IOfferCard,
   IGuestOfferPage,
-} from "../components1/types/OfferInterfaces";
+} from "../components/types/OfferInterfaces";
 //all fields of Offer entity : id, userId(user), title, name(user), profilePicture(user), location(user), category, photos from gallery, price, description, email(user), phone number(user)
 
 // IOfferGuest: title, name, profilePicture, location, category, photos from gallery, price, description

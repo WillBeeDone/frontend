@@ -1,4 +1,5 @@
 import { ChangeEvent, JSX } from "react";
+import styles from "./KeyWordInput.module.css"
 
 interface IKeyWordInputProps {
   className:string, name:string, type:string, placeholder:string, label:string, require?:boolean, value: string,  onChange: (value: string) => void; 

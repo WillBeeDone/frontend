@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import style from "./Footer.module.css";
+import styles from "./Footer.module.css";
 interface IFooterProps {
     height?:number, backgroundColor?:string
 }
@@ -14,7 +14,7 @@ export default function Footer({height=50, backgroundColor="rgb(130, 130, 130)"}
         backgroundColor,
         height: `${height}px`,
       }}
-      className={style.footer}
+      className={styles.footer}
     >
       Footer
     </footer>
