@@ -1,14 +1,7 @@
-<<<<<<< HEAD:src/Components/keyWordInput/KeyWordInput.tsx
 import { ChangeEvent, JSX } from "react";
 
 interface IKeyWordInputProps {
   className:string, name:string, type:string, placeholder:string, label:string, require?:boolean, value: string,  onChange: (value: string) => void; 
-=======
-import { JSX } from "react";
-
-interface IMyInputProps {
-  className:string, name:string, type:string, placeholder:string, label:string, require:boolean
->>>>>>> b89861218eff363f519c4a822f6c6b4c1c1b2cad:src/Components/myInput/MyInput.tsx
 }
 
 
