@@ -7,8 +7,6 @@ import { useOffers } from "../context/OffersContext";
 export default function Banner(): JSX.Element {
     const { selectedKeyWord,  setSelectedKeyWord } = useOffers();
 
-
-
   return (
     <div className={style.boxForBanner}>
       <div className="inputContainer">
@@ -29,7 +27,6 @@ export default function Banner(): JSX.Element {
         </div>
 
       </div>
-
 
       <img src="/5871.png" alt="" />
       <img src="/girl1.png" alt="" />

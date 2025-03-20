@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 interface IMyInputProps {
   className:string, name:string, type:string, placeholder:string, label:string, require?:boolean
 }
