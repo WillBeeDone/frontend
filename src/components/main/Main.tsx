@@ -10,13 +10,8 @@ export default function Main(): JSX.Element {
 
   return (
     <>
-<<<<<<< HEAD
       <div className={styles.mainContainer}>
-        <div className={styles.inputZoneMainContainer}>
-=======
-      <div className={style.mainContainer}>
-        <div className={style.banner}>
->>>>>>> cb0cc080bffb0e36837fc487722cca9f79139bec
+        <div className={styles.banner}>
           <Banner />
           </div>
 

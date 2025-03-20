@@ -11,7 +11,7 @@ export default function OfferCard(): JSX.Element {
     // временно использую тест-данные test data - Offer - offersListForGuest
 
   return (
-    <ShowAll source={offerCards}/>
+    <ShowAll source={offerCards} />
   );
 };
 
