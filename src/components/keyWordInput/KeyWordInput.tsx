@@ -1,5 +1,5 @@
 import { ChangeEvent, JSX } from "react";
-import styles from "./KeyWordInput.module.css"
+import styles from "./KeyWordInput.module.css";
 
 interface IKeyWordInputProps {
   className: string;
@@ -22,35 +22,27 @@ function KeyWordInput({
   onChange,
   imageSrc,
 }: IKeyWordInputProps): JSX.Element {
+  
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    const newValue = event.target.value.slice(0, 100);
+    onChange(newValue);
   };
 
   return (
-    <div>
-      <div>
-      {imageSrc && <img src={imageSrc} alt="search icon" />}
-        {require === true ? (
-          <input
-            className="input"
-            name={name}
-            type={type}
-            placeholder={placeholder}
-            required
-          />
-        ) : (
+      <div className={styles.inputContainer}>
+        <div className={styles.inputWrapper}>
+          {imageSrc && <img src={imageSrc} alt="search icon" className={styles.icon} />}
           <input
             className={className}
             name={name}
             type={type}
             placeholder={placeholder}
+            required={require}
             value={value}
             onChange={handleChange}
-            
           />
-        )}
+        </div>
       </div>
-    </div>
   );
 }
 

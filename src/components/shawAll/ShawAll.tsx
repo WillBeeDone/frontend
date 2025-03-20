@@ -33,7 +33,7 @@ export default function ShowAll({
             <div className="offer-image-container">
               <img
                 src={offer.profilePicture || "/gallery-default-picture.jpg"}
-                alt="Profile"
+                alt="Profile picture"
                 className="offer-image"
               />
             </div>
@@ -58,7 +58,7 @@ export default function ShowAll({
 
         <img
           src={offer.profilePicture || "/gallery-default-picture.jpg"}
-          alt="Profile Picture"
+          alt="Profile picture"
           className="offer-image"
         />
 
@@ -72,10 +72,10 @@ export default function ShowAll({
         <div className="gallery-container">
           {offer.gallery && offer.gallery.length > 0 ? (
             offer.gallery.map((image, index) => (
-              <img key={index} src={image} alt="Gallery Item" className="gallery-item" />
+              <img key={index} src={image} alt="Gallery item picture" className="gallery-item" />
             ))
           ) : (
-            <img src="/gallery-default-picture.jpg" className="gallery-item-default" />
+            <img src="/gallery-default-picture.jpg" alt="Default picture" className="gallery-item-default" />
           )}
         </div>
       </div>
