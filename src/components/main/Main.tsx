@@ -10,15 +10,21 @@ export default function Main(): JSX.Element {
 
   return (
     <>
+<<<<<<< HEAD
       <div className={styles.mainContainer}>
         <div className={styles.inputZoneMainContainer}>
+=======
+      <div className={style.mainContainer}>
+        <div className={style.banner}>
+>>>>>>> cb0cc080bffb0e36837fc487722cca9f79139bec
           <Banner />
+          </div>
 
           <div className={styles.inputZoneItem}>
             <p>control panel here</p>
             <DropDown url="" text="categories" onChange={setSelectedCategory} switcher={2}/>
           </div>
-        </div>
+        
 
         <OfferCard />
       </div>
