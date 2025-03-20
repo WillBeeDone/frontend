@@ -4,6 +4,7 @@ import { JSX } from "react";
 import Banner from "../banner/Banner";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../context/OffersContext";
+import MyButton from "../myButton/MyButton";
 
 export default function Main(): JSX.Element {
   const { setSelectedCategory } = useOffers();
@@ -18,6 +19,11 @@ export default function Main(): JSX.Element {
           <div className={styles.inputZoneItem}>
             <p>control panel here</p>
             <DropDown url="" text="categories" onChange={setSelectedCategory} switcher={2}/>
+            
+            <div className={styles.inputZoneItem}>
+              <MyButton text="Price" isSortButton={true}/>
+              </div>
+    
           </div>
         
 

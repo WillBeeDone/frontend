@@ -46,6 +46,7 @@ function KeyWordInput({
             placeholder={placeholder}
             value={value}
             onChange={handleChange}
+            
           />
         )}
       </div>
