@@ -10,6 +10,11 @@
 
 }
 
+label {
+  color: black;
+  font-size: 22px;
+    } 
+
 .searchByKeyWord {
   display: flex;
   align-items: center;
