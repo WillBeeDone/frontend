@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import Button from "../button/Button";
+
 import styles from "./Banner.module.css";
 import KeyWordInput from "../keyWordInput/KeyWordInput";
 import { useOffers } from "../context/OffersContext";

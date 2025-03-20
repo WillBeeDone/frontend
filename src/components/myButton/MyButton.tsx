@@ -24,7 +24,7 @@ function MyButton({ type = 'submit', text = 'click!', func = () => { }, disabled
   return (
     <button
       type={type}
-      onClick={handleClick}
+      onClick={handleClick} 
       className={cn(styles.myButton, {
         [styles.primary]: variant === 'primary',
         [styles.danger]: variant === 'danger',
