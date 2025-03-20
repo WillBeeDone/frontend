@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import style from "./Footer.module.css";
 interface IFooterProps {
     height?:number, backgroundColor?:string

@@ -1,4 +1,5 @@
 .boxForBanner {
+<<<<<<< HEAD
     background-image: url("/pattern-icon-13.jpg");
     background-size: cover; /* Растягивает на всю область */
     background-position: center; /* Центрирует */
@@ -12,3 +13,30 @@
 color: black;
 font-size: 22px;
   } 
+=======
+  display: flex;
+  align-items: center;
+  background-image: url("/banner.png");
+  background-size: cover; /* Растягивает на всю область */
+  background-position: center; /* Центрирует */
+  background-repeat: no-repeat; /* Отключает повтор */
+  width: 100%;
+  height: 40vh; /* Используем vh для адаптивной высоты */
+
+}
+
+.searchByKeyWord {
+  display: flex;
+  align-items: center;
+  
+  
+}
+
+.searchByKeyWord > input {
+ border-radius: 30px;
+ background-color: #FFDE5A;
+  
+}
+
+
+>>>>>>> b89861218eff363f519c4a822f6c6b4c1c1b2cad

@@ -5,11 +5,11 @@ import "./App.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./layout/Layout";
 
-import Main from "./components/main/Main";
-import LoginForm from "./components/loginForm/LoginForm";
-import NoPage from "./components/noPage/NoPage";
-import GuestOfferPage from "./components/offerPage/GuestOfferPage";
-import { OffersProvider } from "./components/context/OffersContext";
+import Main from "./Components/main/Main";
+import LoginForm from "./Components/loginForm/LoginForm";
+import NoPage from "./Components/noPage/NoPage";
+import GuestOfferPage from "./Components/offerPage/GuestOfferPage";
+import { OffersProvider } from "./Components/context/OffersContext";
 
 function App() {
   //const [count, setCount] = useState(0)

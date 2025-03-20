@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
 import style from "./DropDown.module.css"
 
 interface IDataForSelector {
@@ -59,8 +59,8 @@ export default function DropDown({ url, text = "elements", onChange }: IDropDown
 
 
   return (
-    <select className="chooseElement" value={selectedElement} onChange={handleChange}>
-      <option value="all">All {text}</option>
+    <select className={style.dropdown} value={selectedElement} onChange={handleChange}>
+      <option value="all" disabled>{text}</option>
       {list.map((el, index) => (
         <option key={index} value={el.value}>
           {el.element}

@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import "../button/Button.css"
 interface IButtonProps {
     className?:string, type:"button" | "reset" | "submit", func?:()=>void, text?:string

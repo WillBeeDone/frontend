@@ -1,5 +1,6 @@
 .myButton {
   margin: 3px;
+  
 }
 
 /* основной цвет кнопки */
@@ -17,7 +18,7 @@
 }
 
 .primary:hover {
-  background-color: #03265A;
+  background-color: #e9c740;
 }
 
 .danger:hover {

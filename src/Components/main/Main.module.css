@@ -13,6 +13,9 @@
 }
 
 .inputZoneMainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: rgb(111, 111, 172);
   max-height: 600px;
   width: 100%;
