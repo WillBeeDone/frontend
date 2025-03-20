@@ -1,38 +1,68 @@
-import { useNavigate } from 'react-router-dom';
-import cn from 'classnames';
-import styles from './myButton.module.css';
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import cn from "classnames";
+import styles from "./myButton.module.css";
+import { useOffers } from "../context/OffersContext";
+import sortAscIcon from "../../../public/sort-from-high.png"; // Іконка для сортування ↑
+import sortDescIcon from "../../../public/sort-from-low.png"; // Іконка для сортування ↓
 
 interface IMyButtonProps {
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   text?: string;
   func?: () => void;
   disabled?: boolean;
-  variant?: 'primary' | 'danger' | 'easy';
-  to?: string; // Добавим свойство для маршрута
+  variant?: "primary" | "danger" | "easy";
+  to?: string; // Додаємо для навігації
+  isSortButton?: boolean;
 }
 
-function MyButton({ type = 'submit', text = 'click!', func = () => { }, disabled = false, variant = 'primary', to }: IMyButtonProps) {
+function MyButton({
+  type = "submit",
+  text = "click!",
+  func = () => {},
+  disabled = false,
+  variant = "primary",
+  to,
+  isSortButton = false,
+}: IMyButtonProps) {
   const navigate = useNavigate();
+  const { offerCards, setOfferCards} = useOffers();
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleClick = () => {
     if (to) {
-      navigate(to); // Переход на другую страницу
+      navigate(to); // Переход на іншу сторінку
     }
-    func(); // Вызов переданной функции, если она есть
+    func(); // Виклик переданої функції
+
+   
+    if (isSortButton) {
+      const sortedOffers = [...offerCards].sort((a, b) =>
+        sortOrder === "asc" ? a.price - b.price : b.price - a.price
+      );
+      setOfferCards(sortedOffers);
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    }
   };
 
   return (
     <button
       type={type}
-      onClick={handleClick} 
+      onClick={handleClick}
       className={cn(styles.myButton, {
-        [styles.primary]: variant === 'primary',
-        [styles.danger]: variant === 'danger',
-        [styles.easy]: variant === 'easy',
-        [styles.disabled]: disabled === true
+        [styles.primary]: variant === "primary",
+        [styles.danger]: variant === "danger",
+        [styles.easy]: variant === "easy",
+        [styles.disabled]: disabled,
       })}
+      disabled={disabled}
     >
       {text}
+      {isSortButton ? (
+        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" width={20} height={20} style={{ marginLeft: "10px" }} className={styles.sortButton}/>
+      ) : (
+        text
+      )}
     </button>
   );
 }

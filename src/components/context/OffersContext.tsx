@@ -5,6 +5,7 @@ import { IOfferCard } from "../types/OfferInterfaces";
 
 interface OffersContextType {
   offerCards: IOfferCard[];
+  setOfferCards: (offer: IOfferCard[]) => void;
   selectedCity: string;
   setSelectedCity: (city: string) => void;
   selectedCategory: string;
@@ -40,7 +41,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
   
   return (
-    <OffersContext.Provider value={{ offerCards, selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedKeyWord, setSelectedKeyWord, fetchOffers }}>
+    <OffersContext.Provider value={{ offerCards, setOfferCards, selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedKeyWord, setSelectedKeyWord, fetchOffers }}>
       {children}
     </OffersContext.Provider>
   );
