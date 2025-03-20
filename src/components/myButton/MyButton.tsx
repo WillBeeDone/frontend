@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
 import { useOffers } from "../context/OffersContext";
-import sortAscIcon from "../../../public/sort-from-high.png"; // Іконка для сортування ↑
-import sortDescIcon from "../../../public/sort-from-low.png"; // Іконка для сортування ↓
+import sortAscIcon from "/sort-from-high.png"; // Іконка для сортування ↑
+import sortDescIcon from "/sort-from-low.png"; // Іконка для сортування ↓
 
 interface IMyButtonProps {
   type?: "button" | "submit" | "reset";
@@ -59,7 +59,7 @@ function MyButton({
     >
       {text}
       {isSortButton ? (
-        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" width={20} height={20} style={{ marginLeft: "10px" }} className={styles.sortButton}/>
+        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" className={styles.sortButton}/>
       ) : (
         text
       )}
