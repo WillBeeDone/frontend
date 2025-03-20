@@ -9,7 +9,7 @@ export default function Layout() {
     {
       text: (
         <img
-          src="/logoWillBeeDone1.png"
+          src="./logoWillBeeDone1.png"
           alt="Logo"
           style={{ width: "140px", height: "auto" }}
         />

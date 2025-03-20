@@ -10,7 +10,8 @@ export default function Banner(): JSX.Element {
 
   return (
     <div className={styles.boxForBanner}>
-      <div className={styles.keyWordContainer}>
+        <h2>What do you need help with?</h2>
+       <div className={styles.keyWordContainer}>
         <KeyWordInput
           className={styles.keyWordInput}
           placeholder="Enter keywords to search"
