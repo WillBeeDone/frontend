@@ -31,3 +31,10 @@
     color: #333;
     border: 2px solid #ccc;
   }
+
+  .dropdown option:disabled {
+    color: #aaa;
+  }
+  .dropdown:hover {
+    border-color: #FFDE5A;
+  }
