@@ -1,10 +1,9 @@
 import { JSX } from "react";
-import Button from "../button/Button";
+import Button from "./Button";
 import ".//LoginForm.css";
 import MyInput from "./MyInput";
 
-
-function LoginForm():JSX.Element {
+function LoginForm(): JSX.Element {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     alert("Cool!");

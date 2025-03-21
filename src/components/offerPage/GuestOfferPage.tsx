@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
-import style from "./GuestOfferPage.module.css";
+import styles from "./GuestOfferPage.module.css";
 import { guestOfferPageList } from "../../test data/Offer";
 import { useEffect, useState } from "react";
+import ShowAll from "../shawAll/ShawAll";
 //import { IGuestOfferPage } from "../types/OfferInterfaces";
 
   
@@ -14,8 +15,6 @@ import { useEffect, useState } from "react";
 
    
     const offer = guestOfferPageList.find((offer) => offer.id === Number(id)); 
-    
-    
     //временно использую тест-данные test data - Offer - offerCards
   
     /*useEffect(() => {
@@ -44,30 +43,9 @@ import { useEffect, useState } from "react";
     if (error) return <p>{error}</p>;
     */
     if (!offer) return <p>Offer not found</p>;
-  
+
     return (
-      <div className="offerPage-mainContainer">
-        <h1>{offer.title}</h1>
-  
-        <img src={offer.profilePicture} alt={offer.firstName} className="offer-image" />
-  
-        <p>Name: {offer.firstName} {offer.secondName}</p>
-        <p>{offer.location}</p>
-        <p>{offer.category}</p>
-        <p> {offer.price} $</p>
-        <p>{offer.description}</p>
-        <Link to="/">🔙 Go back</Link>
-  
-        <div className="gallery-container">
-          {offer.gallery.length > 0 ? (
-            offer.gallery.map((image) => (
-              <img key={image} src={image} alt="gallery-item" className="gallery-item" />
-            ))
-          ) : (
-            <img src="/gallery-default-picture.jpg" className="gallery-item-default" />
-          )}
-        </div>
-      </div>
+      <ShowAll source={offer} switcher="guestOfferPage"/>
     );
   };
   

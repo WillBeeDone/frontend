@@ -1,5 +1,5 @@
 import { useState, useEffect, JSX } from "react";
-import style from "./DropDown.module.css"
+import styles from "./DropDown.module.css"
 
 interface IDataForSelector {
   element: string;
@@ -10,9 +10,10 @@ interface IDropDown {
   url: string;
   text?: string;
   onChange?: (selectedElement: string) => void;
+  switcher?: number;
 }
 
-export default function DropDown({ url, text = "elements", onChange }: IDropDown): JSX.Element {
+export default function DropDown({ url, text = "elements", onChange, switcher = 1}: IDropDown): JSX.Element {
   const [selectedElement, setSelectedElement] = useState("all");
   /*const [list, setList] = useState<IDataForSelector[]>([]);
   
@@ -59,8 +60,8 @@ export default function DropDown({ url, text = "elements", onChange }: IDropDown
 
 
   return (
-    <select className={style.dropdown} value={selectedElement} onChange={handleChange}>
-      <option value="all" disabled>{text}</option>
+    <select className={styles.dropdown} value={selectedElement} onChange={handleChange}>
+      <option value="all" disabled>{switcher === 1 ? text : `All ${text}`}</option>
       {list.map((el, index) => (
         <option key={index} value={el.value}>
           {el.element}

@@ -1,25 +1,48 @@
 import { ChangeEvent, JSX } from "react";
+import styles from "./KeyWordInput.module.css";
 
 interface IKeyWordInputProps {
-  className:string, name:string, type:string, placeholder:string, label:string, require?:boolean, value: string,  onChange: (value: string) => void; 
+  className: string;
+  name: string;
+  type: string;
+  placeholder: string;
+  require?: boolean;
+  value: string;
+  imageSrc?: string;
+  onChange: (value: string) => void;
 }
 
-
-function KeyWordInput({className, name, type, placeholder, label, require, value, onChange }:IKeyWordInputProps):JSX.Element {
-
+function KeyWordInput({
+  className,
+  name,
+  type,
+  placeholder,
+  require,
+  value,
+  onChange,
+  imageSrc,
+}: IKeyWordInputProps): JSX.Element {
+  
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    const newValue = event.target.value.slice(0, 100);
+    onChange(newValue);
   };
 
   return (
-    <div>
-      <div>
-        <label >{label}</label>
+      <div className={styles.inputContainer}>
+        <div className={styles.inputWrapper}>
+          {imageSrc && <img src={imageSrc} alt="search icon" className={styles.icon} />}
+          <input
+            className={className}
+            name={name}
+            type={type}
+            placeholder={placeholder}
+            required={require}
+            value={value}
+            onChange={handleChange}
+          />
+        </div>
       </div>
-      <div>
-        {require === true ? (<input className="input" name={name} type={type} placeholder={placeholder} required/>) : (<input className={className} name={name} type={type} placeholder={placeholder} value={value} onChange={handleChange}/>)} 
-      </div>
-    </div>
   );
 }
 

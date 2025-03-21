@@ -1,0 +1,26 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    padding-right: 30px; /* чтобы не накладывалась иконка */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .eyeIcon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+  }
