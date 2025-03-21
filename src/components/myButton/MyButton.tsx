@@ -63,7 +63,15 @@ function MyButton({
       })}
       disabled={disabled}
     >
-      {text}
+      {isSortButton ? (
+        <img
+          src={sortOrder === "asc" ? sortAscIcon : sortDescIcon}
+          alt="Sort"
+          className={styles.sortButton}
+        />
+      ) : (
+        text
+      )}
     </button>
   );
 }
