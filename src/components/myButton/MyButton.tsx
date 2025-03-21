@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
@@ -12,12 +12,12 @@ interface IMyButtonProps {
   func?: () => void;
   disabled?: boolean;
   variant?: "primary" | "danger" | "easy";
-  to?: string; // Додаємо для навігації
+  to?: string;
   isSortButton?: boolean;
 }
 
 function MyButton({
-  type = "submit",
+  type = "button",
   text = "click!",
   func = () => {},
   disabled = false,
@@ -26,18 +26,14 @@ function MyButton({
   isSortButton = false,
 }: IMyButtonProps) {
   const navigate = useNavigate();
-  const { offerCards, setOfferCards} = useOffers();
-
+  const { offerCards, setOfferCards } = useOffers();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleClick = () => {
     if (to) {
-      navigate(to); // Переход на іншу сторінку
+      navigate(to);
     }
-    func(); // Виклик переданої функції
-
-   
-
+    func();
 
     if (isSortButton) {
       const sortedOffers = [...offerCards].sort((a, b) =>
@@ -48,7 +44,14 @@ function MyButton({
     }
   };
 
-  return (
+  return isSortButton ? (
+    <div className={styles.sortContainer}>
+      <div className={styles.sortContainerText}>{text}</div>
+      <button type={type} onClick={handleClick} className={styles.sortContainerButton} disabled={disabled}>
+        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" />
+      </button>
+    </div>
+  ) : (
     <button
       type={type}
       onClick={handleClick}
@@ -61,11 +64,6 @@ function MyButton({
       disabled={disabled}
     >
       {text}
-      {isSortButton ? (
-        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" className={styles.sortButton}/>
-      ) : (
-        text
-      )}
     </button>
   );
 }
