@@ -18,7 +18,7 @@ export default function Main(): JSX.Element {
 
           <div className={styles.inputZoneItem}>
             <p>control panel here</p>
-            <DropDown url="" text="categories" onChange={setSelectedCategory} switcher={2}/>
+            <DropDown url="/api/categories/list" text="categories" onChange={setSelectedCategory} switcher={2}/>
             
             <div className={styles.inputZoneItem}>
               <MyButton text="Price" isSortButton={true}/>

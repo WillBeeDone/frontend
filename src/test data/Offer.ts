@@ -24,7 +24,7 @@ const list = [
 const list2 = [
   { element: "Plumber" },
   { element: "Electrician" },
-  { element: "Computer Technician " },
+  { element: "Computer Technician" },
   { element: "Pet Care" },
   { element: "Cleaning" },
 ].map(({ element }) => ({
