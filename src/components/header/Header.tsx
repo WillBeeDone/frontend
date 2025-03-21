@@ -36,7 +36,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       </div>
       <div>
         <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
-        <MyButton text="Sign Up" to="/log-in-form" variant="primary" />
+        <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
       </div>
     </header>
   );

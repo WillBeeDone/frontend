@@ -1,68 +1,82 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { IOfferCard } from "../types/OfferInterfaces";
-
-
+import { useOffers } from "./OffersContext";
 
 interface FavoritesContextType {
-  
-  favoritesCards:IOfferCard[];
-  setFavoritesCards: (offer: IOfferCard[]) => void;
-
-  selectedCity: string;
-  setSelectedCity: (city: string) => void;
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
-  selectedKeyWord: string;
-  setSelectedKeyWord: (category: string) => void;
-
-  receiveFavorites: (city?: string, category?: string, keyWord?: string) => void;
+  favoriteOffers: IOfferCard[];
+  addFavorite: (offerId: string) => void;
+  removeFavorite: (offerId: string) => void;
 }
-
 
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
-  const [favoritesCards, setFavoritesCards] = useState<IOfferCard[]>([]);
-  const [selectedCity, setSelectedCity] = useState<string>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedKeyWord,  setSelectedKeyWord] = useState<string>("");
+  const { offerCards, selectedCity, selectedCategory, selectedKeyWord } = useOffers();
+  const [favoriteOffers, setFavoriteOffers] = useState<IOfferCard[]>([]);
+  const userId = "currentUserId"; //TODO получить userId с контекста авторизации
 
-  const receiveFavorites = async (city: string = selectedCity, category: string = selectedCategory, keyWord: string = selectedKeyWord || "all") => {
+  // получение от сервера списка любимых с учетом параметров
+  const fetchFavorites = async () => {
     try {
-      const response = await fetch(`https://api.example.com/offers?city=${city}&category=${category}&keyWord=${keyWord}`);
+      const response = await fetch(
+        `https://api.example.com/favorites?userId=${userId}&city=${selectedCity}&category=${selectedCategory}&keyWord=${selectedKeyWord || "all"}`
+      );
       const data: IOfferCard[] = await response.json();
-      setFavoritesCards(data);
+      setFavoriteOffers(data);
     } catch (error) {
-      console.error("Mistake while favorite offers receive:", error);
-    }
-  };
-
-  const sendFavorites = async (city: string = selectedCity, category: string = selectedCategory, keyWord: string = selectedKeyWord || "all") => {
-    try {
-      const response = await fetch(`https://api.example.com/offers?city=${city}&category=${category}&keyWord=${keyWord}`);
-      const data: IOfferCard[] = await response.json();
-      setFavoritesCards(data);
-    } catch (error) {
-      console.error("Mistake while favorite offers receive:", error);
+      console.error("Error while receiving favorites:", error);
     }
   };
 
   useEffect(() => {
-    receiveFavorites();
-  }, [selectedCity, selectedCategory,selectedKeyWord]);
+    fetchFavorites();
+  }, [selectedCity, selectedCategory, selectedKeyWord]);
 
-  
+  // запрос на сервер для добавления в любимые
+const addFavorite = async (offerId: string) => {
+  try {
+    await fetch("https://api.example.com/favorites/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, offerId }),
+    });
+
+    // находим добавляемый офер в списке чужих оферов (дополнительная проверка)
+    const newOffer = offerCards.find(o => o.id === Number(offerId));
+    if (!newOffer) return; 
+
+    setFavoriteOffers((prev) => [...prev, newOffer]);
+  } catch (error) {
+    console.error("Error while adding to favorites:", error);
+  }
+};
+
+  // удаление офера из любимых
+  const removeFavorite = async (offerId: string) => {
+    try {
+      await fetch("https://api.example.com/favorites/remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, offerId }),
+      });
+
+      setFavoriteOffers((prev) => prev.filter((offer) => offer.id !== Number(offerId)));
+    } catch (error) {
+      console.error("Error while removing from favorites:", error);
+    }
+  };
+
   return (
-    <FavoritesContext.Provider value={{ favoritesCards, setFavoritesCards, selectedCity, setSelectedCity, selectedCategory, setSelectedCategory, selectedKeyWord, setSelectedKeyWord, receiveFavorites }}>
+    <FavoritesContext.Provider value={{ favoriteOffers, addFavorite, removeFavorite }}>
       {children}
     </FavoritesContext.Provider>
   );
 };
 
-export const useOffers = () => {
+export const useFavorites = () => {
   const context = useContext(FavoritesContext);
   if (!context) {
-    throw new Error("Favorites do not used inside FavoritesProvider");
+    throw new Error("FavoritesContext do not used inside FavoritesProvider");
   }
   return context;
 };

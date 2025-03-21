@@ -10,6 +10,8 @@ import LoginForm from "./components/loginForm/LoginForm";
 import NoPage from "./components/noPage/NoPage";
 import GuestOfferPage from "./components/offerPage/GuestOfferPage";
 import { OffersProvider } from "./components/context/OffersContext";
+import SignUp from "./components/signUp/SignUp";
+import SignIn from "./components/signIn/SignIn";
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -24,8 +26,8 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Main />} />
 
-            <Route path="sign-in-form" element={<LoginForm />} />
-            <Route path="log-in-form" element={<LoginForm />} />
+            <Route path="sign-in-form" element={<SignIn/>} />
+            <Route path="sign-up-form" element={<SignUp />} />
             <Route path="offer/:id" element={<GuestOfferPage />} />
 
             <Route path="*" element={<NoPage />} />
