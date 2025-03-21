@@ -46,19 +46,6 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
     }
   };
   
-  // const list = [
-  //   { element: "Berlin" },
-  //   { element: "Leipzig" },
-  //   { element: "Magdeburg" },
-  //   { element: "Halle" },
-  //   { element: "Hamburg" }
-  // ].map(({ element }) => ({
-  //   element,
-  //   value: element.charAt(0).toLowerCase() + element.substring(1)
-  // }));
-    
-
-
   return (
     <select className={styles.dropdown} value={selectedElement} onChange={handleChange}>
       <option value="all" disabled>{switcher === 1 ? text : `All ${text}`}</option>
