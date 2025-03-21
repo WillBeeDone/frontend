@@ -32,9 +32,9 @@ export default function CategorySelector(): JSX.Element {
         ))}
       </div>
       <div className={styles.dropdown}>
-        <DropDown url="" text="categories" onChange={setSelectedCategory} />
+        <DropDown url="/api/localhost:8080/locations/list" text="categories" onChange={setSelectedCategory} />
       </div>
-      <div className={styles.inputZoneItem}>
+      <div className={styles.sortButton}>
         <MyButton text="Price" isSortButton={true} />
       </div>
     </div>

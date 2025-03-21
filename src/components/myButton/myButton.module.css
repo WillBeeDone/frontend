@@ -1,15 +1,19 @@
 .myButton {
   margin: 3px;
-  
+  padding: 8px 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* основной цвет кнопки */
 .primary {
-  background-color: #FFDE5A
+  background-color: #FFDE5A;
 }
 
 .danger {
-  background-color: #b92508
+  background-color: #b92508;
+  color: white;
 }
 
 .easy {
@@ -22,7 +26,7 @@
 }
 
 .danger:hover {
-  background-color: #571103
+  background-color: #571103;
 }
 
 .disabled {
@@ -32,56 +36,37 @@
 }
 
 .disabled:hover {
-  background-color: #ccc;}
+  background-color: #ccc;
+}
 
 
-
-/* sort button settings */
-
-/* контейнер общий*/
 .sortContainer {
   display: flex;
   align-items: center;
-  gap: 5px; /* Відстань між текстом і кнопкою */
-  background-color: white;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
 }
 
-/* Текст Price */
+
 .sortContainerText {
   color: black;
   font-size: 16px;
+  user-select: none; 
 }
 
-/* контейнер кнопки */
-.sortContainerButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  /* размер кнопки */
-  width: 10px; 
-  height: 10px;
-
-  cursor: pointer;
-  background-color: transparent;
-
-  /* чтоб не было визуально ничего при нажатии на кнопку*/
-  border: none;
-  box-shadow: none;
-  border: none;
+.sortContainer img {
+  width: 16px;
+  height: 16px;
 }
 
-/* стрелочки */
-.sortButton img {
-  width: 100%; 
-  height: 100%;
-  object-fit: contain;
-}
-
- /* чтоб не было визуально ничего при нажатии на кнопку*/
-.sortContainerButton:focus,
-.sortContainerButton:active {
+.sortContainer:focus,
+.sortContainer:active {
   outline: none;
   box-shadow: none;
-  border: none;
 }

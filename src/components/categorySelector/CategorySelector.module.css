@@ -1,6 +1,8 @@
 .categorySelector {
   display: flex;
   flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
 }
 
 .buttonContainer {
@@ -9,9 +11,11 @@
   justify-content: center; /* Центрируем кнопки по горизонтали */
   align-items: flex-start; /* Выравниваем кнопки по верхнему краю */
   text-align: center;
- }
+}
 
 .buttonContainer button {
+  display: flex;
+
   border: none;
   background: none;
   padding: 0;
@@ -22,13 +26,14 @@
 }
 
 .buttonContainer button span {
-  align-items:flex-end ;
- background-color: black;
+  align-items: flex-end;
 }
 
 .buttonContainer button img {
-  display: block;
-  width: 100px;
+  display: flex;
+  justify-content: center;
+  width: 80px;
+  object-fit: contain;
 }
 
 .buttonContainer button:hover {
@@ -46,4 +51,10 @@
 
 .dropdown select {
   background-color: #fafafa;
+}
+
+.sortButton {
+  display: flex;
+  justify-content: end;
+  margin-right: 200px;
 }

@@ -45,12 +45,19 @@ function MyButton({
   };
 
   return isSortButton ? (
-    <div className={styles.sortContainer}>
-      <div className={styles.sortContainerText}>{text}</div>
-      <button type={type} onClick={handleClick} className={styles.sortContainerButton} disabled={disabled}>
-        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" />
-      </button>
-    </div>
+    <button
+      type={type}
+      onClick={handleClick}
+      className={styles.sortContainer}
+      disabled={disabled}
+    >
+      <span className={styles.sortContainerText}>{text}</span>
+      <img
+        className={sortOrder === "asc" ? styles.sortAsc : styles.sortDesc}
+        src={sortOrder === "asc" ? sortAscIcon : sortDescIcon}
+        alt="Sort"
+      />
+    </button>
   ) : (
     <button
       type={type}
@@ -63,15 +70,7 @@ function MyButton({
       })}
       disabled={disabled}
     >
-      {isSortButton ? (
-        <img
-          src={sortOrder === "asc" ? sortAscIcon : sortDescIcon}
-          alt="Sort"
-          className={styles.sortButton}
-        />
-      ) : (
-        text
-      )}
+      {text}
     </button>
   );
 }
