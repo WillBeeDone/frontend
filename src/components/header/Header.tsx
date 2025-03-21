@@ -32,7 +32,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       ))}
 
       <div className = {styles.dropdown}>
-        <DropDown  url="" text="Choose city" onChange={setSelectedCity} />
+        <DropDown  url="/api/locations/list" text="Choose city" onChange={setSelectedCity} />
       </div>
       <div>
         <MyButton text="Sign In" to="/sign-in-form" variant="primary" />

@@ -1,0 +1,60 @@
+.categorySelector {
+  display: flex;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
+}
+
+.buttonContainer {
+  display: flex;
+  height: 170px;
+  justify-content: center; /* Центрируем кнопки по горизонтали */
+  align-items: flex-start; /* Выравниваем кнопки по верхнему краю */
+  text-align: center;
+}
+
+.buttonContainer button {
+  display: flex;
+
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.buttonContainer button span {
+  align-items: flex-end;
+}
+
+.buttonContainer button img {
+  display: flex;
+  justify-content: center;
+  width: 80px;
+  object-fit: contain;
+}
+
+.buttonContainer button:hover {
+  opacity: 0.8;
+}
+
+.buttonContainer button:active {
+  opacity: 0.6;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: center;
+}
+
+.dropdown select {
+  background-color: #fafafa;
+}
+
+.sortButton {
+  display: flex;
+  justify-content: end;
+  margin-right: 200px;
+}
