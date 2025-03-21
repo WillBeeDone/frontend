@@ -26,7 +26,7 @@ export default function CategorySelector(): JSX.Element {
           "Computer Technician",
         ].map((category) => (
           <button key={category} onClick={() => handleCategorySelect(category)}>
-            <img src={`/categoryIcon/${category}.png`} alt={`${category} category icon`} />
+            <img className={styles.imgStyle} src={`./categoryIcon/${category}.png`} alt={`${category} category icon` } />
             <span>{category}</span>
           </button>
         ))}
