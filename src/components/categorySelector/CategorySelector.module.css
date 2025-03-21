@@ -9,8 +9,7 @@
   justify-content: center; /* Центрируем кнопки по горизонтали */
   align-items: flex-start; /* Выравниваем кнопки по верхнему краю */
   text-align: center;
-  gap: 10px; /* Добавляет расстояние между кнопками */
-}
+ }
 
 .buttonContainer button {
   border: none;
@@ -23,8 +22,8 @@
 }
 
 .buttonContainer button span {
-  white-space: normal; /* Текст будет автоматически переноситься на несколько строк */
-  word-wrap: break-word; /* Если текст длинный, то он будет переноситься */
+  align-items:flex-end ;
+ background-color: black;
 }
 
 .buttonContainer button img {
@@ -47,9 +46,4 @@
 
 .dropdown select {
   background-color: #fafafa;
-}
-.imgStyle {
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
 }
