@@ -10,6 +10,7 @@
   background-repeat: no-repeat; /* Отключает повтор */
   width: 100%;
   height: 40vh; /* Используем vh для адаптивной высоты */
+  border-bottom: 2px solid black;
 }
 
 .boxForBanner h2 {
