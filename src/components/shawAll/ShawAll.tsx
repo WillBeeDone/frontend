@@ -23,28 +23,35 @@ export default function ShowAll({
 
   if (switcher === "list") {
     const offers = source as IOfferCard[];
-
+  
     return (
       <div className="offers-container">
-        {offers.map((offer) => (
-          <Link key={offer.id} to={`/offer/${offer.id}`} className="offer-card">
-            <h2>{offer.title}</h2>
-
-            <div className="offer-image-container">
-              <img
-                src={offer.profilePicture || "/gallery-default-picture.jpg"}
-                alt="Profile picture"
-                className="offer-image"
-              />
-            </div>
-
-            <p>{offer.description.length < 30 ? offer.description : offer.description.slice(0, 30) + "..."}</p>
-            <p>{offer.firstName} {offer.secondName}</p>
-            <p>{offer.location}</p>
-            <p>{offer.category}</p>
-            <p>Price per hour: {offer.price} $</p>
-          </Link>
-        ))}
+        {offers.map((offer) => {
+          const imgSource = offer.profilePicture || `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`;
+  
+          return (
+            <Link key={offer.id} to={`/offer/${offer.id}`} className="offer-card">
+              <h2>{offer.title}</h2>
+  
+              <div className="offer-image-container">
+                <img
+                  src={imgSource}
+                  alt="Profile picture"
+                  className="offer-image"
+                  width={200}
+                  height={200}
+                  crossOrigin="anonymous"
+                />
+              </div>
+  
+              <p>{offer.description.length < 30 ? offer.description : offer.description.slice(0, 30) + "..."}</p>
+              <p>{offer.firstName} {offer.secondName}</p>
+              <p>{offer.location}</p>
+              <p>{offer.category}</p>
+              <p>Price per hour: {offer.price} $</p>
+            </Link>
+          );
+        })}
       </div>
     );
   }
@@ -52,12 +59,15 @@ export default function ShowAll({
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
 
+    //const imgSource = offer.profilePicture || `${import.meta.env.BASE_URL}gallery-default-picture.jpg`;
+    //const imgSource = offer.gallery || `${import.meta.env.BASE_URL}gallery-default-picture.jpg`;
+
     return (
       <div className="offerPage-mainContainer">
         <h1>{offer.title}</h1>
 
         <img
-          src={offer.profilePicture || "/gallery-default-picture.jpg"}
+          src={offer.profilePicture ||  `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`}
           alt="Profile picture"
           className="offer-image"
         />
@@ -67,17 +77,18 @@ export default function ShowAll({
         <p>{offer.category}</p>
         <p>{offer.price} $</p>
         <p>{offer.description}</p>
-        <Link to="/">🔙 Go back</Link>
 
         <div className="gallery-container">
           {offer.gallery && offer.gallery.length > 0 ? (
             offer.gallery.map((image, index) => (
-              <img key={index} src={image} alt="Gallery item picture" className="gallery-item" />
+              <img key={index} src={image} alt="Gallery item picture" className="gallery-item" width={200} height={200} crossOrigin="anonymous"/>
+              
             ))
           ) : (
-            <img src="/gallery-default-picture.jpg" alt="Default picture" className="gallery-item-default" />
+            <img src={`${import.meta.env.BASE_URL}no-gallery-default-image.avif`} alt="Default picture" className="gallery-item-default" />
           )}
         </div>
+          <Link to="/">🔙 Go back</Link>
       </div>
     );
   }

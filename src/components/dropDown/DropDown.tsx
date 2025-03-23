@@ -26,10 +26,11 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
 
         const formattedList = data.map((element) => ({
           element,
-          value: element.charAt(0).toLowerCase() + element.substring(1),
+          value: element
         }));
 
         setList(formattedList);
+       
       } catch (error) {
         console.error("Error fetching elements:", error);
       }

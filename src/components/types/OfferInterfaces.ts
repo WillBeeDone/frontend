@@ -4,17 +4,26 @@ export interface IOfferCard {
     id: number,firstName:string, secondName:string, location:string, title:string, category:string, price:number,description:string, profilePicture:string
       
       }
+
+      
+    //тип для галереи оффера - не знаю финальную нужную структуру, не знаю финальную структуру responce от БЕК-енда
+    export interface IUserOfferPageGallery {
+        imageId:number, imageUrl:string
+    }
      
-       //тип для конкретного оффера в режиме Guest 
+       //тип для конкретного оффера в режиме Guest, скорее всего нужны изменения в зависимости от структуры IUserOfferPageGallery
 export interface IGuestOfferPage {
     id: number,firstName:string, secondName:string, location:string, title:string, category:string, price:number,description:string, profilePicture:string, gallery:string[]
       
       }
+
+    
   
       //тип для конкретного оффера в режиме User  
   export interface IUserOfferPage extends IGuestOfferPage{
       email:string, phone:string
   }
+
   
   
   export interface IAdminOfferPage extends IUserOfferPage {

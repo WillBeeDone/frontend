@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode, useRef } from "react";
 import { IOfferCard } from "../types/OfferInterfaces";
+import { transformOfferCard} from "../backToFrontTransformData/BackToFrontTransformData";
 
 
 
@@ -24,18 +25,65 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   const [selectedCity, setSelectedCity] = useState<string>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedKeyWord,  setSelectedKeyWord] = useState<string>("");
+  // чтоб fetchOffers не отрабатывал после fetchOffersFirstRender
+  const firstRender = useRef(true);
 
-  const fetchOffers = async (city: string = selectedCity, category: string = selectedCategory, keyWord: string = selectedKeyWord || "all") => {
+
+  const fetchOffersFirstRender = async () => {
     try {
-      const response = await fetch(`https://api.example.com/offers?city=${city}&category=${category}&keyWord=${keyWord}`);
-      const data: IOfferCard[] = await response.json();
-      setOfferCards(data);
+      const response = await fetch(`/api/offers/all`);
+       
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status}`);
+        }
+
+      //состыковка ключей бек => фронт
+      const data = await response.json();
+      const formattedOffers = transformOfferCard(data);
+      setOfferCards(formattedOffers);
+
     } catch (error) {
-      console.error("Mistake while offers receive:", error);
+      console.error("Mistake while general offers receive:", error);
     }
   };
 
   useEffect(() => {
+    fetchOffersFirstRender();
+  }, []);
+
+
+
+
+  const fetchOffers = async (city: string = selectedCity, category: string = selectedCategory, keyWord: string = selectedKeyWord || "all") => {
+    try {
+      console.log("Обране місто - ", city);
+      console.log("Обрана категорія - ", category);
+      console.log("Обране ключове слово - ", keyWord);
+      
+      const response = await fetch(`/api/filter?cityName=${city}category=${category}&keyPhrase=${keyWord}`);   
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      //состыковка ключей бек => фронт
+      const data = await response.json();
+      
+      console.log("отримав ",data);
+      
+      const formattedOffers = transformOfferCard(data);
+      setOfferCards(formattedOffers);
+
+    } catch (error) {
+      console.error("Mistake while filtered offers receive:", error);
+    }
+  };
+
+  useEffect(() => {
+    //не делать fetchOffers() при первой загрузке страницы, а только после изменения значения city, category или keyWord
+    if (firstRender.current){
+      firstRender.current = false;
+      return;
+    }
     fetchOffers();
   }, [selectedCity, selectedCategory,selectedKeyWord]);
 

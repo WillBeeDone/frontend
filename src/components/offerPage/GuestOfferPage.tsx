@@ -1,32 +1,37 @@
 import { useParams, Link } from "react-router-dom";
 import styles from "./GuestOfferPage.module.css";
-import { guestOfferPageList } from "../../test data/Offer";
+//import { guestOfferPageList } from "../../test data/Offer";
 import { useEffect, useState } from "react";
 import ShowAll from "../shawAll/ShawAll";
-//import { IGuestOfferPage } from "../types/OfferInterfaces";
+import { IGuestOfferPage } from "../types/OfferInterfaces";
+import { transformGuestOfferPage } from "../backToFrontTransformData/BackToFrontTransformData";
 
   
   const GuestOfferPage = () => {
     const { id } = useParams<{ id?: string }>();
-    //const [offer, setOffer] = useState<IGuestOfferPage | null>(null);
+    const [offer, setOffer] = useState<IGuestOfferPage | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
-
    
-    const offer = guestOfferPageList.find((offer) => offer.id === Number(id)); 
+    //const offer = guestOfferPageList.find((offer) => offer.id === Number(id)); 
     //временно использую тест-данные test data - Offer - offerCards
   
-    /*useEffect(() => {
+    useEffect(() => {
       const fetchOffer = async () => {
         if (!id) return;
         try {
-          const response = await fetch(`https://api.example.com/offers/${id}`);
+          const response = await fetch(`/api/offers/${id}`);
           if (!response.ok) {
             throw new Error("Failed to fetch offer");
           }
+
+         //состыковка ключей бек => фронт
           const data: IGuestOfferPage = await response.json();
-          setOffer(data);
+          const formattedGuestOfferPage = transformGuestOfferPage(data);
+          setOffer(formattedGuestOfferPage);
+          
+          
+
         } catch (error) {
           setError("Mistake while receiving offer");
           console.error(error);
@@ -34,16 +39,14 @@ import ShowAll from "../shawAll/ShawAll";
           setLoading(false);
         }
       };
-  
+     
       fetchOffer();
     }, [id]);
     
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
-    */
     if (!offer) return <p>Offer not found</p>;
-
+    
     return (
       <ShowAll source={offer} switcher="guestOfferPage"/>
     );
