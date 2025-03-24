@@ -78,50 +78,64 @@ function SignIn(): JSX.Element {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <h2 className={styles.title}>Sign In</h2>
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="email"
-          type="email"
-          placeholder="Please enter your email"
-          label="Email"
-          required
-          onChange={handleChange}
-        />
-        {errors.email && <p className={styles.error}>{errors.email}</p>}
+    <div className={styles.signInContainer}>
+      <div className={styles.image}>
+        <img src="./signInimage.jpeg" alt="Sign In" />
       </div>
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="password"
-          type="password"
-          placeholder="Please enter your password"
-          label="Password"
-          required
-          onChange={handleChange}
-        />
-        {errors.password && <p className={styles.error}>{errors.password}</p>}
+      <div className={styles.formContainer}>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <h2 className={styles.title}>Sign In</h2>
+          <div className={styles.inputGroup}>
+            <MyInput
+              name="email"
+              type="email"
+              placeholder="Please enter your email"
+              label="Email"
+              required
+              onChange={handleChange}
+            />
+            {errors.email && <p className={styles.error}>{errors.email}</p>}
+          </div>
+          <div className={styles.inputGroup}>
+            <MyInput
+              name="password"
+              type="password"
+              placeholder="Please enter your password"
+              label="Password"
+              required
+              onChange={handleChange}
+            />
+            {errors.password && (
+              <p className={styles.error}>{errors.password}</p>
+            )}
+          </div>
+          {message && <p className={styles.error}>{message}</p>}
+          <div className={styles.btnGroup}>
+            <MyButton
+              type="submit"
+              text={isLoading ? "Loading..." : "Sign in"}
+              disabled={isLoading}
+            />
+            <MyButton type="button" text="Go back" func={handleGoBack} />
+          </div>
+          <div className={styles.links}>
+            {/* добавить путь на форму восстановления пароля */}
+            <MyButton
+              type="button"
+              text="Forget Password?"
+              variant="easy"
+              to="/"
+            />
+            <MyButton
+              type="button"
+              text="Don't have an account yet?"
+              to="/sign-up-form"
+              variant="easy"
+            />
+          </div>
+        </form>
       </div>
-      {message && <p className={styles.error}>{message}</p>}
-      <div className={styles.btnGroup}>
-        <MyButton
-          type="submit"
-          text={isLoading ? "Loading..." : "Sign in"}
-          disabled={isLoading}
-        />
-        <MyButton type="button" text="Go back" func={handleGoBack} />
-      </div>
-      <div className={styles.links}>
-        {/* добавить путь на форму восстановления пароля */}
-        <MyButton type="button" text="Forget Password?" variant="easy" to="/"/>
-        <MyButton
-          type="button"
-          text="Don't have an account yet?"
-          to="/sign-up-form"
-          variant="easy"
-        />
-      </div>
-    </form>
+    </div>
   );
 }
 
