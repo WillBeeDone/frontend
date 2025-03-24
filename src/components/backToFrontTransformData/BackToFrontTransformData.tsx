@@ -1,4 +1,4 @@
-import { IGuestOfferPage, IOfferCard } from "../types/OfferInterfaces";
+import { IGallery, IGuestOfferPage, IOfferCard } from "../types/OfferInterfaces";
 import {FixAllImgUrl, FixArrayImgUrls, FixImgUrl} from "./FixImgUrl"
 
 
@@ -32,22 +32,25 @@ export const transformGuestOfferPage = (offer: any): IGuestOfferPage => {
         title: offerTitle,
         pricePerHour: offerPrice,
         description: offerDescription,
-        gallery // какая будет финальная вложенность?
+        images // какая будет финальная вложенность?
     } = offer; 
 
-     let offerGallery : string [];
+     let offerGallery : IGallery[];
 
     const offerCategory = offer.categoryResponseDto?.name || "Unknown";
     const offerOwnerName = offer.userFilterResponseDto?.firstName || "Unknown";
     const offerOwnerSecondName = offer.userFilterResponseDto?.lastName || "Unknown";
     const offerOwnerProfilePicture = FixImgUrl(offer.userFilterResponseDto?.profilePicture) || `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`;
     const offerOwnerLocation = offer.userFilterResponseDto?.locationResponseDto?.cityName || "Unknown";
+    console.log("in transformGuestOfferPage - ",offer.images);
     
-    if(gallery !== null && offer.gallery.imageUrl.length > 0){
-        offerGallery = offer.gallery.imageUrl//не знаю финальную вложенность и тип на фронте
+    if(images !== null && offer.images.length > 0){
+        offerGallery = offer.images//не знаю финальную вложенность и тип на фронте
+        console.log("after data transfer", offerGallery);
+        
     }
     else {
-        offerGallery = [`${import.meta.env.BASE_URL}no-gallery-default-image.avif`];
+        offerGallery = [{id:1, imageUrl:`${import.meta.env.BASE_URL}no-gallery-default-image.avif`}];
     }
     
     const guestOfferPage: IGuestOfferPage = {
@@ -62,6 +65,7 @@ export const transformGuestOfferPage = (offer: any): IGuestOfferPage => {
         profilePicture: offerOwnerProfilePicture,
         gallery: offerGallery
     };
+    console.log("before return - ", guestOfferPage.gallery);
     
     return guestOfferPage;
 }

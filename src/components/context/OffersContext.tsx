@@ -31,7 +31,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchOffersFirstRender = async () => {
     try {
-      const response = await fetch(`/api/offers/all`);
+      const response = await fetch(`/api/offers`);
        
         if (!response.ok) {
           throw new Error(`Server error: ${response.status}`);
@@ -60,7 +60,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
       console.log("Обрана категорія - ", category);
       console.log("Обране ключове слово - ", keyWord);
       
-      const response = await fetch(`/api/filter?cityName=${city}&category=${category}&keyPhrase=${keyWord}`);   
+      const response = await fetch(`/api/offers/filter?cityName=${city}&category=${category}&keyPhrase=${keyWord}`);   
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }

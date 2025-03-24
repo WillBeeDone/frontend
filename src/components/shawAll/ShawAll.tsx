@@ -80,8 +80,8 @@ export default function ShowAll({
 
         <div className="gallery-container">
           {offer.gallery && offer.gallery.length > 0 ? (
-            offer.gallery.map((image, index) => (
-              <img key={index} src={image} alt="Gallery item picture" className="gallery-item" width={200} height={200} crossOrigin="anonymous"/>
+            offer.gallery.map((image) => (
+              <img key={image.id} src={image.imageUrl} alt="Gallery item picture" className="gallery-item" width={200} height={200} crossOrigin="anonymous"/>
               
             ))
           ) : (
