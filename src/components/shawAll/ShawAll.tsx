@@ -2,6 +2,7 @@ import styles from "./ShowAll.module.css";
 import { JSX } from "react";
 import { Link } from "react-router-dom";
 import { IOfferCard, IGuestOfferPage } from "../../components/types/OfferInterfaces";
+import AddToFavoritesButton from "../addToFavorites/AddToFaforites";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
@@ -49,6 +50,7 @@ export default function ShowAll({
               <p>{offer.location}</p>
               <p>{offer.category}</p>
               <p>Price per hour: {offer.price} $</p>
+              <AddToFavoritesButton offer={offer}/>
             </Link>
           );
         })}
@@ -88,6 +90,7 @@ export default function ShowAll({
             <img src={`${import.meta.env.BASE_URL}no-gallery-default-image.avif`} alt="Default picture" className="gallery-item-default" />
           )}
         </div>
+        <AddToFavoritesButton offer={offer}/>
           <Link to="/">🔙 Go back</Link>
       </div>
     );
