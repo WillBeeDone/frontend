@@ -11,7 +11,7 @@ export default function Footer({}: IFooterProps) :JSX.Element{
     
      <footer className={styles.footer}>
      <span>©WillBeeDone</span>
-     <span>admin@willbeedone</span>
+     <span>admin@willbeedone.com</span>
     </footer>
     
   );
