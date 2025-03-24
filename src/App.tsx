@@ -8,10 +8,12 @@ import GuestOfferPage from "./components/offerPage/GuestOfferPage";
 import { OffersProvider } from "./components/context/OffersContext";
 import SignUp from "./components/signUp/SignUp";
 import SignIn from "./components/signIn/SignIn";
+import { FavoritesProvider } from "./components/context/FavoritesContext";
 
 function App() {
   return (
     <OffersProvider>
+      <FavoritesProvider>
       <HashRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -25,6 +27,7 @@ function App() {
           </Route>
         </Routes>
       </HashRouter>
+      </FavoritesProvider>
     </OffersProvider>
   );
 }
