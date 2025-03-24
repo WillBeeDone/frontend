@@ -25,67 +25,6 @@ import { transformGuestOfferPage } from "../backToFrontTransformData/BackToFront
             throw new Error("Failed to fetch offer");
           }
 
-
-          // стало:
-
-        //   {
-        //     "id": 1,
-        //     "title": "Affordable and Quick Car Repairs",
-        //     "categoryResponseDto": {
-        //         "name": "Computer Technician"
-        //     },
-        //     "pricePerHour": 15.00,
-        //     "description": "I’m an experienced auto mechanic. I can quickly and affordably fix your car, from minor repairs to full diagnostics. Available on weekends, contact me for a reliable service!",
-        //     "images": [
-        //         {
-        //             "id": 1,
-        //             "imageUrl": "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1BtS4Z.img?w=800&h=435&q=60&m=2&f=webp"
-        //         }
-        //     ],
-        //     "userFilterResponseDto": {
-        //         "firstName": "Lukas",
-        //         "lastName": "Schneider",
-        //         "profilePicture": "https://i.imgur.com/c71RCHi.jpeg",
-        //         "locationResponseDto": {
-        //             "cityName": "Hamburg"
-        //         }
-        //     }
-        // }
-
-
-          //было:
-        //   {
-        //     "id": 1,
-        //     "title": "Affordable and Quick Car Repairs",
-        //     "categoryResponseDto": {
-        //         "name": "Computer Technician"
-        //     },
-        //     "pricePerHour": 15.00,
-        //     "description": "I’m an experienced auto mechanic. I can quickly and affordably fix your car, from minor repairs to full diagnostics. Available on weekends, contact me for a reliable service!",
-        //     "gallery": {
-        //         "id": 2,
-        //         "imageUrl": [
-        //             "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1BtS4Z.img?w=800&h=435&q=60&m=2&f=webp"
-        //         ]
-        //     },
-        //     "userFilterResponseDto": {
-        //         "firstName": "Lukas",
-        //         "lastName": "Schneider",
-        //         "profilePicture": "https://i.imgur.com/c71RCHi.jpeg",
-        //         "locationResponseDto": {
-        //             "cityName": "Hamburg"
-        //         }
-        //     }
-        // }
-
-
-
-
-
-
-
-
-
          //состыковка ключей бек => фронт
           const data: IGuestOfferPage = await response.json();
           const formattedGuestOfferPage = transformGuestOfferPage(data);
