@@ -17,7 +17,7 @@ export default function Main(): JSX.Element {
           <CategorySelector/>
         </div>
 
-        <div>
+        <div className={styles.offerCard}>
           <OfferCard />
         </div>
       </div>

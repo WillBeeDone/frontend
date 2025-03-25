@@ -1,0 +1,138 @@
+p{
+    margin: 0px;
+    padding: 0px;
+}
+.offerContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 418px);
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+}
+
+.offerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  border-radius: 15%;
+  padding: 15px;
+  border: 2px solid black; 
+  color: black;
+  width: 100%
+}
+
+.offerCard img {
+  border-radius: 30%;
+  margin-right: 180px;
+  object-fit: cover;
+  width: 150px;
+  height: 150px; 
+  
+}
+
+.firstPartOfferCard {
+  display: flex;
+   width: 100%; 
+}
+
+.offerCardRightPart {
+  display: flex;
+  flex-direction: column;
+  flex: 1; 
+  max-width: 60%; 
+
+}
+
+.offerCardleftPart {
+  display: flex;
+  flex-direction: column;
+  flex: 1; 
+  max-width: 45%; 
+}
+
+.description {
+    height: 100px;
+    margin-top: 20px;
+ 
+}
+
+.name {
+    display: flex;
+    font-weight: bold;
+    height: 30px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.category {
+    height: 45px;
+    width: 150px; 
+    margin-right: 180px;
+    border-radius: 20px; 
+    
+    background-color: rgb(222, 208, 224);
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
+}
+
+.location {
+    color: gray;
+    font-size: 14px;
+    margin-right: 150px;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    gap:6px;
+    margin-top: 10px;
+    margin-left: 0px;
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+.textPrice {
+    color: gray;
+}
+
+.offerCardImageContainer{
+    width: 150px;
+}
+
+.euro {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.title {
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+    text-align: right;
+    font-size: larger;
+    padding-right: 20px;
+    margin: 12px;
+    height: 90px;
+
+}
+
+@media (max-width: 1800px) {
+    .offerContainer {
+      grid-template-columns: repeat(3, 418px);  /* На экранах до 1200px - 3 карточки в ряд */
+    }
+  }
+  
+  @media (max-width: 1350px) {
+    .offerContainer {
+      grid-template-columns: repeat(2, 418px);  /* На экранах до 900px - 2 карточки в ряд */
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .offerContainer {
+      grid-template-columns: repeat(1, 418px);  /* На экранах до 600px - 1 карточка в ряд */
+    }
+
+}
