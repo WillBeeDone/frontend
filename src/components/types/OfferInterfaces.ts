@@ -29,3 +29,21 @@ export interface IGuestOfferPage {
   export interface IAdminOfferPage extends IUserOfferPage {
   userId:number, isActive:boolean
   }
+
+  export interface IOfferForTransformOfferCardPagination {
+    id: number;
+    title: string;
+    categoryResponseDto: {
+      name: string;
+    };
+    pricePerHour: number;
+    description: string;
+    userFilterResponseDto: {
+      firstName: string;
+      lastName: string;
+      profilePicture: string;
+      locationResponseDto: {
+        cityName: string;
+      };
+    };
+  }

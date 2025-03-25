@@ -1,30 +1,49 @@
-import { IGallery, IGuestOfferPage, IOfferCard } from "../types/OfferInterfaces";
+import { IGallery, IGuestOfferPage, IOfferCard, IOfferForTransformOfferCardPagination } from "../types/OfferInterfaces";
 import {FixAllImgUrl, FixArrayImgUrls, FixImgUrl} from "./FixImgUrl"
 
 
+export const transformOfferCardPagination = (data: { content: any[] }): IOfferCard[] => {
+  if (!data || !Array.isArray(data.content)) {
+    console.error("Expected an array in data.content, received:", data);
+    return [];
+  }
+
+  return data.content.map((offer:IOfferForTransformOfferCardPagination) => ({
+    id: offer.id,
+    title: offer.title,
+    category: offer.categoryResponseDto?.name || "Unknown",
+    price: offer.pricePerHour,
+    description: offer.description,
+    firstName: offer.userFilterResponseDto?.firstName || "Unknown",
+    secondName: offer.userFilterResponseDto?.lastName || "Unknown",
+    location: offer.userFilterResponseDto?.locationResponseDto?.cityName || "Unknown",
+    profilePicture: FixImgUrl(offer.userFilterResponseDto?.profilePicture),
+  }));
+};
+
 export const transformOfferCard = (offers: any[]): IOfferCard[] => {
    
-    return offers.map(({ 
-      id, 
-      title, 
-      pricePerHour: price, 
-      description, 
-      categoryResponseDto, 
-      userFilterResponseDto,
-    }) => ({
-      id,
-      title,
-      price,
-      description,
-      category: categoryResponseDto?.name || "Unknown",
-      firstName: userFilterResponseDto?.firstName || "Unknown",
-      secondName: userFilterResponseDto?.lastName || "Unknown",
+  return offers.map(({ 
+    id, 
+    title, 
+    pricePerHour: price, 
+    description, 
+    categoryResponseDto, 
+    userFilterResponseDto,
+  }) => ({
+    id,
+    title,
+    price,
+    description,
+    category: categoryResponseDto?.name || "Unknown",
+    firstName: userFilterResponseDto?.firstName || "Unknown",
+    secondName: userFilterResponseDto?.lastName || "Unknown",
 
-      profilePicture: FixImgUrl(userFilterResponseDto?.profilePicture) || `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`,
-     
-      location: userFilterResponseDto?.locationResponseDto?.cityName || "Unknown"
-    }));
-  };
+    profilePicture: FixImgUrl(userFilterResponseDto?.profilePicture) || `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`,
+   
+    location: userFilterResponseDto?.locationResponseDto?.cityName || "Unknown"
+  }));
+};
 
 export const transformGuestOfferPage = (offer: any): IGuestOfferPage => {
     const {
