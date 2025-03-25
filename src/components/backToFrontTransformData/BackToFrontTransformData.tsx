@@ -1,22 +1,6 @@
-import { IGallery, IGuestOfferPage, IOfferCard } from "../types/OfferInterfaces";
+import { IGallery, IGuestOfferPage, IOfferCard, IOfferForTransformOfferCardPagination } from "../types/OfferInterfaces";
 import {FixAllImgUrl, FixArrayImgUrls, FixImgUrl} from "./FixImgUrl"
-interface Offer {
-  id: number;
-  title: string;
-  categoryResponseDto: {
-    name: string;
-  };
-  pricePerHour: number;
-  description: string;
-  userFilterResponseDto: {
-    firstName: string;
-    lastName: string;
-    profilePicture: string;
-    locationResponseDto: {
-      cityName: string;
-    };
-  };
-}
+
 
 export const transformOfferCardPagination = (data: { content: any[] }): IOfferCard[] => {
   if (!data || !Array.isArray(data.content)) {
@@ -24,7 +8,7 @@ export const transformOfferCardPagination = (data: { content: any[] }): IOfferCa
     return [];
   }
 
-  return data.content.map((offer:Offer) => ({
+  return data.content.map((offer:IOfferForTransformOfferCardPagination) => ({
     id: offer.id,
     title: offer.title,
     category: offer.categoryResponseDto?.name || "Unknown",

@@ -1,30 +1,105 @@
 /* components/pagination/Pagination.module.css */
 .pagination {
-    display: flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.pagination button {
+  background-color: #fafafa;
+  cursor: pointer;
+  width: 8px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.pagination .active {
+  font-weight: bolder;
+}
+.totalPage {
+  display: flex;
+  align-items: center;
+  color: rgb(151, 139, 139);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  margin-right: 300px;
+  padding-left: 50px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+}
+
+.pageSelect {
+  background-color: #fafafa;
+  color: black;
+  width: 38px;
+  height: 65%;
+  border-radius: 10px;
+}
+.pageOn p {
+  color: rgb(151, 139, 139);
+  margin-left: 100px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+}
+.pageOn {
+  justify-content: center;
+  margin: 0;
+}
+.pg {
+  width: 200px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
+  gap: 20px;
+  margin: 20px 0;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.totalPage {
+  display: flex;
+  align-items: center;
+  color: rgb(151, 139, 139);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  padding: 25px 15px;
+}
+
+.pageSelect {
+  background-color: #fafafa;
+  color: black;
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.pageOn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 15px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .totalPage {
+    text-align: center;
+    margin: 0;
+  }
+
+  .pageOn {
     justify-content: center;
-    gap: 8px;
-    margin: 20px 0;
+    margin: 0;
   }
-  
-  .pagination button {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    background-color: white;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .pagination button:hover:not(:disabled) {
-    background-color: #f0f0f0;
-  }
-  
-  .pagination button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
-  .pagination .active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-  }
+}
