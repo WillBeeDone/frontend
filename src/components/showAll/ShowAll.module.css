@@ -14,6 +14,7 @@ p{
 }
 
 .offerCard {
+  background-color: azure;
   display: flex;
   flex-direction: column;
   align-items: flex-start; 
@@ -22,6 +23,7 @@ p{
   border: 2px solid black; 
   color: black;
   width: 100%
+  
 }
 
 .offerCard img {
