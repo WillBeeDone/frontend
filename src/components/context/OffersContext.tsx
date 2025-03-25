@@ -44,6 +44,7 @@ const [totalPages, setTotalPages] = useState<number>(0);
   
       const data = await response.json();
       const formattedOffers = transformOfferCardPagination(data);
+      console.log (data)
       setOfferCards(formattedOffers);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
@@ -53,9 +54,8 @@ const [totalPages, setTotalPages] = useState<number>(0);
   };
 
   useEffect(() => {
-    fetchOffersFirstRender(0);
-  }, []);
-
+    fetchOffersFirstRender(currentPage);
+  }, [currentPage]);
 
 
   const fetchOffers = async (city: string = selectedCity, category: string = selectedCategory, keyWord: string = selectedKeyWord || "all") => {
