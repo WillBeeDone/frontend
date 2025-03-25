@@ -6,6 +6,8 @@ import { useOffers } from "../context/OffersContext";
 import MyButton from "../myButton/MyButton";
 import RecoveryForm from "../recoveryForm/RecoveryForm";
 
+
+
 interface ILink {
   text: React.ReactNode;
   path: string;
@@ -17,7 +19,8 @@ interface IHeaderProps {
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
   const { setSelectedCity } = useOffers();
-
+  
+  
   return (
     <header className={styles.header}>
       {links.map(({ text, path }, index) => (
@@ -40,7 +43,10 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
         <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
       </div>
-
+      
+      <MyButton text="Favorites" to="/favorites" variant="primary" />
+     
+      
       {/* временный вызов для посмотреть и проверки работы формы */}
       {/* <RecoveryForm/>  */}
     </header>
