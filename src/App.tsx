@@ -10,11 +10,14 @@ import SignUp from "./components/signUp/SignUp";
 import SignIn from "./components/signIn/SignIn";
 import { FavoritesProvider } from "./components/context/FavoritesContext";
 import ShowFavorites from "./components/showFavorites/ShowFavorites";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 
 function App() {
   
   return (
+    <Provider store= {store}>
     <OffersProvider>
       <FavoritesProvider>
       <HashRouter>
@@ -33,6 +36,7 @@ function App() {
       </HashRouter>
       </FavoritesProvider>
     </OffersProvider>
+    </Provider>
   );
 }
 
