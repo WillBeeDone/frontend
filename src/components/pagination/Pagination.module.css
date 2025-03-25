@@ -1,0 +1,30 @@
+/* components/pagination/Pagination.module.css */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+  }
+  
+  .pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .pagination button:hover:not(:disabled) {
+    background-color: #f0f0f0;
+  }
+  
+  .pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .pagination .active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
