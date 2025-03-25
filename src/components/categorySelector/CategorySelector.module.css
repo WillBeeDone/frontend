@@ -5,6 +5,10 @@
   color: black;
 }
 
+.categorySelector {
+  margin-top: 20px;
+}
+
 .buttonContainer {
   display: flex;
   height: 170px;
