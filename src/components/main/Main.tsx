@@ -3,8 +3,9 @@ import OfferCard from "../offer/OfferCard";
 import { JSX, useContext } from "react";
 import Banner from "../banner/Banner";
 import CategorySelector from "../categorySelector/CategorySelector";
-import Pagination from "../pagination/Pagination";
+
 import { OffersContext } from "../context/OffersContext";
+import { Pagination } from "../pagination/Pagination";
 
 export default function Main(): JSX.Element {
   const { 

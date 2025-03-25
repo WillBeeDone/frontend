@@ -53,7 +53,7 @@ const [totalPages, setTotalPages] = useState<number>(0);
   };
 
   useEffect(() => {
-    fetchOffersFirstRender();
+    fetchOffersFirstRender(0);
   }, []);
 
 
