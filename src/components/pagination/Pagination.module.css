@@ -20,7 +20,6 @@
   display: flex;
   align-items: center;
   color: rgb(151, 139, 139);
-  font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
   margin-right: 300px;
   padding-left: 50px;
@@ -45,6 +44,8 @@
 }
 .pg {
   width: 200px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+  font-weight: 400;
 }
 .pagination {
   display: flex;
