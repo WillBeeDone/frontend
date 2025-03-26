@@ -30,18 +30,13 @@ export default function AddToFavorites({ offer }: AddToFavoritesProps) {
   };
 
   return (
-    <div className={styles.favoritesAndView}>
+    <div className={styles.favorites}>
       <button onClick={handleClick} className={styles.favoriteButton}>
         <img
           src={isOfferFavoriteAlready ? offerInFavorites : offerIsUsual}
           alt="heart"
         />
       </button>
-      <div className={styles.view}>
-        <Link to={`/offer/${offer.id}`}>
-          <MyButton variant="primary" text="View" />
-        </Link>
-      </div>
     </div>
   );
 }
