@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
-import { signInByAccessToken, signInByEmailAndPass, signUp } from './authActions';
+import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signUp } from './authActions';
 
 
 const initialUser:IUser ={
@@ -28,7 +28,7 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    // обработка запроса из формы
+    // обработка запроса из формы SignUp
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
       })
@@ -43,7 +43,36 @@ export const authSlice = createSlice({
         state.error = action.payload as string
       })
 
-      // T-O-D-O нужен слайс обрабатывающий форму восстановления пароля
+      //  обработка запроса из формы EmailForPassRecovery
+      .addCase(emailForPassRecovery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(emailForPassRecovery.fulfilled, (state, action) => {
+        state.isLoading = false;
+        if (action.payload) {
+          state.user.id = action.payload; // зберігаємо userId
+        } else {
+          state.error = "No user ID returned from server";
+        }
+      })
+      .addCase(emailForPassRecovery.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = initialUser;
+        state.error = action.payload as string;
+      })
+      
+      // слайс обрабатывающий форму восстановления пароля
+      .addCase(passwordRecovery.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(passwordRecovery.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user = initialUser; 
+      })
+      .addCase(passwordRecovery.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
 
       // запрос отправляющий емейл&пароль и получающий аксес и рефреш токены
       .addCase(signInByEmailAndPass.pending, (state) => {

@@ -16,7 +16,44 @@ export const signUp = createAsyncThunk(
   }
 );
 
-// T-O-D-O нужен екшн обрабатывающий форму восстановления пароля
+// емейл записывается в форме EmailForPassRecovery
+export const emailForPassRecovery = createAsyncThunk(
+  'auth/emailForPassRecovery',
+  async (userData: { email: string; }, thunkAPI) => {
+    try {
+      console.log("emailForPassRecovery --- ", userData);
+      
+      const response = await axios.post('api/emailForPassRecovery', userData);
+
+      console.log("reterned from server inside emailForPassRecovery -", response.data);
+      
+      return response.data; // тут має повернутись id юзера
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// екшн обрабатывающий форму восстановления пароля
+export const passwordRecovery = createAsyncThunk(
+  "auth/passwordRecovery",
+  async (userData: { userId: number; password: string }, thunkAPI) => {
+    try {
+      console.log("New password from PasswordRecovery:", userData);
+
+      const response = await axios.post("api/passwordRecovery", userData);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to update password.");
+      }
+
+      return userData.userId;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to update password");
+    }
+  }
+);
+
 
 // данные емейл&пароль записываються в форме SignIn
 export const signInByEmailAndPass = createAsyncThunk(
