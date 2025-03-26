@@ -14,20 +14,15 @@
 
 .favoriteButton img {
   display: flex;
+  
   margin-left: 12px;
   width: 50%;
   height: 50%;
   object-fit: contain;
 }
 
-.favoritesAndView {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
+.favorites {
+  margin-left: 12px;
 }
 
-.view {
-  margin-left: 100px;
-  width: 20px;
-}
+

@@ -121,6 +121,17 @@ p{
 
 }
 
+.view {
+  margin-left: 130px;
+  width: 20px;
+}
+
+.heartAndView {
+  display: flex;
+  
+}
+
+
 @media (max-width: 1800px) {
     .offerContainer {
       grid-template-columns: repeat(3, 418px);  /* На экранах до 1200px - 3 карточки в ряд */
