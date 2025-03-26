@@ -75,14 +75,14 @@ export default function ShowAll({
                 </p>
               </div>
               <div className={styles.heartAndView}>
-              <div>
-                <AddToFavoritesButton offer={offer} />
-              </div>
-              <div className={styles.view}>
-                <Link to={`/offer/${offer.id}`}>
-                  <MyButton variant="primary" text="View" />
-                </Link>
-              </div>
+                <div>
+                  <AddToFavoritesButton offer={offer} />
+                </div>
+                <div className={styles.view}>
+                  <Link to={`/offer/${offer.id}`}>
+                    <MyButton variant="primary" text="View" />
+                  </Link>
+                </div>
               </div>
             </div>
           );
@@ -98,36 +98,61 @@ export default function ShowAll({
     //const imgSource = offer.gallery || `${import.meta.env.BASE_URL}gallery-default-picture.jpg`;
 
     return (
-      <div className="offerPage-mainContainer">
-        <h1>{offer.title}</h1>
+      <div className={styles.mainContainerOfferPage}>
 
-        <img
-          src={
-            offer.profilePicture ||
-            `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`
-          }
-          alt="Profile picture"
-          className="offer-image"
-        />
+        <div className={styles.mainPartOfferPage}>
 
-        <p>
-          Name: {offer.firstName} {offer.secondName}
-        </p>
-        <p>{offer.location}</p>
-        <p>{offer.category}</p>
-        <p>{offer.price} $</p>
-        <p>{offer.description}</p>
 
-        <div className="gallery-container">
+
+
+          <div className={styles.leftPartOfferPage}>
+            <img
+              src={
+                offer.profilePicture ||
+                `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`
+              }
+              alt="Profile picture"
+              className={styles.offerImage}
+            />
+            <p className={styles.name}>
+              {offer.firstName} {offer.secondName}
+            </p>
+          </div>
+
+
+
+
+          <div className={styles.rightPartOfferPage}>
+            <h1 className={styles.titleOffer}>{offer.title}</h1>
+            <div className={styles.locCatPrice}>
+            <p className={styles.location}>{offer.location}</p>
+            <p className={styles.category}>{offer.category}</p>
+            <div className={styles.price}>
+            </div>
+            <p className={styles.textPrice}>Price per hour </p>
+            <p className={styles.euro}>{offer.price} € </p>
+            </div>
+            <p className={styles.descriptionOffer}>{offer.description}</p>
+          </div>
+        </div>
+
+
+
+
+
+        <div className={styles.galleryContainer}>
+          <img
+            className={styles.parenthesis}
+            src="./Left parenthesis.png"
+            alt="Left parenthesis"
+          />
           {offer.gallery && offer.gallery.length > 0 ? (
             offer.gallery.map((image) => (
               <img
                 key={image.id}
                 src={image.imageUrl}
                 alt="Gallery item picture"
-                className="gallery-item"
-                width={200}
-                height={200}
+                className={styles.galleryItem}
                 crossOrigin="anonymous"
               />
             ))
@@ -135,9 +160,14 @@ export default function ShowAll({
             <img
               src={`${import.meta.env.BASE_URL}no-gallery-default-image.avif`}
               alt="Default picture"
-              className="gallery-item-default"
+              className={styles.galleryItem}
             />
           )}
+          <img
+            className={styles.parenthesis}
+            src="./Right parenthesis.png"
+            alt="Right parenthesis"
+          />
         </div>
         <AddToFavoritesButton offer={offer} />
         <Link to="/">🔙 Go back</Link>
