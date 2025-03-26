@@ -15,7 +15,7 @@ interface IDropDown {
 
 export default function DropDown({ url, text = "elements", onChange, switcher = 1}: IDropDown): JSX.Element {
   const [selectedElement, setSelectedElement] = useState("all");
-  /*const [list, setList] = useState<IDataForSelector[]>([]);
+  const [list, setList] = useState<IDataForSelector[]>([]);
   
 
   useEffect(() => {
@@ -26,10 +26,11 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
 
         const formattedList = data.map((element) => ({
           element,
-          value: element.charAt(0).toLowerCase() + element.substring(1),
+          value: element
         }));
 
         setList(formattedList);
+       
       } catch (error) {
         console.error("Error fetching elements:", error);
       }
@@ -37,7 +38,7 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
 
     fetchElements();
   }, [url]);
-  */
+  
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newElement = event.target.value;
     setSelectedElement(newElement);
@@ -46,22 +47,12 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
     }
   };
   
-  const list = [
-    { element: "Berlin" },
-    { element: "Leipzig" },
-    { element: "Magdeburg" },
-    { element: "Halle" },
-    { element: "Hamburg" }
-  ].map(({ element }) => ({
-    element,
-    value: element.charAt(0).toLowerCase() + element.substring(1)
-  }));
-    
-
-
   return (
     <select className={styles.dropdown} value={selectedElement} onChange={handleChange}>
-      <option value="all" disabled>{switcher === 1 ? text : `All ${text}`}</option>
+      
+        {switcher === 1 ? ( <option value="all" disabled>{text}</option> )
+        : <option value="all">All categories</option>}
+
       {list.map((el, index) => (
         <option key={index} value={el.value}>
           {el.element}

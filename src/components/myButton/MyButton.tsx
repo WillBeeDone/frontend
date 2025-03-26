@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
 import { useOffers } from "../context/OffersContext";
-import sortAscIcon from "/sort-from-high.png";
-import sortDescIcon from "/sort-from-low.png";
+import sortAscIcon from "/sort-from-low.png";
+import sortDescIcon from "/sort-from-high.png";
+
 
 interface IMyButtonProps {
   type?: "button" | "submit" | "reset";
@@ -36,7 +37,7 @@ function MyButton({
     func();
 
     if (isSortButton) {
-      const sortedOffers = [...offerCards].sort((a, b) =>
+      const sortedOffers = [...offerCards].sort((b, a) =>
         sortOrder === "asc" ? a.price - b.price : b.price - a.price
       );
       setOfferCards(sortedOffers);
@@ -45,12 +46,19 @@ function MyButton({
   };
 
   return isSortButton ? (
-    <div className={styles.sortContainer}>
-      <div className={styles.sortContainerText}>{text}</div>
-      <button type={type} onClick={handleClick} className={styles.sortContainerButton} disabled={disabled}>
-        <img src={sortOrder === "asc" ? sortAscIcon : sortDescIcon} alt="Sort" />
-      </button>
-    </div>
+    <button
+      type={type}
+      onClick={handleClick}
+      className={styles.sortContainer}
+      disabled={disabled}
+    >
+      <span className={styles.sortContainerText}>{text}</span>
+      <img
+        className={sortOrder === "asc" ? styles.sortAsc : styles.sortDesc}
+        src={sortOrder === "asc" ? sortAscIcon : sortDescIcon}
+        alt="Sort"
+      />
+    </button>
   ) : (
     <button
       type={type}
@@ -63,15 +71,7 @@ function MyButton({
       })}
       disabled={disabled}
     >
-      {isSortButton ? (
-        <img
-          src={sortOrder === "asc" ? sortAscIcon : sortDescIcon}
-          alt="Sort"
-          className={styles.sortButton}
-        />
-      ) : (
-        text
-      )}
+      {text}
     </button>
   );
 }

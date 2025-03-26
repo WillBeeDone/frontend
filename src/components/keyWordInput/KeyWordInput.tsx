@@ -10,6 +10,7 @@ interface IKeyWordInputProps {
   value: string;
   imageSrc?: string;
   onChange: (value: string) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void; // стандартный реактовский пропс передачи функции реагирования на нажатие клавиши клавиатуры
 }
 
 function KeyWordInput({
@@ -21,6 +22,7 @@ function KeyWordInput({
   value,
   onChange,
   imageSrc,
+  onKeyDown,
 }: IKeyWordInputProps): JSX.Element {
   
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +42,7 @@ function KeyWordInput({
             required={require}
             value={value}
             onChange={handleChange}
+            onKeyDown={onKeyDown}
           />
         </div>
       </div>
