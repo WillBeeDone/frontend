@@ -1,47 +1,49 @@
 import { JSX, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
+import { signInByEmailAndPass } from "../../features/auth/authActions";
+
 import MyInput from "../myInput/MyInput";
-import styles from "./SignIn.module.css";
 import MyButton from "../myButton/MyButton";
+import styles from "./SignIn.module.css";
+import validator from 'validator';
 
 function SignIn(): JSX.Element {
+  
   const navigate = useNavigate();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, error } = useSelector((state: RootState) => state.auth);
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
+  // валидация email
   const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) ? "" : "Incorrect email";
+     return validator.isEmail(email) ? "" : "Incorrect email";
   };
 
-  const validatePassword = (password: string) => {
-    return password.length >= 8
-      ? ""
-      : "Password must be at least 8 characters long";
-  };
+   // валидация password
+   const validatePassword = (password: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password) ? "" : "Must contains upper&lower case, number, special character. Length 8 or more. ";
+  
 
+  // изменения полей формы
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     if (name === "email") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: validateEmail(value),
-      }));
+      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
     } else if (name === "password") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        password: validatePassword(value),
-      }));
+      setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // отправка формы
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage("");
+
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
 
@@ -50,31 +52,15 @@ function SignIn(): JSX.Element {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const response = await fetch("", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+    
+    dispatch(signInByEmailAndPass(formData))
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error("SignIn error:", err);
       });
-      const data = await response.json();
-
-      if (response.ok) {
-        //alert("Login successful! Going to User Home Page....");
-        navigate("/"); // путь к странице авторизированного пользователя
-      } else {
-        setMessage(data.message || "Invalid credentials");
-      }
-    } catch (error: unknown) {
-      console.error("SignIn error:", error);
-      setMessage("Network error. Please try again later.");
-    }
-    setIsLoading(false);
-  };
-
-  const handleGoBack = () => {
-    //alert("Go back to Guest Home Page...");
-    navigate("/"); // путь к странице гостя
   };
 
   return (
@@ -85,11 +71,12 @@ function SignIn(): JSX.Element {
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2 className={styles.title}>Sign In</h2>
+          {error && <p className={styles.error}>{error}</p>}
           <div className={styles.inputGroup}>
             <MyInput
               name="email"
               type="email"
-              placeholder="Please enter your email"
+              placeholder="Enter your email"
               label="Email"
               required
               onChange={handleChange}
@@ -100,38 +87,24 @@ function SignIn(): JSX.Element {
             <MyInput
               name="password"
               type="password"
-              placeholder="Please enter your password"
+              placeholder="Enter your password"
               label="Password"
               required
               onChange={handleChange}
             />
-            {errors.password && (
-              <p className={styles.error}>{errors.password}</p>
-            )}
+            {errors.password && <p className={styles.error}>{errors.password}</p>}
           </div>
-          {message && <p className={styles.error}>{message}</p>}
           <div className={styles.btnGroup}>
             <MyButton
               type="submit"
               text={isLoading ? "Loading..." : "Sign in"}
               disabled={isLoading}
             />
-            <MyButton type="button" text="Go back" func={handleGoBack} />
+            <MyButton type="button" text="Go back" to="/" />
           </div>
           <div className={styles.links}>
-            {/* добавить путь на форму восстановления пароля */}
-            <MyButton
-              type="button"
-              text="Forget Password?"
-              variant="easy"
-              to="/"
-            />
-            <MyButton
-              type="button"
-              text="Don't have an account yet?"
-              to="/sign-up-form"
-              variant="easy"
-            />
+            <MyButton type="button" text="Forget Password?" variant="easy" to="/" />
+            <MyButton type="button" text="Don't have an account yet?" to="/sign-up-form" variant="easy" />
           </div>
         </form>
       </div>

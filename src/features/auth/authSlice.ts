@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
-import { loginToken, signUpAction } from './authActions';
+import { signInByAccessToken, signInByEmailAndPass, signUp } from './authActions';
 
 
 const initialUser:IUser ={
@@ -29,28 +29,46 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
     // обработка запроса из формы
-      .addCase(signUpAction.pending, (state) => {
+      .addCase(signUp.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signUpAction.fulfilled, (state, action) => {
+      .addCase(signUp.fulfilled, (state) => {
         state.isLoading = false
-        state.user = action.payload;
+        state.error = ""
+        
       })
-      .addCase(signUpAction.rejected, (state, action) => {
+      .addCase(signUp.rejected, (state, action) => {
         state.isLoading = false
         state.user = initialUser
         state.error = action.payload as string
       })
 
-      //запрос из юзЕфекта использующего токен
-      .addCase(loginToken.pending, (state) => {
+      // T-O-D-O нужен слайс обрабатывающий форму восстановления пароля
+
+      // запрос отправляющий емейл&пароль и получающий аксес и рефреш токены
+      .addCase(signInByEmailAndPass.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loginToken.fulfilled, (state, action) => {
+      .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = action.payload;
       })
-      .addCase(loginToken.rejected, (state, action) => {
+      .addCase(signInByEmailAndPass.rejected, (state, action) => {
+        state.isLoading = false
+        state.user = initialUser
+        state.error = action.payload as string
+      })
+
+
+      //запрос из юзЕфекта использующего аксес токен
+      .addCase(signInByAccessToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(signInByAccessToken.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = action.payload;
+      })
+      .addCase(signInByAccessToken.rejected, (state, action) => {
         state.isLoading = false
         state.user = initialUser
         state.error = action.payload as string
