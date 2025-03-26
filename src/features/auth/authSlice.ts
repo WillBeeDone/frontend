@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
-import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signUp } from './authActions';
+import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
+import { RootState } from '../../app/store';
 
 
 const initialUser:IUser ={
@@ -20,12 +21,20 @@ const initialState: IAuthState = {
   user: initialUser,
   isLoading: false,
   error: "",
+  isAuthenticated: false, 
 };
 
 export const authSlice = createSlice({
   name: 'authSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = initialUser;
+      state.isAuthenticated = false;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    },
+  },
   extraReducers: (builder) => {
     builder
     // обработка запроса из формы SignUp
@@ -61,7 +70,7 @@ export const authSlice = createSlice({
         state.error = action.payload as string;
       })
       
-      // слайс обрабатывающий форму восстановления пароля
+      // слайс обрабатывающий форму PasswordRecovery
       .addCase(passwordRecovery.pending, (state) => {
         state.isLoading = true;
       })
@@ -74,43 +83,59 @@ export const authSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // запрос отправляющий емейл&пароль и получающий аксес и рефреш токены
+      // запрос отправляющий емейл&пароль и получающий аксес и рефреш токены - форма SignIn
       .addCase(signInByEmailAndPass.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(signInByEmailAndPass.rejected, (state, action) => {
         state.isLoading = false
         state.user = initialUser
+        state.isAuthenticated = false;
         state.error = action.payload as string
       })
 
 
-      //запрос из юзЕфекта использующего аксес токен
+      //запрос из юзЕфекта использующего аксес токен для входа
       .addCase(signInByAccessToken.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(signInByAccessToken.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = action.payload;
+        state.isAuthenticated = true;
       })
       .addCase(signInByAccessToken.rejected, (state, action) => {
-        state.isLoading = false
-        state.user = initialUser
-        state.error = action.payload as string
+        state.isLoading = false;
+        state.user = initialUser;
+        state.isAuthenticated = false;
+        state.error = action.payload as string;
       })
 
-
-
-
-
+      //запрос из юзЕфекта использующего рефреш токен для получения нового аксес токена
+      .addCase(signInByRefreshToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(signInByRefreshToken.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload;
+      })
+      .addCase(signInByRefreshToken.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = initialUser;
+        state.isAuthenticated = false;
+        state.error = action.payload as string;
+      })
 
 
   },
 });
 
-export default authSlice;
-// export const { } = authSlice.actions
+export const { logout } = authSlice.actions;
+export const selectIsAuthenticated = (state: RootState): boolean => state.auth.isAuthenticated;
+export default authSlice.reducer;

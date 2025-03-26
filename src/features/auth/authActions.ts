@@ -45,9 +45,9 @@ export const passwordRecovery = createAsyncThunk(
 
       if (response.status !== 200) {
         throw new Error("Failed to update password.");
+      }else {
+        return response.data; // тут должен вернуться userId с сервера
       }
-
-      return userData.userId;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to update password");
     }
@@ -68,24 +68,41 @@ export const signInByEmailAndPass = createAsyncThunk(
         localStorage.setItem("accessToken", response.data.accessToken)
         localStorage.setItem("refreshToken", response.data.refreshToken)
 
-      return response.data;
+      return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-// новый асинхронный запрос через токен
+// асинхронный запрос через аксес токен
 export const signInByAccessToken = createAsyncThunk(
     'auth/signInByAccessToken',
-    async (token:string, thunkAPI) => {
+    async (accessToken:string, thunkAPI) => {
       try {
         const response = await axios.get('https://dummyjson.com/auth/me', {headers: {
-    'Authorization' : `Bearer ${token}`
+    'Authorization' : `Bearer ${accessToken}`
         }});
-        return response.data;
+        localStorage.setItem("refreshToken", response.data.refreshToken)
+        return response.data; // здесь должны быть все данные о юзере
       } catch (error: any) {
         return thunkAPI.rejectWithValue(error.message);
       }
     }
   );
+
+  // асинхронный запрос через рефреш токен
+export const signInByRefreshToken = createAsyncThunk(
+  'auth/signInByRefreshToken',
+  async (refreshToken:string, thunkAPI) => {
+    try {
+      const response = await axios.get('https://dummyjson.com/auth/me', {headers: {
+  'Authorization' : `Bearer ${refreshToken}`
+      }});
+      localStorage.setItem("accessToken", response.data.refreshToken)
+      return response.data; // здесь должны быть все данные о юзере
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

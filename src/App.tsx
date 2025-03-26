@@ -13,10 +13,12 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import PasswordRecovery from "./components/passwordRecovery/PasswordRecovery";
 import EmailForPassRecovery from "./components/emailForPassRecovery/EmailForPassRecovery";
+import AuthChecker from "./features/auth/AuthChecker";
 
 function App() {
   return (
     <Provider store={store}>
+    <AuthChecker/>
       <OffersProvider>
         <FavoritesProvider>
           <HashRouter>
