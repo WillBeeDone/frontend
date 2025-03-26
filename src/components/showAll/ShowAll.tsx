@@ -58,7 +58,7 @@ export default function ShowAll({
                     {offer.firstName} {offer.secondName}
                   </p>
                   <p className={styles.location}>{offer.location}</p>
-                  <h4 className={styles.title}>{offer.title}</h4>
+                  <h4 className={styles.title}>{offer.title.length > 40 ?  offer.title.slice(0,40).concat("...") : offer.title}</h4>
                   <p className={styles.price}>
                     {" "}
                     <p className={styles.textPrice}>Price per hour: </p>{" "}
