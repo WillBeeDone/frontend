@@ -5,7 +5,6 @@ import { IOfferCard, IGuestOfferPage } from "../types/OfferInterfaces";
 import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
 import MyButton from "../myButton/MyButton";
 
-
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
   switcher?: "list" | "guestOfferPage";
@@ -19,7 +18,6 @@ export default function ShowAll({
     !source ||
     (switcher === "list" && (source as IOfferCard[]).length === 0)
   ) {
-
     return (
       <div className="no-data">
         <p>I'm waiting for data ;)</p>
@@ -76,8 +74,15 @@ export default function ShowAll({
                     : offer.description.slice(0, 150) + "..."}
                 </p>
               </div>
+              <div className={styles.heartAndView}>
               <div>
-              <AddToFavoritesButton offer={offer} />
+                <AddToFavoritesButton offer={offer} />
+              </div>
+              <div className={styles.view}>
+                <Link to={`/offer/${offer.id}`}>
+                  <MyButton variant="primary" text="View" />
+                </Link>
+              </div>
               </div>
             </div>
           );
