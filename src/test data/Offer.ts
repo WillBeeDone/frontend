@@ -288,6 +288,8 @@ export const offerCards: IOfferCard[] = [
   },
 ];
 
+export const favorites : IOfferCard[] = [];
+
 export const guestOfferPage: IGuestOfferPage = {
   id: 1,
   title: "title1",

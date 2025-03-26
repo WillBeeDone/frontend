@@ -2,7 +2,9 @@ import styles from "./ShowAll.module.css";
 import { JSX } from "react";
 import { Link } from "react-router-dom";
 import { IOfferCard, IGuestOfferPage } from "../types/OfferInterfaces";
-import AddToFavoritesButton from "../addToFavorites/AddToFaforites";
+import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
+import MyButton from "../myButton/MyButton";
+
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
@@ -17,6 +19,7 @@ export default function ShowAll({
     !source ||
     (switcher === "list" && (source as IOfferCard[]).length === 0)
   ) {
+
     return (
       <div className="no-data">
         <p>I'm waiting for data ;)</p>

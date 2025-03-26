@@ -9,8 +9,11 @@ import { OffersProvider } from "./components/context/OffersContext";
 import SignUp from "./components/signUp/SignUp";
 import SignIn from "./components/signIn/SignIn";
 import { FavoritesProvider } from "./components/context/FavoritesContext";
+import ShowFavorites from "./components/showFavorites/ShowFavorites";
+
 
 function App() {
+  
   return (
     <OffersProvider>
       <FavoritesProvider>
@@ -22,6 +25,7 @@ function App() {
             <Route path="sign-in-form" element={<SignIn/>} />
             <Route path="sign-up-form" element={<SignUp />} />
             <Route path="offer/:id" element={<GuestOfferPage />} />
+            <Route path="favorites" element={<ShowFavorites/>} />
 
             <Route path="*" element={<NoPage />} />
           </Route>

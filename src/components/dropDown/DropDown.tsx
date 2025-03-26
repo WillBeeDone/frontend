@@ -49,7 +49,10 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
   
   return (
     <select className={styles.dropdown} value={selectedElement} onChange={handleChange}>
-      <option value="all" disabled>{switcher === 1 ? text : `All ${text}`}</option>
+      
+        {switcher === 1 ? ( <option value="all" disabled>{text}</option> )
+        : <option value="all">All categories</option>}
+
       {list.map((el, index) => (
         <option key={index} value={el.value}>
           {el.element}
