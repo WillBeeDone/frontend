@@ -10,6 +10,7 @@ interface IMyInputProps {
   label: string;
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
 }
 
 function MyInput({
@@ -20,6 +21,7 @@ function MyInput({
   label,
   required,
   onChange,
+  value,
 }: IMyInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // видимость Password
@@ -38,6 +40,7 @@ function MyInput({
           placeholder={placeholder}
           required={required}
           onChange={onChange}
+          value={value}
         />
         {type === "password" && (
           <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>

@@ -56,6 +56,7 @@ function SignIn(): JSX.Element {
     dispatch(signInByEmailAndPass(formData))
       .unwrap()
       .then(() => {
+        setFormData({ email: "", password: "" }); // очистка формы
         navigate("/");
       })
       .catch((err) => {
@@ -103,7 +104,8 @@ function SignIn(): JSX.Element {
             <MyButton type="button" text="Go back" to="/" />
           </div>
           <div className={styles.links}>
-            <MyButton type="button" text="Forget Password?" variant="easy" to="/" />
+
+            <MyButton type="button" text="Forget Password?" variant="easy" to="/email-for-password-recovery-form" />
             <MyButton type="button" text="Don't have an account yet?" to="/sign-up-form" variant="easy" />
           </div>
         </form>
