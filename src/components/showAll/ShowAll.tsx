@@ -177,7 +177,7 @@ export default function ShowAll({
 
   return (
     <div className="no-data">
-      <p>I'm waiting for data ;)</p>
+      <p>I'm waiting for data ;</p>
     </div>
   );
 }
