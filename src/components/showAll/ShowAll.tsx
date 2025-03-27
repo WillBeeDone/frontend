@@ -147,11 +147,12 @@ export default function ShowAll({
 
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
-
+    
     return (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
           <div className={styles.leftPartOfferPage}>
+            <div className={styles.profileImageContainer}>
             <img
               src={
                 offer.profilePicture ||
@@ -160,6 +161,10 @@ export default function ShowAll({
               alt="Profile picture"
               className={styles.offerImage}
             />
+              <AddToFavoritesButton 
+              className = {styles.AddToFavorites}
+              offer={offer} />
+              </div>
             <p className={styles.name}>
               {offer.firstName} {offer.secondName}
             </p>
@@ -169,9 +174,10 @@ export default function ShowAll({
             <div className={styles.locCatPrice}>
               <p className={styles.location}>{offer.location}</p>
               <p className={styles.category}>{offer.category}</p>
-              <div className={styles.price}></div>
+              <div className={styles.price}>
               <p className={styles.textPrice}>Price per hour </p>
               <p className={styles.euro}>{offer.price} € </p>
+              </div>
             </div>
             <div>
               <p
@@ -185,9 +191,9 @@ export default function ShowAll({
         </div>
 
         <Gallery
+          className={styles.galleryContainer}
           gallery={offer.gallery}
           currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
           openModal={openModal}
           handlePrev={handlePrev}
           handleNext={handleNext}
@@ -236,7 +242,6 @@ export default function ShowAll({
           </div>
         )}
 
-        <AddToFavoritesButton offer={offer} />
         <Link to="/">🔙 Go back</Link>
       </div>
     );
