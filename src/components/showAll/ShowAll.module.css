@@ -180,8 +180,9 @@ border-radius: 50px;
  margin: 5px;
 }
 
-.parenthesis {
-  margin: 10px;
+.navigationButton {
+ font-size: 50 px;
+  color: #050505;
 }
 
 .titleOffer {
@@ -209,7 +210,6 @@ border-radius: 50px;
 
 
 .modalContent {
-  background-color: white;
   padding: 20px;
   border-radius: 8px;
   max-width: 100%;
@@ -222,7 +222,7 @@ border-radius: 50px;
 
 
 .modalContent img {
-  max-width: 100%;  
+  max-width: 60%;  
   max-height: 80vh; 
   object-fit: contain;
 }

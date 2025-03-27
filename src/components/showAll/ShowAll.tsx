@@ -80,8 +80,7 @@ export default function ShowAll({
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
           const imgSource =
-            offer.profilePicture ||
-            "/no-profilePicture-default-image.jpg";
+            offer.profilePicture || "/no-profilePicture-default-image.jpg";
 
           return (
             <div key={offer.id} className={styles.offerCard}>
@@ -105,7 +104,11 @@ export default function ShowAll({
                     {offer.firstName} {offer.secondName}
                   </p>
                   <p className={styles.location}>{offer.location}</p>
-                  <h4 className={styles.title}>{offer.title.length > 40 ?  offer.title.slice(0,40).concat("...") : offer.title}</h4>
+                  <h4 className={styles.title}>
+                    {offer.title.length > 40
+                      ? offer.title.slice(0, 40).concat("...")
+                      : offer.title}
+                  </h4>
                   <p className={styles.price}>
                     <p className={styles.textPrice}>Price per hour: </p>
                     <p className={styles.euro}>{offer.price} € </p>
@@ -190,14 +193,12 @@ export default function ShowAll({
           handleNext={handleNext}
         />
 
-        {/* Модальное окно для отображения изображения */}
         {isModalOpen && selectedImage && (
           <div className={styles.modal} onClick={closeModal}>
             <div
               className={styles.modalContent}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Кнопка для перехода к предыдущему изображению */}
               <span
                 className={`${styles.navigationButton} ${
                   currentIndex === 0 ? styles.disabled : ""
@@ -213,7 +214,6 @@ export default function ShowAll({
                 className={styles.modalImage}
               />
 
-              {/* Кнопка для перехода к следующему изображению */}
               <span
                 className={`${styles.navigationButton} ${
                   currentIndex === offer.gallery.length - 1
@@ -229,7 +229,6 @@ export default function ShowAll({
                 &gt;
               </span>
 
-              {/* Кнопка для закрытия модального окна */}
               <button className={styles.closeButton} onClick={closeModal}>
                 X
               </button>
