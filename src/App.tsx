@@ -14,6 +14,7 @@ import { store } from "./app/store";
 import PasswordRecovery from "./components/passwordRecovery/PasswordRecovery";
 import EmailForPassRecovery from "./components/emailForPassRecovery/EmailForPassRecovery";
 import AuthChecker from "./features/auth/AuthChecker";
+import ConfirmEmailPage from "./components/confirmEmailPage/ConfirmEmailPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                 <Route path="favorites" element={<ShowFavorites />} />
                 <Route path="email-for-password-recovery-form" element={<EmailForPassRecovery />}/>
                 <Route path="password-recovery-form" element={<PasswordRecovery />}/>
+                <Route path="/confirm-email" element={<ConfirmEmailPage/>} />
                  
                 <Route path="*" element={<NoPage />} />
               </Route>
