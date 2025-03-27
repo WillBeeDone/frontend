@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { IOfferCard, IGuestOfferPage } from "../types/OfferInterfaces";
 import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
 import MyButton from "../myButton/MyButton";
+import DOMPurify from "dompurify";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
@@ -68,11 +69,16 @@ export default function ShowAll({
               </div>
 
               <div className={styles.description}>
-                <p>
-                  {offer.description.length < 150
-                    ? offer.description
-                    : offer.description.slice(0, 150) + "..."}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      offer.description.length < 150
+                        ? DOMPurify.sanitize(offer.description)
+                        : DOMPurify.sanitize(
+                            offer.description.slice(0, 150) + "..."
+                          ),
+                  }}
+                />
               </div>
               <div className={styles.heartAndView}>
                 <div>
@@ -99,12 +105,7 @@ export default function ShowAll({
 
     return (
       <div className={styles.mainContainerOfferPage}>
-
         <div className={styles.mainPartOfferPage}>
-
-
-
-
           <div className={styles.leftPartOfferPage}>
             <img
               src={
@@ -119,26 +120,25 @@ export default function ShowAll({
             </p>
           </div>
 
-
-
-
           <div className={styles.rightPartOfferPage}>
             <h1 className={styles.titleOffer}>{offer.title}</h1>
             <div className={styles.locCatPrice}>
-            <p className={styles.location}>{offer.location}</p>
-            <p className={styles.category}>{offer.category}</p>
-            <div className={styles.price}>
+              <p className={styles.location}>{offer.location}</p>
+              <p className={styles.category}>{offer.category}</p>
+              <div className={styles.price}></div>
+              <p className={styles.textPrice}>Price per hour </p>
+              <p className={styles.euro}>{offer.price} € </p>
             </div>
-            <p className={styles.textPrice}>Price per hour </p>
-            <p className={styles.euro}>{offer.price} € </p>
+            <div>
+              <p
+                className={styles.descriptionOffer}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(offer.description),
+                }}
+              />
             </div>
-            <p className={styles.descriptionOffer}>{offer.description}</p>
           </div>
         </div>
-
-
-
-
 
         <div className={styles.galleryContainer}>
           <img
