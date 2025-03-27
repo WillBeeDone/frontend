@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import styles from "./Gallery.module.css";
 
 interface GalleryProps {
@@ -13,7 +13,6 @@ interface GalleryProps {
 export default function Gallery({
   gallery,
   currentIndex,
-  setCurrentIndex,
   openModal,
   handlePrev,
   handleNext,

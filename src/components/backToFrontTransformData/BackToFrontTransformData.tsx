@@ -1,5 +1,5 @@
 import { IGallery, IGuestOfferPage, IOfferCard, IOfferForTransformOfferCardPagination } from "../types/OfferInterfaces";
-import {FixAllImgUrl, FixArrayImgUrls, FixImgUrl} from "./FixImgUrl"
+import {FixImgUrl} from "./FixImgUrl"
 
 
 export const transformOfferCardPagination = (data: { content: any[] }): IOfferCard[] => {

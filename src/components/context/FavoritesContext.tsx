@@ -12,9 +12,9 @@ interface FavoritesContextType {
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
-  const { offerCards, selectedCity, selectedCategory, selectedKeyWord } = useOffers();
+  const { offerCards } = useOffers();
   const [favoriteOffers, setFavoriteOffers] = useState<IOfferCard[]>([]);
-  const userId = "currentUserId"; //TODO получить userId с контекста авторизации
+  //const userId = "currentUserId"; // T-O-D-O получить userId с контекста авторизации
 
   // получение от сервера списка любимых с учетом параметров
 //   const fetchFavorites = async () => {

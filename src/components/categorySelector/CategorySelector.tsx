@@ -1,4 +1,4 @@
-import React, { JSX, useState } from "react";
+import { JSX } from "react";
 import styles from "./CategorySelector.module.css";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../context/OffersContext";
@@ -7,7 +7,7 @@ import MyButton from "../myButton/MyButton";
 
 
 export default function CategorySelector(): JSX.Element {
-  const { selectedCategory, setSelectedCategory } = useOffers();
+  const { setSelectedCategory } = useOffers();
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);

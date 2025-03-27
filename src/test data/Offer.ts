@@ -10,31 +10,10 @@ export interface IGuestOfferPage {
 
 */
 
-const list = [
-  { element: "Berlin" },
-  { element: "Leipzig" },
-  { element: "Magdeburg" },
-  { element: "Halle" },
-  { element: "Hamburg" },
-].map(({ element }) => ({
-  element,
-  value: element.charAt(0).toLowerCase() + element.substring(1),
-}));
 
-const list2 = [
-  { element: "Plumber" },
-  { element: "Electrician" },
-  { element: "Computer Technician" },
-  { element: "Pet Care" },
-  { element: "Cleaning" },
-].map(({ element }) => ({
-  element,
-  value: element.charAt(0).toLowerCase() + element.substring(1),
-}));
 
 import {
   IOfferCard,
-  IGuestOfferPage,
 } from "../components/types/OfferInterfaces";
 //all fields of Offer entity : id, userId(user), title, name(user), profilePicture(user), location(user), category, photos from gallery, price, description, email(user), phone number(user)
 
@@ -290,62 +269,9 @@ export const offerCards: IOfferCard[] = [
 
 export const favorites : IOfferCard[] = [];
 
-export const guestOfferPage: IGuestOfferPage = {
-  id: 1,
-  title: "title1",
-  firstName: "name1",
-  secondName: "lastName1",
-  profilePicture: "profilePicture1",
-  price: 5,
-  category: "category1",
-  description:
-    "descriptiption1 + descriptiption2 + descriptiption3 + descriptiption4 + descriptiption5 + descriptiption6 + descriptiption7 + descriptiption8 + descriptiption9 + descriptiption10 +",
-  location: "location1",
-  gallery: ["image1", "image2"],
-};
 
-export const guestOfferPageList: IGuestOfferPage[] = [
-  {
-    id: 1,
-    title: "title1",
-    firstName: "name1",
-    secondName: "lastName1",
-    profilePicture: "profilePicture1",
-    price: 5,
-    category: "category1",
-    description:
-      "descriptiption1 + descriptiption2 + descriptiption3 + descriptiption4 + descriptiption5 + descriptiption6 + descriptiption7 + descriptiption8 + descriptiption9 + descriptiption10 +",
-    location: "location1",
-    gallery: ["image1", "image2"],
-  },
 
-  {
-    id: 2,
-    title: "title2",
-    firstName: "name2",
-    secondName: "lastName2",
-    profilePicture: "profilePicture2",
-    price: 5,
-    category: "category2",
-    description:
-      "descriptiption1 + descriptiption2 + descriptiption3 + descriptiption4 + descriptiption5 + descriptiption6 + descriptiption7 + descriptiption8 + descriptiption9 + descriptiption10 +",
-    location: "location2",
-    gallery: ["image1", "image2"],
-  },
-  {
-    id: 3,
-    title: "title3",
-    firstName: "name3",
-    secondName: "lastName3",
-    profilePicture: "profilePicture3",
-    price: 5,
-    category: "category3",
-    description:
-      "descriptiption1 + descriptiption2 + descriptiption3 + descriptiption4 + descriptiption5 + descriptiption6 + descriptiption7 + descriptiption8 + descriptiption9 + descriptiption10 +",
-    location: "location3",
-    gallery: ["image1", "image2"],
-  },
-];
+
 /*export const offersListForUser: IOfferUser[] = [
   {
     id: 1,

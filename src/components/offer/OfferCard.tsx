@@ -1,5 +1,4 @@
 import { useOffers } from "../context/OffersContext";
-import styles from "./OfferCard.module.css";
 import { JSX } from "react";
 import ShowAll from "../showAll/ShowAll";
 
