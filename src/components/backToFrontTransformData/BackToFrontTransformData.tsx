@@ -11,12 +11,12 @@ export const transformOfferCardPagination = (data: { content: any[] }): IOfferCa
   return data.content.map((offer:IOfferForTransformOfferCardPagination) => ({
     id: offer.id,
     title: offer.title,
-    category: offer.categoryResponseDto?.name || "Unknown",
+    category: offer.categoryDto?.name || "Unknown",
     price: offer.pricePerHour,
     description: offer.description,
     firstName: offer.userFilterResponseDto?.firstName || "Unknown",
     secondName: offer.userFilterResponseDto?.lastName || "Unknown",
-    location: offer.userFilterResponseDto?.locationResponseDto?.cityName || "Unknown",
+    location: offer.userFilterResponseDto?.locationDto?.cityName || "Unknown",
     profilePicture: FixImgUrl(offer.userFilterResponseDto?.profilePicture),
   }));
 };

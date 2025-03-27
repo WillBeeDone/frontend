@@ -33,7 +33,7 @@ export interface IGuestOfferPage {
   export interface IOfferForTransformOfferCardPagination {
     id: number;
     title: string;
-    categoryResponseDto: {
+    categoryDto: {
       name: string;
     };
     pricePerHour: number;
@@ -42,7 +42,7 @@ export interface IGuestOfferPage {
       firstName: string;
       lastName: string;
       profilePicture: string;
-      locationResponseDto: {
+      locationDto: {
         cityName: string;
       };
     };
