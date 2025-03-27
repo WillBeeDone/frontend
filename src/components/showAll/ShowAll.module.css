@@ -194,6 +194,50 @@ border-radius: 50px;
   align-items: center;
 }
 
+.modal {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+
+.modalContent img {
+  max-width: 100%;  
+  max-height: 80vh; 
+  object-fit: contain;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #000;
+  cursor: pointer;
+}
+
 @media (max-width: 1800px) {
     .offerContainer {
       grid-template-columns: repeat(3, 418px);  /* На экранах до 1200px - 3 карточки в ряд */

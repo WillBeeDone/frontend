@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "./ShowAll.module.css";
 import { JSX } from "react";
 import { Link } from "react-router-dom";
@@ -15,6 +16,32 @@ export default function ShowAll({
   source,
   switcher = "list",
 }: ShowAllProps): JSX.Element {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleNext = () => {
+    if (currentIndex < (source as IGuestOfferPage).gallery.length - 4) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const openModal = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
   if (
     !source ||
     (switcher === "list" && (source as IOfferCard[]).length === 0)
@@ -100,9 +127,6 @@ export default function ShowAll({
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
 
-    //const imgSource = offer.profilePicture || `${import.meta.env.BASE_URL}gallery-default-picture.jpg`;
-    //const imgSource = offer.gallery || `${import.meta.env.BASE_URL}gallery-default-picture.jpg`;
-
     return (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
@@ -145,15 +169,18 @@ export default function ShowAll({
             className={styles.parenthesis}
             src="./Left parenthesis.png"
             alt="Left parenthesis"
+            onClick={handlePrev}
           />
+
           {offer.gallery && offer.gallery.length > 0 ? (
-            offer.gallery.map((image) => (
+            offer.gallery.slice(currentIndex, currentIndex + 4).map((image) => (
               <img
                 key={image.id}
                 src={image.imageUrl}
                 alt="Gallery item picture"
                 className={styles.galleryItem}
                 crossOrigin="anonymous"
+                onClick={() => openModal(image.imageUrl)} // Открытие модального окна
               />
             ))
           ) : (
@@ -163,12 +190,30 @@ export default function ShowAll({
               className={styles.galleryItem}
             />
           )}
+
           <img
             className={styles.parenthesis}
             src="./Right parenthesis.png"
             alt="Right parenthesis"
+            onClick={handleNext}
           />
         </div>
+
+        {/* Модальное окно для отображения изображения */}
+        {isModalOpen && selectedImage && (
+          <div className={styles.modal} onClick={closeModal}>
+            <div
+              className={styles.modalContent}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img src={selectedImage} alt="Full size" />
+              <button className={styles.closeButton} onClick={closeModal}>
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+
         <AddToFavoritesButton offer={offer} />
         <Link to="/">🔙 Go back</Link>
       </div>
