@@ -8,7 +8,9 @@ export const signUp = createAsyncThunk(
     try {
       console.log("data in signUp slice --- ", userData);
       
-      await axios.post('api/register', userData);
+      const responce = await axios.post('api/register', userData);
+      console.log(" after signUp responce - ", responce);
+      
       return null;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
