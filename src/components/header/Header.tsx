@@ -44,7 +44,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
       </div>
       
-      <MyButton text="Favorites" to="/favorites" variant="primary" />
+      {/* <MyButton text="Favorites" to="/favorites" variant="primary" /> */}
      
       
       {/* временный вызов для посмотреть и проверки работы формы */}

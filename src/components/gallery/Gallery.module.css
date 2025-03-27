@@ -1,0 +1,90 @@
+/* styles/Gallery.module.css */
+.galleryContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.parenthesis {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.galleryItem {
+  width: 200px;
+  height: 135px;
+  object-fit: cover;
+  margin: 5px;
+  border-radius: 35px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.galleryItem:hover {
+  transform: scale(1.05);
+}
+
+/* Контейнер для модального окна */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.modalImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.navigationButton {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  font-size: 18px;
+}
+
+.navigationButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.navigationButton:nth-child(1) {
+  left: 10px;
+}
+
+.navigationButton:nth-child(3) {
+  right: 10px;
+}
+
+.closeButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.parenthesis {
+    width: 15px;
+    height: 15px;
+  margin: 10px;
+}
