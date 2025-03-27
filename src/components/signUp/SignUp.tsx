@@ -69,7 +69,7 @@ function SignUp(): JSX.Element {
       .unwrap()
       .then(() => {
         alert("Please, check your email.");
-        setFormData({ email: "", password: "", confirmPassword: "", agree: false }); // очистка форми
+        setFormData({ email: "", password: "", confirmPassword: "", agree: false }); // очистка формы
         navigate("/");
       })
       .catch(() => {}); 

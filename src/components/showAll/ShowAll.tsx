@@ -81,7 +81,7 @@ export default function ShowAll({
         {offers.map((offer) => {
           const imgSource =
             offer.profilePicture ||
-            `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`;
+            "/no-profilePicture-default-image.jpg";
 
           return (
             <div key={offer.id} className={styles.offerCard}>
@@ -105,7 +105,7 @@ export default function ShowAll({
                     {offer.firstName} {offer.secondName}
                   </p>
                   <p className={styles.location}>{offer.location}</p>
-                  <h4 className={styles.title}>{offer.title}</h4>
+                  <h4 className={styles.title}>{offer.title.length > 40 ?  offer.title.slice(0,40).concat("...") : offer.title}</h4>
                   <p className={styles.price}>
                     <p className={styles.textPrice}>Price per hour: </p>
                     <p className={styles.euro}>{offer.price} € </p>
@@ -161,7 +161,6 @@ export default function ShowAll({
               {offer.firstName} {offer.secondName}
             </p>
           </div>
-
           <div className={styles.rightPartOfferPage}>
             <h1 className={styles.titleOffer}>{offer.title}</h1>
             <div className={styles.locCatPrice}>
