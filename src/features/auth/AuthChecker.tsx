@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { signInByAccessToken, signInByRefreshToken } from "../../features/auth/authActions";
+import { signOut } from "./authSlice";
 
 const AuthChecker = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,9 +32,10 @@ const AuthChecker = () => {
         }
       }
 
-      // если оба токена протухли - удаляем
+      // если оба токена протухли - удаляем, инициализируем выход
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      dispatch(signOut())
     };
 
     checkAuth();

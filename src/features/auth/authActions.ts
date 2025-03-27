@@ -8,7 +8,7 @@ export const signUp = createAsyncThunk(
     try {
       console.log("data in signUp slice --- ", userData);
       
-      await axios.post('api/signUp', userData);
+      await axios.post('api/register', userData);
       return null;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -62,11 +62,12 @@ export const signInByEmailAndPass = createAsyncThunk(
     console.log("inside signInByEmailAndPass ", userData);
     
     try {
-      const response = await axios.post('api/signIn', userData);
+      const response = await axios.post('api/auth/login', userData);
       // сохраняем токены в хранилище браузера. После перезагрузки страницы данные в этом хранилище не обновляются. Проверить: браузер - инструменты разработчика - Application - Storage - LocalStorage
       // какая будет вложенность респонса?
         localStorage.setItem("accessToken", response.data.accessToken)
         localStorage.setItem("refreshToken", response.data.refreshToken)
+        console.log("reterned from server inside signInByEmailAndPass -", response.data);
 
       return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
@@ -96,7 +97,7 @@ export const signInByRefreshToken = createAsyncThunk(
   'auth/signInByRefreshToken',
   async (refreshToken:string, thunkAPI) => {
     try {
-      const response = await axios.get('https://dummyjson.com/auth/me', {headers: {
+      const response = await axios.get('api/auth/refresh', {headers: {
   'Authorization' : `Bearer ${refreshToken}`
       }});
       localStorage.setItem("accessToken", response.data.refreshToken)

@@ -22,6 +22,8 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
     const fetchElements = async () => {
       try {
         const response = await fetch(url);
+        console.log("in Drop Down response ", response);
+        
         const data: string[] = await response.json();
 
         const formattedList = data.map((element) => ({

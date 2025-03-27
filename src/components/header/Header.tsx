@@ -5,6 +5,11 @@ import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../context/OffersContext";
 import MyButton from "../myButton/MyButton";
 import PasswordRecovery from "../passwordRecovery/PasswordRecovery";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../../features/auth/authSlice";
+import { useAppSelector } from "../../app/hooks";
+import SignOut from "../signOut/SignOut";
+
 
 interface ILink {
   text: React.ReactNode;
@@ -17,6 +22,10 @@ interface IHeaderProps {
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
   const { setSelectedCity } = useOffers();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const {user} = useAppSelector (state => state.auth);
+  console.log("in Header user: ", user);
+  
 
   return (
     <header className={styles.header}>
@@ -41,8 +50,25 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       </div>
 
       <div>
-        <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
-        <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
+
+       
+        
+        {isAuthenticated ? (
+          <>
+          <div className={styles.authUserDataBox}>
+          <h3 className={styles.authUserFirstName}>Hello, {user.firstName}</h3>
+          <div className={styles.authUserProfilePicture}>{user.profilePicture}</div>
+          </div>
+          <MyButton text="Favorites" to="/favorites" variant="primary" />
+          <SignOut/>
+          </>
+        ):(
+          <>
+          <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
+          <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
+          </>
+        )}
+        
       </div>
 
       {/* временный вызов для проверки работы */}

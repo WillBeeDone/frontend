@@ -33,7 +33,7 @@ export default function ShowAll({
         {offers.map((offer) => {
           const imgSource =
             offer.profilePicture ||
-            `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`;
+            "/no-profilePicture-default-image.jpg";
 
           return (
             <div key={offer.id} className={styles.offerCard}>
@@ -104,7 +104,7 @@ export default function ShowAll({
         <img
           src={
             offer.profilePicture ||
-            `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`
+            "/no-profilePicture-default-image.jpg"
           }
           alt="Profile picture"
           className="offer-image"

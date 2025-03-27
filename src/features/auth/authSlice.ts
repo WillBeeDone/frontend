@@ -28,7 +28,7 @@ export const authSlice = createSlice({
   name: 'authSlice',
   initialState,
   reducers: {
-    logout: (state) => {
+    signOut: (state) => {
       state.user = initialUser;
       state.isAuthenticated = false;
       localStorage.removeItem("accessToken");
@@ -136,6 +136,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { signOut } = authSlice.actions;
 export const selectIsAuthenticated = (state: RootState): boolean => state.auth.isAuthenticated;
 export default authSlice.reducer;
