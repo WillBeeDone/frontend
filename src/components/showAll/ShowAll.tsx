@@ -41,6 +41,7 @@ export default function ShowAll({
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+    setCurrentIndex(0);
   };
 
   const handlePrevImage = () => {
