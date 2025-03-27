@@ -155,13 +155,13 @@ border-radius: 50px;
 .leftPartOfferPage{
   display: flex;
   flex-direction: column;
-  flex: 1; 
+  
 }
 
 .rightPartOfferPage {
   display: flex;
   flex-direction: column;
-  flex: 2;
+ 
   
 }
 

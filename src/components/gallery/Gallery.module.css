@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+
 }
 
 .parenthesis {
@@ -84,5 +84,7 @@
 }
 
 .parenthesis {
+    width: 15px;
+    height: 15px;
   margin: 10px;
 }

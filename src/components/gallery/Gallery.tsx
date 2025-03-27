@@ -22,7 +22,7 @@ export default function Gallery({
     <div className={styles.galleryContainer}>
       <img
         className={styles.parenthesis}
-        src="./Left parenthesis.png"
+        src="./Leftparenthesis.png"
         alt="Left parenthesis"
         onClick={handlePrev}
       />
