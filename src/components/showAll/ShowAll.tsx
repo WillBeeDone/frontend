@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { JSX, useState } from "react";
 import styles from "./ShowAll.module.css";
-import { JSX } from "react";
 import { Link } from "react-router-dom";
 import { IOfferCard, IGuestOfferPage } from "../types/OfferInterfaces";
 import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
 import MyButton from "../myButton/MyButton";
 import DOMPurify from "dompurify";
+import Gallery from "../gallery/Gallery";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
@@ -32,14 +32,33 @@ export default function ShowAll({
     }
   };
 
-  const openModal = (imageUrl: string) => {
+  const openModal = (imageUrl: string, index: number) => {
     setSelectedImage(imageUrl);
+    setCurrentIndex(index);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+  };
+
+  const handlePrevImage = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+      setSelectedImage(
+        (source as IGuestOfferPage).gallery[currentIndex - 1].imageUrl
+      );
+    }
+  };
+
+  const handleNextImage = () => {
+    if (currentIndex < (source as IGuestOfferPage).gallery.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setSelectedImage(
+        (source as IGuestOfferPage).gallery[currentIndex + 1].imageUrl
+      );
+    }
   };
 
   if (
@@ -74,7 +93,6 @@ export default function ShowAll({
                       alt="Profile picture"
                       width={150}
                       height={150}
-                      crossOrigin="anonymous"
                     />
                   </div>
 
@@ -88,9 +106,8 @@ export default function ShowAll({
                   <p className={styles.location}>{offer.location}</p>
                   <h4 className={styles.title}>{offer.title}</h4>
                   <p className={styles.price}>
-                    {" "}
-                    <p className={styles.textPrice}>Price per hour: </p>{" "}
-                    <p className={styles.euro}> {offer.price} € </p>
+                    <p className={styles.textPrice}>Price per hour: </p>
+                    <p className={styles.euro}>{offer.price} € </p>
                   </p>
                 </div>
               </div>
@@ -164,40 +181,14 @@ export default function ShowAll({
           </div>
         </div>
 
-        <div className={styles.galleryContainer}>
-          <img
-            className={styles.parenthesis}
-            src="./Left parenthesis.png"
-            alt="Left parenthesis"
-            onClick={handlePrev}
-          />
-
-          {offer.gallery && offer.gallery.length > 0 ? (
-            offer.gallery.slice(currentIndex, currentIndex + 4).map((image) => (
-              <img
-                key={image.id}
-                src={image.imageUrl}
-                alt="Gallery item picture"
-                className={styles.galleryItem}
-                crossOrigin="anonymous"
-                onClick={() => openModal(image.imageUrl)} // Открытие модального окна
-              />
-            ))
-          ) : (
-            <img
-              src={`${import.meta.env.BASE_URL}no-gallery-default-image.avif`}
-              alt="Default picture"
-              className={styles.galleryItem}
-            />
-          )}
-
-          <img
-            className={styles.parenthesis}
-            src="./Right parenthesis.png"
-            alt="Right parenthesis"
-            onClick={handleNext}
-          />
-        </div>
+        <Gallery
+          gallery={offer.gallery}
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+          openModal={openModal}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
 
         {/* Модальное окно для отображения изображения */}
         {isModalOpen && selectedImage && (
@@ -206,9 +197,41 @@ export default function ShowAll({
               className={styles.modalContent}
               onClick={(e) => e.stopPropagation()}
             >
-              <img src={selectedImage} alt="Full size" />
+              {/* Кнопка для перехода к предыдущему изображению */}
+              <span
+                className={`${styles.navigationButton} ${
+                  currentIndex === 0 ? styles.disabled : ""
+                }`}
+                onClick={currentIndex !== 0 ? handlePrevImage : undefined}
+              >
+                &lt;
+              </span>
+
+              <img
+                src={selectedImage}
+                alt="Full size"
+                className={styles.modalImage}
+              />
+
+              {/* Кнопка для перехода к следующему изображению */}
+              <span
+                className={`${styles.navigationButton} ${
+                  currentIndex === offer.gallery.length - 1
+                    ? styles.disabled
+                    : ""
+                }`}
+                onClick={
+                  currentIndex !== offer.gallery.length - 1
+                    ? handleNextImage
+                    : undefined
+                }
+              >
+                &gt;
+              </span>
+
+              {/* Кнопка для закрытия модального окна */}
               <button className={styles.closeButton} onClick={closeModal}>
-                Close
+                X
               </button>
             </div>
           </div>
