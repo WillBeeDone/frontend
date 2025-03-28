@@ -6,9 +6,9 @@ import offerInFavorites from "/offerInFavorites.png";
 import offerIsUsual from "/offerIsUsual.png";
 import MyButton from "../myButton/MyButton";
 import { Link } from "react-router-dom";
-
 interface AddToFavoritesProps {
   offer: IOfferCard;
+  className?: string;
 }
 
 export default function AddToFavorites({ offer }: AddToFavoritesProps) {

@@ -4,22 +4,23 @@ import styles from "./Gallery.module.css";
 interface GalleryProps {
   gallery: { id: number; imageUrl: string }[];
   currentIndex: number;
-  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   openModal: (imageUrl: string, index: number) => void;
   handlePrev: () => void;
   handleNext: () => void;
+  className?: string;
 }
 
 export default function Gallery({
   gallery,
   currentIndex,
-  setCurrentIndex,
   openModal,
   handlePrev,
   handleNext,
+  className,
 }: GalleryProps) {
+  
   return (
-    <div className={styles.galleryContainer}>
+    <div className={`${styles.galleryContainer} ${className || ""}`}>
       <img
         className={styles.parenthesis}
         src="./Leftparenthesis.png"
