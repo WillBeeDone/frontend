@@ -1,3 +1,4 @@
+import { Action } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
 import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
@@ -41,9 +42,16 @@ export const authSlice = createSlice({
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signUp.fulfilled, (state) => {
+      .addCase(signUp.fulfilled, (state, action) => {
         state.isLoading = false
+
+        if (action.payload) {
+          state.user.id = action.payload; // зберігаємо userId
+        } else {
+          state.error = "No user ID returned from server";
+        }
         state.error = ""
+
         
       })
       .addCase(signUp.rejected, (state, action) => {
@@ -122,7 +130,7 @@ export const authSlice = createSlice({
       })
       .addCase(signInByRefreshToken.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuthenticated = true;
+        //state.isAuthenticated = true;
         state.user = action.payload;
       })
       .addCase(signInByRefreshToken.rejected, (state, action) => {

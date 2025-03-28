@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
 import SignOut from "../signOut/SignOut";
+import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 
 interface ILink {
   text: React.ReactNode;
@@ -50,16 +51,13 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       <div>
         {isAuthenticated ? (
           <>
-            <div className={styles.authUserDataBox}>
-              <h3 className={styles.authUserFirstName}>
-                Hello, {user.firstName}
-              </h3>
-              <div className={styles.authUserProfilePicture}>
-                {user.profilePicture}
-              </div>
-            </div>
-            <MyButton text="Favorites" to="/favorites" variant="primary" />
-            <SignOut />
+          <div className={styles.authUserDataBox}>
+          <h3 className={styles.authUserFirstName}>Hello, {user.firstName}</h3>
+          <div className={styles.authUserProfilePictureBox}> <img className={styles.authUserProfilePicture}  src={FixImgUrl(user.profilePicture)} alt="User profile picture"/>
+      </div>
+          </div>
+          <MyButton text="Favorites" to="/favorites" variant="primary" />
+          <SignOut/>
           </>
         ) : (
           <>

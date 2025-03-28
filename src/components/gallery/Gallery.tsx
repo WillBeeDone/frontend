@@ -40,7 +40,7 @@ export default function Gallery({
         ))
       ) : (
         <img
-          src={`${import.meta.env.BASE_URL}no-gallery-default-image.avif`}
+          src={`/no-gallery-default-image.avif`}
           alt="Default picture"
           className={styles.galleryItem}
         />
