@@ -8,11 +8,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const Pagination: FC<PaginationProps> = ({
+export const Pagination = ({
   currentPage,
   totalPages,
   onPageChange,
-}) => {
+}: PaginationProps) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i);
 
   return (

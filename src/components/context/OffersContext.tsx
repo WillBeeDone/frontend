@@ -70,6 +70,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   }, [currentPage]);
 
   const fetchOffers = async (
+    page: number = 0,
     city: string = selectedCity,
     category: string = selectedCategory,
     keyWord: string = selectedKeyWord || "all"
@@ -80,7 +81,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
       console.log("Обране ключове слово - ", keyWord);
 
       const response = await fetch(
-        `/api/offers/filter?cityName=${city}&category=${category}&keyPhrase=${keyWord}`
+        `/api/offers/filter?page=${page}&cityName=${city}&category=${category}&keyPhrase=${keyWord}`
       );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
@@ -93,6 +94,8 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
       const formattedOffers = transformOfferCardPagination(data);
       setOfferCards(formattedOffers);
+      setTotalPages(data.totalPages);
+      setCurrentPage(page);
     } catch (error) {
       console.error("Mistake while filtered offers receive:", error);
     }
