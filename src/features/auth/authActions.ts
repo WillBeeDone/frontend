@@ -83,7 +83,7 @@ export const signInByAccessToken = createAsyncThunk(
     'auth/signInByAccessToken',
     async (accessToken:string, thunkAPI) => {
       try {
-        const response = await axios.get('https://dummyjson.com/auth/me', {headers: {
+        const response = await axios.get('api/auth/login', {headers: {
     'Authorization' : `Bearer ${accessToken}`
         }});
         localStorage.setItem("refreshToken", response.data.refreshToken)
