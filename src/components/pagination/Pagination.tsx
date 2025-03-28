@@ -1,5 +1,4 @@
 // components/pagination/Pagination.tsx
-import { FC } from "react";
 import styles from "./Pagination.module.css";
 
 interface PaginationProps {
