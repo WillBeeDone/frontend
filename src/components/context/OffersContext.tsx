@@ -91,7 +91,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
       console.log("отримав ", data);
 
-      const formattedOffers = transformOfferCard(data);
+      const formattedOffers = transformOfferCardPagination(data);
       setOfferCards(formattedOffers);
     } catch (error) {
       console.error("Mistake while filtered offers receive:", error);
