@@ -9,9 +9,9 @@ export const signUp = createAsyncThunk(
       console.log("data in signUp slice --- ", userData);
       
       const responce = await axios.post('api/register', userData);
-      console.log(" after signUp responce - ", responce);
+      console.log(" after signUp responce, must be userId - ", responce);
       
-      return null;
+      return responce.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -69,7 +69,7 @@ export const signInByEmailAndPass = createAsyncThunk(
       // какая будет вложенность респонса?
         localStorage.setItem("accessToken", response.data.accessToken)
         localStorage.setItem("refreshToken", response.data.refreshToken)
-        console.log("reterned from server inside signInByEmailAndPass -", response.data);
+        console.log("reterned from server inside signInByEmailAndPass, must be user + tokens -", response.data);
 
       return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
@@ -87,6 +87,8 @@ export const signInByAccessToken = createAsyncThunk(
     'Authorization' : `Bearer ${accessToken}`
         }});
         localStorage.setItem("refreshToken", response.data.refreshToken)
+        console.log("reterned from server inside signInByAccessToken, must be user ? + tokens ? -", response.data);
+
         return response.data; // здесь должны быть все данные о юзере
       } catch (error: any) {
         return thunkAPI.rejectWithValue(error.message);

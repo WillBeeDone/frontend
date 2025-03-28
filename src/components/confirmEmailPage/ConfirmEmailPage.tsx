@@ -8,6 +8,8 @@ export default function ConfirmEmailPage() {
   const [message, setMessage] = useState("Confirming your email...");
   const [userId, setUserId] = useState<string | null>(null); // позитивный сценарий - прийдет id юзера
 
+
+  
   useEffect(() => {
     if (confirmationCode) {
       axios
@@ -15,6 +17,8 @@ export default function ConfirmEmailPage() {
         .then((response) => {
           if (response.data.userId) {
             setUserId(response.data.userId);
+            console.log("айди юзера в фетче в ConfirmEmailPage - ", userId);
+            
             setMessage("✅ Email confirmed successfully!");
           }
         })
