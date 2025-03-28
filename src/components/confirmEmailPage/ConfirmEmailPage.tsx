@@ -29,7 +29,7 @@ export default function ConfirmEmailPage() {
         <>
           <h2>Welcome!</h2>
           <p>{message}</p>
-          <Link to="/sign-in-form">Please, Sign In.</Link>
+          <p>Please,<Link to="/sign-in-form"> Sign In.</Link> </p>
         </>
       ) : (
         <>
