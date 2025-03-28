@@ -1,11 +1,13 @@
 
 
-export const FixImgUrl = (url: string) => {
-    if (url.includes("imgur.com") && !url.includes("i.imgur.com")) {
+export const FixImgUrl = (url: string | null | undefined) => {
+  if (!url) return "no-profilePicture-default-image.jpg"; // Защита от null и undefined
+  if (url.includes("imgur.com") && !url.includes("i.imgur.com")) {
       return url.replace("imgur.com", "i.imgur.com") + ".jpg";
-    }
-    return url;
-  };
+  }
+  return url;
+};
+
 
   //не удалять
   export const FixArrayImgUrls = (urls: string[]): string[] => {
