@@ -24,6 +24,7 @@ function App() {
         <FavoritesProvider>
           <HashRouter>
             <Routes>
+
               <Route path="/" element={<Layout />}>
                 <Route path="/" element={<Main />} />
 
@@ -34,9 +35,12 @@ function App() {
                 <Route path="email-for-password-recovery-form" element={<EmailForPassRecovery />}/>
                 <Route path="password-recovery-form" element={<PasswordRecovery />}/>
                 <Route path="/confirm-email" element={<ConfirmEmailPage/>} />
-                 
-                <Route path="*" element={<NoPage />} />
+                
               </Route>
+
+                <Route path="/confirm-email/:confirmationCode" element={<ConfirmEmailPage />} />
+                <Route path="*" element={<NoPage />} />
+                
             </Routes>
           </HashRouter>
         </FavoritesProvider>
