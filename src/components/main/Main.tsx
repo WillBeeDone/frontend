@@ -12,7 +12,6 @@ export default function Main(): JSX.Element {
     currentPage, 
     totalPages, 
     setCurrentPage,
-    offerCards // Добавляем offerCards для проверки загруженных данных
   } = useContext(OffersContext)!;
 
   return (

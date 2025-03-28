@@ -7,9 +7,7 @@ import {
   useRef,
 } from "react";
 import { IOfferCard } from "../types/OfferInterfaces";
-import {
-  transformOfferCard,
-  transformOfferCardPagination,
+import { transformOfferCardPagination,
 } from "../backToFrontTransformData/BackToFrontTransformData";
 
 interface OffersContextType {
@@ -72,7 +70,8 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   const fetchOffers = async (
     city: string = selectedCity,
     category: string = selectedCategory,
-    keyWord: string = selectedKeyWord || "all"
+    keyWord: string = selectedKeyWord || "all",
+    page: number = 0,
   ) => {
     try {
       console.log("Обране місто - ", city);
@@ -80,7 +79,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
       console.log("Обране ключове слово - ", keyWord);
 
       const response = await fetch(
-        `/api/offers/filter?cityName=${city}&category=${category}&keyPhrase=${keyWord}`
+        `/api/offers/filter?page=${page}&cityName=${city}&category=${category}&keyPhrase=${keyWord}`
       );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
@@ -91,8 +90,10 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
       console.log("отримав ", data);
 
-      const formattedOffers = transformOfferCard(data);
+      const formattedOffers = transformOfferCardPagination(data);
       setOfferCards(formattedOffers);
+      setTotalPages(data.totalPages);
+      setCurrentPage(page);
     } catch (error) {
       console.error("Mistake while filtered offers receive:", error);
     }
