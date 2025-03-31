@@ -1,10 +1,10 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import styles from "./AddToFavorites.module.css";
 import { useFavorites } from "../context/FavoritesContext";
 import { IOfferCard } from "../types/OfferInterfaces";
 import offerInFavorites from "/offerInFavorites.png";
 import offerIsUsual from "/offerIsUsual.png";
-import MyButton from "../myButton/MyButton";
+
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
@@ -45,13 +45,6 @@ export default function AddToFavorites({ offer }: AddToFavoritesProps) {
           alt="heart"
         />
       </button>
-      {/* 
-      {showTooltip && (
-        <div className={styles.tooltip}>
-          Please <Link to="/sign-in-form">Sign In</Link> for this action
-        </div>
-      )} */}
-
       {showTooltip && (
         <div className={styles.tooltip}>
           Please <Link to="/sign-in-form">Sign In</Link> for this action

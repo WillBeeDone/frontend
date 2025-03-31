@@ -2,7 +2,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import styles from "./Layout.module.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import { useState } from "react";
 import { useOffers } from "../components/context/OffersContext";
 
 export default function Layout() {
@@ -46,10 +45,4 @@ export default function Layout() {
     </>
   );
 }
-function setSelectedCity(arg0: null) {
-  throw new Error("Function not implemented.");
-}
 
-function setOtherFilters(defaultValues: any) {
-  throw new Error("Function not implemented.");
-}

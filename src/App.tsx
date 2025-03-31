@@ -71,19 +71,12 @@ function App() {
                 {guestRoutes.map(el => (
                   <Route path={el.path} element={el.element} />
                 ))}
-                {/* <Route path="/" element={<Main />} />
-                <Route path="sign-in-form" element={<SignIn />} />
-                <Route path="sign-up-form" element={<SignUp />} />
-                <Route path="offer/:id" element={<GuestOfferPage />} />
-                <Route path="email-for-password-recovery-form" element={<EmailForPassRecovery />}/>
-                <Route path="password-recovery-form" element={<PasswordRecovery />}/>
-                <Route path="/confirm-email" element={<ConfirmEmailPage/>} /> */}
-
+                
                 {userRoutes.map(el => (
                   <Route path={el.path} element={<ProtectedRoute outlet={el.element}/>} />
                 ))}   
 
-                {/* <Route path="favorites" element={<ProtectedRoute outlet={<ShowFavorites />}/>} /> */}
+                
               </Route>
 
                 <Route path="/confirm-email/:confirmationCode" element={<ConfirmEmailPage />} />

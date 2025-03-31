@@ -1,4 +1,4 @@
-import { Action } from '@reduxjs/toolkit';
+
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
 import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
