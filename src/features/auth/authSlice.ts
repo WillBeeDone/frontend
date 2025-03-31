@@ -12,7 +12,6 @@ const initialUser:IUser ={
   email: '',
   phone: '',
   location: '',
-  role: '',
   profilePicture: '',
   accessToken: '',
   refreshToken: ''

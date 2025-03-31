@@ -14,7 +14,6 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(undefin
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   const { offerCards} = useOffers();
   const [favoriteOffers, setFavoriteOffers] = useState<IOfferCard[]>([]);
-  
 
   // получение от сервера списка любимых с учетом параметров
 //   const fetchFavorites = async () => {
