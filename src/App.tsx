@@ -15,6 +15,7 @@ import PasswordRecovery from "./components/passwordRecovery/PasswordRecovery";
 import EmailForPassRecovery from "./components/emailForPassRecovery/EmailForPassRecovery";
 import AuthChecker from "./features/auth/AuthChecker";
 import ConfirmEmailPage from "./components/confirmEmailPage/ConfirmEmailPage";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 
 function App() {
   return (
@@ -31,11 +32,10 @@ function App() {
                 <Route path="sign-in-form" element={<SignIn />} />
                 <Route path="sign-up-form" element={<SignUp />} />
                 <Route path="offer/:id" element={<GuestOfferPage />} />
-                <Route path="favorites" element={<ShowFavorites />} />
+                <Route path="favorites" element={<ProtectedRoute outlet={<ShowFavorites />}/>} />
                 <Route path="email-for-password-recovery-form" element={<EmailForPassRecovery />}/>
                 <Route path="password-recovery-form" element={<PasswordRecovery />}/>
                 <Route path="/confirm-email" element={<ConfirmEmailPage/>} />
-                
               </Route>
 
                 <Route path="/confirm-email/:confirmationCode" element={<ConfirmEmailPage />} />
