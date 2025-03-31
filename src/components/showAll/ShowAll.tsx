@@ -41,6 +41,7 @@ export default function ShowAll({
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+    setCurrentIndex(0);
   };
 
   const handlePrevImage = () => {
@@ -79,8 +80,7 @@ export default function ShowAll({
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
           const imgSource =
-            offer.profilePicture ||
-            "/no-profilePicture-default-image.jpg";
+            offer.profilePicture || "/no-profilePicture-default-image.jpg";
 
           return (
             <div key={offer.id} className={styles.offerCard}>
@@ -104,7 +104,11 @@ export default function ShowAll({
                     {offer.firstName} {offer.secondName}
                   </p>
                   <p className={styles.location}>{offer.location}</p>
-                  <h4 className={styles.title}>{offer.title.length > 40 ?  offer.title.slice(0,40).concat("...") : offer.title}</h4>
+                  <h4 className={styles.title}>
+                    {offer.title.length > 40
+                      ? offer.title.slice(0, 40).concat("...")
+                      : offer.title}
+                  </h4>
                   <p className={styles.price}>
                     <p className={styles.textPrice}>Price per hour: </p>
                     <p className={styles.euro}>{offer.price} € </p>
@@ -143,11 +147,12 @@ export default function ShowAll({
 
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
-
+    
     return (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
           <div className={styles.leftPartOfferPage}>
+            <div className={styles.profileImageContainer}>
             <img
               src={
                 offer.profilePicture ||
@@ -156,6 +161,10 @@ export default function ShowAll({
               alt="Profile picture"
               className={styles.offerImage}
             />
+              <AddToFavoritesButton 
+              className = {styles.AddToFavorites}
+              offer={offer} />
+              </div>
             <p className={styles.name}>
               {offer.firstName} {offer.secondName}
             </p>
@@ -165,9 +174,10 @@ export default function ShowAll({
             <div className={styles.locCatPrice}>
               <p className={styles.location}>{offer.location}</p>
               <p className={styles.category}>{offer.category}</p>
-              <div className={styles.price}></div>
+              <div className={styles.price}>
               <p className={styles.textPrice}>Price per hour </p>
               <p className={styles.euro}>{offer.price} € </p>
+              </div>
             </div>
             <div>
               <p
@@ -181,22 +191,20 @@ export default function ShowAll({
         </div>
 
         <Gallery
+          className={styles.galleryContainer}
           gallery={offer.gallery}
           currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
           openModal={openModal}
           handlePrev={handlePrev}
           handleNext={handleNext}
         />
 
-        {/* Модальное окно для отображения изображения */}
         {isModalOpen && selectedImage && (
           <div className={styles.modal} onClick={closeModal}>
             <div
               className={styles.modalContent}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Кнопка для перехода к предыдущему изображению */}
               <span
                 className={`${styles.navigationButton} ${
                   currentIndex === 0 ? styles.disabled : ""
@@ -212,7 +220,6 @@ export default function ShowAll({
                 className={styles.modalImage}
               />
 
-              {/* Кнопка для перехода к следующему изображению */}
               <span
                 className={`${styles.navigationButton} ${
                   currentIndex === offer.gallery.length - 1
@@ -228,7 +235,6 @@ export default function ShowAll({
                 &gt;
               </span>
 
-              {/* Кнопка для закрытия модального окна */}
               <button className={styles.closeButton} onClick={closeModal}>
                 X
               </button>
@@ -236,7 +242,6 @@ export default function ShowAll({
           </div>
         )}
 
-        <AddToFavoritesButton offer={offer} />
         <Link to="/">🔙 Go back</Link>
       </div>
     );

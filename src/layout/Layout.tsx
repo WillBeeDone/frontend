@@ -1,10 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styles from "./Layout.module.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-
+import { useOffers } from "../components/context/OffersContext";
 
 export default function Layout() {
+  const navigate = useNavigate();
+  const { setSelectedCategory, setSelectedKeyWord, fetchOffers } = useOffers();
+
+  const handleLogoClick = () => {
+    setSelectedCategory("all");
+    setSelectedKeyWord("");
+    fetchOffers("all", "all", "");
+    navigate("/");
+  };
+
   const headerElementsGuest = [
     {
       text: (
@@ -12,6 +22,7 @@ export default function Layout() {
           src="./logoWillBeeDone1.png"
           alt="Logo"
           style={{ width: "140px", height: "auto" }}
+          onClick={handleLogoClick}
         />
       ),
       path: "/",
@@ -34,3 +45,4 @@ export default function Layout() {
     </>
   );
 }
+

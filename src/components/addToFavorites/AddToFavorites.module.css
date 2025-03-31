@@ -26,3 +26,16 @@
 }
 
 
+.tooltip {
+  position: fixed; /* Фіксоване положення поверх усіх елементів */
+  top: 50%; /* В центрі екрану */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000; /* Щоб бути поверх інших елементів */
+  white-space: nowrap;
+}
+

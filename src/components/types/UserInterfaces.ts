@@ -6,6 +6,8 @@ export interface IUser {
     email: string
     phone:string
     location:string
+
+    role:string
    
     profilePicture: string
 
