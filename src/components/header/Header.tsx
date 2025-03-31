@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../context/OffersContext";
 import MyButton from "../myButton/MyButton";
-import PasswordRecovery from "../passwordRecovery/PasswordRecovery";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";

@@ -9,7 +9,7 @@ export const signUp = createAsyncThunk(
       console.log("data in signUp slice --- ", userData);
       
       const responce = await axios.post('api/register', userData);
-      console.log(" after signUp responce, must be userId - ", responce);
+      console.log(" after signUp responce, must be userId - ", responce.data);
       
       return responce.data;
     } catch (error: any) {
