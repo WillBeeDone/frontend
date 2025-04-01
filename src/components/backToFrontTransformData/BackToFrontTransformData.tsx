@@ -3,6 +3,7 @@ import { IUser } from "../types/UserInterfaces";
 import { FixImgUrl} from "./FixImgUrl"
 
 
+
 export const transformOfferCardPagination = (data: { content: any[] }): IOfferCard[] => {
   if (!data || !Array.isArray(data.content)) {
     console.error("Expected an array in data.content, received:", data);
