@@ -116,14 +116,14 @@ export default function ShowAll({
                 </div>
               </div>
 
-              <div className={styles.description}>
+              <div className={styles.descriptionOffer}>
                 <p
                   dangerouslySetInnerHTML={{
                     __html:
                       offer.description.length < 150
                         ? DOMPurify.sanitize(offer.description)
                         : DOMPurify.sanitize(
-                            offer.description.slice(0, 150) + "..."
+                            offer.description.slice(0, 130) + "..."
                           ),
                   }}
                 />
