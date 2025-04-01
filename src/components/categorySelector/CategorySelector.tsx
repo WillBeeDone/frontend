@@ -20,7 +20,7 @@ export default function CategorySelector(): JSX.Element {
           "Plumber",
           "Auto Mechanic",
           "Pet Care",
-          "Moving Transportation",
+          "Moving",
           "Computer Technician"
         ].map((category) => (
           <button key={category} onClick={() => handleCategorySelect(category)}>
