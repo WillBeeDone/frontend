@@ -2,10 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
-import { useOffers } from "../context/OffersContext";
+import { useOffers } from "../../context/OffersContext";
 import sortAscIcon from "/sort-from-low.png";
 import sortDescIcon from "/sort-from-high.png";
-
 
 interface IMyButtonProps {
   type?: "button" | "submit" | "reset";

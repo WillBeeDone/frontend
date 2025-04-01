@@ -1,4 +1,5 @@
 import { IGallery, IGuestOfferPage, IOfferCard, IOfferForTransformOfferCardPagination } from "../types/OfferInterfaces";
+import { IUser } from "../types/UserInterfaces";
 import { FixImgUrl} from "./FixImgUrl"
 
 
@@ -90,3 +91,17 @@ export const transformGuestOfferPage = (offer: any): IGuestOfferPage => {
 }
     
         
+export const transformUser = (user: any): IUser => {
+  return {
+    id: user.id,
+    firstName: user.firstName || '',
+    secondName: user.lastName || '',
+    email: user.email,
+    phone: user.phoneNumber || '',
+    location: user.locationDto || '',
+    role: user.roles?.length > 0 ? user.roles[0].title : '', 
+    profilePicture: user.profilePicture || '',
+    accessToken: user.accessToken,
+    refreshToken: user.refreshToken
+  };
+};

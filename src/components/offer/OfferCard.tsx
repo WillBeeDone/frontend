@@ -1,4 +1,4 @@
-import { useOffers } from "../context/OffersContext";
+import { useOffers } from "../../context/OffersContext";
 import { JSX } from "react";
 import ShowAll from "../showAll/ShowAll";
 

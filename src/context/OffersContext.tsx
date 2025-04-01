@@ -6,9 +6,8 @@ import {
   ReactNode,
   useRef,
 } from "react";
-import { IOfferCard } from "../types/OfferInterfaces";
-import { transformOfferCardPagination,
-} from "../backToFrontTransformData/BackToFrontTransformData";
+import { IOfferCard } from "../components/types/OfferInterfaces";
+import { transformOfferCardPagination } from "../components/backToFrontTransformData/BackToFrontTransformData";
 
 interface OffersContextType {
   offerCards: IOfferCard[];
@@ -71,7 +70,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
     city: string = selectedCity,
     category: string = selectedCategory,
     keyWord: string = selectedKeyWord || "all",
-    page: number = 0,
+    page: number = 0
   ) => {
     try {
       console.log("Обране місто - ", city);

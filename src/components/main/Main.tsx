@@ -4,15 +4,12 @@ import { JSX, useContext } from "react";
 import Banner from "../banner/Banner";
 import CategorySelector from "../categorySelector/CategorySelector";
 
-import { OffersContext } from "../context/OffersContext";
+import { OffersContext } from "../../context/OffersContext";
 import { Pagination } from "../pagination/Pagination";
 
 export default function Main(): JSX.Element {
-  const { 
-    currentPage, 
-    totalPages, 
-    setCurrentPage,
-  } = useContext(OffersContext)!;
+  const { currentPage, totalPages, setCurrentPage } =
+    useContext(OffersContext)!;
 
   return (
     <div className={styles.mainContainer}>
@@ -30,7 +27,7 @@ export default function Main(): JSX.Element {
 
       {/* Пагинация отображается всегда, но можно добавить проверку на загрузку */}
       <div className={styles.paginationContainer}>
-        <Pagination 
+        <Pagination
           currentPage={currentPage}
           totalPages={Math.max(totalPages, 1)} // Гарантируем минимум 1 страницу
           onPageChange={setCurrentPage}

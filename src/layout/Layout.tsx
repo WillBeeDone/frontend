@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import styles from "./Layout.module.css";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import { useOffers } from "../components/context/OffersContext";
+import { useOffers } from "../context/OffersContext";
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -45,4 +45,3 @@ export default function Layout() {
     </>
   );
 }
-
