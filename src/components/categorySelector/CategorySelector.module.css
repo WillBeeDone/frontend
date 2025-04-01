@@ -7,6 +7,7 @@
 
 .categorySelector {
   margin-top: 20px;
+  font-size: larger;
 }
 
 .buttonContainer {
@@ -15,6 +16,7 @@
   justify-content: center; /* Центрируем кнопки по горизонтали */
   align-items: flex-start; /* Выравниваем кнопки по верхнему краю */
   text-align: center;
+  margin-top: 20px;
 }
 
 .buttonContainer button {
@@ -27,10 +29,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  
 }
 
 .buttonContainer button span {
   align-items: flex-end;
+  margin-top: 5px;
 }
 
 .buttonContainer button img {
@@ -60,5 +64,27 @@
 .sortButton {
   display: flex;
   justify-content: end;
-  margin-right: 200px;
+  margin-right: 600px;
+}
+
+.imgStyle {
+  border-radius: 30%;
+}
+
+@media (max-width: 1800px) {
+  .sortButton {
+    margin-right: 150px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .sortButton {
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sortButton {
+    margin-right: 10px;
+  }
 }
