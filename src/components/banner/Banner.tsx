@@ -2,7 +2,6 @@ import { JSX, useState } from "react";
 import styles from "./Banner.module.css";
 import KeyWordInput from "../keyWordInput/KeyWordInput";
 import { useOffers } from "../../context/OffersContext";
-import MyButton from "../myButton/MyButton";
 
 export default function Banner(): JSX.Element {
   const { selectedKeyWord, setSelectedKeyWord } = useOffers();
