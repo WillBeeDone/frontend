@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
 import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
 import { RootState } from '../../app/store';
+import { transformUser } from '../../components/backToFrontTransformData/BackToFrontTransformData';
 
 
 const initialUser:IUser ={
@@ -14,7 +15,8 @@ const initialUser:IUser ={
   location: '',
   profilePicture: '',
   accessToken: '',
-  refreshToken: ''
+  refreshToken: '',
+  role: ''
 }
 
 const initialState: IAuthState = {
@@ -96,7 +98,9 @@ export const authSlice = createSlice({
       })
       .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
         state.isLoading = false
-        state.user = action.payload;
+        state.user = transformUser(action.payload);
+        console.log("user in slice ---- ", state.user);
+        
         state.isAuthenticated = true;
       })
       .addCase(signInByEmailAndPass.rejected, (state, action) => {
