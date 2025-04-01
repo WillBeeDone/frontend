@@ -2,13 +2,14 @@ import { JSX } from "react";
 import styles from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
-import { useOffers } from "../context/OffersContext";
+import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
 import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
+import { useMyOffers } from "../../context/MyOffersContext";
 
 interface ILink {
   text: React.ReactNode;
@@ -23,6 +24,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { setSelectedCity } = useOffers();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
+  const { fetchMyOffers } = useMyOffers();
   console.log("in Header user: ", user);
 
   return (
@@ -50,13 +52,22 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       <div>
         {isAuthenticated ? (
           <>
-          <div className={styles.authUserDataBox}>
-          <h3 className={styles.authUserFirstName}>Hello, {user.firstName}</h3>
-          <div className={styles.authUserProfilePictureBox}> <img className={styles.authUserProfilePicture}  src={FixImgUrl(user.profilePicture)} alt="User profile picture"/>
-      </div>
-          </div>
-          <MyButton text="Favorites" to="/favorites" variant="primary" />
-          <SignOut/>
+            <div className={styles.authUserDataBox}>
+              <h3 className={styles.authUserFirstName}>
+                Hello, {user.firstName}
+              </h3>
+              <div className={styles.authUserProfilePictureBox}>
+                {" "}
+                <img
+                  className={styles.authUserProfilePicture}
+                  src={FixImgUrl(user.profilePicture)}
+                  alt="User profile picture"
+                />
+              </div>
+            </div>
+            <MyButton text="Favorites" to="/favorites" variant="primary" />
+            <MyButton text="My Offers" func={() => fetchMyOffers()} />
+            <SignOut />
           </>
         ) : (
           <>

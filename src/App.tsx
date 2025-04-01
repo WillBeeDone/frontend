@@ -4,10 +4,10 @@ import Layout from "./layout/Layout";
 import Main from "./components/main/Main";
 import NoPage from "./components/noPage/NoPage";
 import GuestOfferPage from "./components/offerPage/GuestOfferPage";
-import { OffersProvider } from "./components/context/OffersContext";
+import { OffersProvider } from "./context/OffersContext";
 import SignUp from "./components/signUp/SignUp";
 import SignIn from "./components/signIn/SignIn";
-import { FavoritesProvider } from "./components/context/FavoritesContext";
+import { FavoritesProvider } from "./context/FavoritesContext";
 import ShowFavorites from "./components/showFavorites/ShowFavorites";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
@@ -16,75 +16,78 @@ import EmailForPassRecovery from "./components/emailForPassRecovery/EmailForPass
 import AuthChecker from "./features/auth/AuthChecker";
 import ConfirmEmailPage from "./components/confirmEmailPage/ConfirmEmailPage";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import { MyOffersProvider } from "./context/MyOffersContext";
 
 function App() {
   const guestRoutes = [
     {
       path: "/",
-      element: <Main />
+      element: <Main />,
     },
     {
       path: "sign-in-form",
-      element: <SignIn />
+      element: <SignIn />,
     },
     {
       path: "sign-up-form",
-      element: <SignUp />
+      element: <SignUp />,
     },
     {
       path: "offer/:id",
-      element: <GuestOfferPage />
+      element: <GuestOfferPage />,
     },
     {
       path: "email-for-password-recovery-form",
-      element: <EmailForPassRecovery />
+      element: <EmailForPassRecovery />,
     },
     {
       path: "password-recovery-form",
-      element: <PasswordRecovery />
+      element: <PasswordRecovery />,
     },
     {
       path: "/confirm-email",
-      element: <ConfirmEmailPage/>
+      element: <ConfirmEmailPage />,
     },
-
-  ]
+  ];
 
   const userRoutes = [
     {
       path: "favorites",
-      element: <ShowFavorites />
+      element: <ShowFavorites />,
     },
-
-  ]
+  ];
 
   return (
     <Provider store={store}>
-    <AuthChecker/>
+      <AuthChecker />
       <OffersProvider>
+        <MyOffersProvider>
         <FavoritesProvider>
           <HashRouter>
             <Routes>
-
               <Route path="/" element={<Layout />}>
-
-                {guestRoutes.map(el => (
-                  <Route path={el.path} element={el.element} />
+                {guestRoutes.map((el, index) => (
+                  <Route key={index} path={el.path} element={el.element} />
                 ))}
-                
-                {userRoutes.map(el => (
-                  <Route path={el.path} element={<ProtectedRoute outlet={el.element}/>} />
-                ))}   
 
-                
+                {userRoutes.map((el, index) => (
+                  <Route
+                    key={index}
+                    path={el.path}
+                    element={<ProtectedRoute outlet={el.element} />}
+                  />
+                ))}
               </Route>
 
-                <Route path="/confirm-email/:confirmationCode" element={<ConfirmEmailPage />} />
-                <Route path="*" element={<NoPage />} />
-                
+              <Route
+                path="/confirm-email/:confirmationCode"
+                element={<ConfirmEmailPage />}
+              />
+              <Route path="*" element={<NoPage />} />
             </Routes>
           </HashRouter>
         </FavoritesProvider>
+        </MyOffersProvider>
       </OffersProvider>
     </Provider>
   );

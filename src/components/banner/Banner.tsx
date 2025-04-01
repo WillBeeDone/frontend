@@ -1,7 +1,7 @@
 import { JSX, useState } from "react";
 import styles from "./Banner.module.css";
 import KeyWordInput from "../keyWordInput/KeyWordInput";
-import { useOffers } from "../context/OffersContext";
+import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
 
 export default function Banner(): JSX.Element {
@@ -15,7 +15,7 @@ export default function Banner(): JSX.Element {
   };
 
   // по нажатию Enter локальная переменная состояния отдает значение в переменную для фетч-запроса
-  const handlePressEnter= (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handlePressEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSearch();
     }
@@ -34,7 +34,7 @@ export default function Banner(): JSX.Element {
           onChange={setLocalKeyWord} // изменение поля влияет только на локальную переменную состояния
           onKeyDown={handlePressEnter} // обработка нажатия Enter
         />
-        <MyButton text="Search" func={handleSearch} /> 
+        <MyButton text="Search" func={handleSearch} />
       </div>
     </div>
   );

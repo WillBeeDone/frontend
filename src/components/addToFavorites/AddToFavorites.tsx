@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./AddToFavorites.module.css";
-import { useFavorites } from "../context/FavoritesContext";
+import { useFavorites } from "../../context/FavoritesContext";
 import { IOfferCard } from "../types/OfferInterfaces";
 import offerInFavorites from "/offerInFavorites.png";
 import offerIsUsual from "/offerIsUsual.png";
@@ -22,7 +22,6 @@ export default function AddToFavorites({ offer }: AddToFavoritesProps) {
     (favOffer) => favOffer.id === offer.id
   );
 
-  
   const handleClick = () => {
     if (isAuthenticated) {
       if (isOfferFavoriteAlready) {
@@ -35,7 +34,6 @@ export default function AddToFavorites({ offer }: AddToFavoritesProps) {
       setTimeout(() => setShowTooltip(false), 3000); // задержка сообщения 3 секунды
     }
   };
-
 
   return (
     <div className={styles.favorites}>
