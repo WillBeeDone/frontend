@@ -9,7 +9,7 @@ import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import validator from "validator";
 
-function SignUp(): JSX.Element {
+function MyProfile(): JSX.Element {
   //для регистрации
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
@@ -114,4 +114,4 @@ function SignUp(): JSX.Element {
   );
 }
 
-export default SignUp;
+export default MyProfile;

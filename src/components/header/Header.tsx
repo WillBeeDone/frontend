@@ -10,6 +10,7 @@ import { useAppSelector } from "../../app/hooks";
 import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
+import MyProfile from "../myProfile/MyProfile";
 
 interface ILink {
   text: React.ReactNode;
@@ -81,7 +82,9 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       {/* <MyButton text="Favorites" to="/favorites" variant="primary" /> */}
 
       {/* временный вызов для проверки работы формы */}
-      {/* <PasswordRecovery/>  */}
+      <MyProfile/> 
+
+      
     </header>
   );
 }
