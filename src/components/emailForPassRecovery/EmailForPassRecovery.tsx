@@ -1,7 +1,7 @@
 import { JSX, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../app/store";
 import { emailForPassRecovery } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
@@ -12,19 +12,20 @@ import validator from 'validator';
 function EmailForPassRecovery(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector((state: RootState) => state.auth);
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
- 
+  
   const validateEmail = (email: string) => validator.isEmail(email) ? "" : "Incorrect email";
 
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setEmailError(validateEmail(e.target.value));
   };
 
+ 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errorMsg = validateEmail(email);
@@ -37,8 +38,8 @@ function EmailForPassRecovery(): JSX.Element {
     dispatch(emailForPassRecovery({ email }))
       .unwrap()
       .then(() => {
-        alert("Please, check your email.");
-        setEmail(""); 
+        alert("Check your email please");
+        setEmail("");
         navigate("/");
       })
       .catch(() => {
@@ -53,7 +54,6 @@ function EmailForPassRecovery(): JSX.Element {
       </div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
-          {error && <p className={styles.error}>{error}</p>}
           <div className={styles.inputGroup}>
             <MyInput
               name="email"
@@ -67,11 +67,7 @@ function EmailForPassRecovery(): JSX.Element {
             {emailError && <p className={styles.error}>{emailError}</p>}
           </div>
           <div className={styles.btnGroup}>
-            <MyButton
-              type="submit"
-              text={isLoading ? "Loading..." : "Send"}
-              disabled={isLoading}
-            />
+            <MyButton type="submit" text="Send" />
             <MyButton type="button" text="Go back" to="/" />
           </div>
         </form>
