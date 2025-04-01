@@ -116,9 +116,9 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
   'auth/getMyProfileDataByAccessToken',
   async (accessToken:string, thunkAPI) => {
     try {
-      const response = await axios.get('/api/auth/my-profile', {headers: {
-  'Authorization' : `Bearer ${accessToken}`
-      }});
+  //     const response = await axios.get('/api/auth/my-profile', {headers: {
+  // 'Authorization' : `Bearer ${accessToken}`
+  //     }});
 
         const fakeUser = {
             "id": 35,

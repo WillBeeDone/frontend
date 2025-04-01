@@ -128,7 +128,7 @@ function MyProfile(): JSX.Element {
         {errors.location && <p className={styles.error}>{errors.location}</p>}
       </div>
 
-      <div className={styles.inputGroup}>
+      {/* <div className={styles.inputGroup}>
       <div className={styles.dropdown}>
         <DropDown
           url="/api/locations"
@@ -136,7 +136,7 @@ function MyProfile(): JSX.Element {
           onChange={setSelectedCity}
         />
       </div>
-      </div>
+      </div> */}
 
       <div className={styles.inputGroup}>
         <MyInput name="email" type="email" placeholder="Enter your email" label="Email" required onChange={handleChange} />

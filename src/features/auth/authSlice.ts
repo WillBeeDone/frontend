@@ -150,7 +150,7 @@ export const authSlice = createSlice({
       .addCase(getMyProfileDataByAccessToken.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = transformUser(action.payload);
-        console.log("user in slice ---- ", state.user);
+        console.log("user in slice getMyProfileDataByAccessToken ---- ", state.user);
         
         state.isAuthenticated = true;
       })
