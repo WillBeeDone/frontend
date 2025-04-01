@@ -1,7 +1,7 @@
 import { JSX, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../app/store";
 import { passwordRecovery } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
@@ -11,23 +11,22 @@ import styles from "./PasswordRecovery.module.css";
 function PasswordRecovery(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { confirmationCode } = useParams<{ code: string }>(); // Отримуємо код підтвердження з URL
 
   const [formData, setFormData] = useState({ newPassword: "", confirmNewPassword: "" });
   const [errors, setErrors] = useState({ newPassword: "", confirmNewPassword: "" });
 
-  // if (!user.id) {
-  //   navigate("/email-for-password-recovery-form");
-  //   return <></>;
-  // }
+  // Валідація пароля
+  const validatePassword = (password: string) => 
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
+      ? ""
+      : "Must contain upper & lower case, number, special character. Length 8 or more.";
 
- 
-  const validatePassword = (password: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
-    ? "" : "Must contain upper & lower case, number, special character. Length 8 or more.";
-
+  // Валідація підтвердження пароля
   const validateConfirmPassword = (password: string, confirmPassword: string) =>
     password === confirmPassword ? "" : "The passwords do not match";
 
+  // Обробка змін у полях
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -42,6 +41,7 @@ function PasswordRecovery(): JSX.Element {
     }
   };
 
+  // Обробка відправки форми
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newPasswordError = validatePassword(formData.newPassword);
@@ -52,15 +52,15 @@ function PasswordRecovery(): JSX.Element {
       return;
     }
 
-    dispatch(passwordRecovery({ userId: user.id, password: formData.newPassword }))
+    // Відправляємо запит на сервер разом із кодом підтвердження
+    dispatch(passwordRecovery({ password: formData.newPassword, confirmationCode: confirmationCode || "" }))
       .unwrap()
       .then(() => {
-        alert("New password has been saved. Now you can sign in.");
+        alert("Password successfully changed!");
         navigate("/sign-in-form");
       })
       .catch(() => {
-        alert("Failed to save new password. Please try again.");
-        navigate("/email-for-password-recovery-form");
+        alert("Something went wrong... Password not changed.");
       });
   };
 

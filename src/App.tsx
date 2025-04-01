@@ -83,6 +83,7 @@ function App() {
                 path="/confirm-email/:confirmationCode"
                 element={<ConfirmEmailPage />}
               />
+              <Route path="/password-recovery-form/:confirmationCode" element={<PasswordRecovery />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </HashRouter>

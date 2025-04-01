@@ -25,11 +25,11 @@ export const emailForPassRecovery = createAsyncThunk(
     try {
       console.log("emailForPassRecovery --- ", userData);
       
-      const response = await axios.post('api/emailForPassRecovery', userData);
+      const response = await axios.post('api/auth/reset', userData);
 
       console.log("reterned from server inside emailForPassRecovery -", response.data);
       
-      return response.data; // тут має повернутись id юзера
+      return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -39,17 +39,18 @@ export const emailForPassRecovery = createAsyncThunk(
 // екшн обрабатывающий форму восстановления пароля
 export const passwordRecovery = createAsyncThunk(
   "auth/passwordRecovery",
-  async (userData: { userId: number; password: string }, thunkAPI) => {
+  async ({ password, confirmationCode }: { password: string; confirmationCode: string }, thunkAPI) => {
     try {
-      console.log("New password from PasswordRecovery:", userData);
-
-      const response = await axios.post("api/passwordRecovery", userData);
+      console.log("pass inside passwordRecovery before fetch - ", password);
+      console.log("CODE inside passwordRecovery before fetch - ", confirmationCode);
+      
+      const response = await axios.post(`api/auth/reset/${confirmationCode}`, { password });
 
       if (response.status !== 200) {
         throw new Error("Failed to update password.");
-      }else {
-        return response.data; // тут должен вернуться userId с сервера
       }
+      
+      return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response?.data?.message || "Failed to update password");
     }
