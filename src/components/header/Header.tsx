@@ -10,7 +10,7 @@ import { useAppSelector } from "../../app/hooks";
 import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
-import MyProfile from "../myProfile/MyProfile";
+
 
 interface ILink {
   text: React.ReactNode;
@@ -26,7 +26,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
   const { fetchMyOffers } = useMyOffers();
-  console.log("in Header user: ", user);
+  
+ 
 
   return (
     <header className={styles.header}>
@@ -41,7 +42,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           {text}
         </NavLink>
       ))}
-
+      
       <div className={styles.dropdown}>
         <DropDown
           url="/api/locations"
@@ -68,6 +69,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
             </div>
             <MyButton text="Favorites" to="/favorites" variant="primary" />
             <MyButton text="My Offers" func={() => fetchMyOffers()} />
+            <MyButton text="My Profile" to="/my-profile"/>
+            {/* <MyButton text="Create Offer" to="/create-offer"/> */}
             <SignOut />
           </>
         ) : (
@@ -80,10 +83,6 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
 
       {/* временный вызов для проверки работы */}
       {/* <MyButton text="Favorites" to="/favorites" variant="primary" /> */}
-
-      {/* временный вызов для проверки работы формы */}
-      <MyProfile/> 
-
       
     </header>
   );

@@ -2,17 +2,24 @@ import { JSX, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { signUp } from "../../features/auth/authActions";
+import { myProfile } from "../../features/auth/authActions";
 
 import styles from "./MyProfile.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import validator from "validator";
+import DropDown from "../dropDown/DropDown";
+import { useOffers } from "../../context/OffersContext";
+
 
 function MyProfile(): JSX.Element {
+
+  const { setSelectedCity } = useOffers();
+
+
   //для регистрации
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector((state: RootState) => state.auth);
+  const { isLoading, error, user } = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
 
@@ -20,13 +27,24 @@ function MyProfile(): JSX.Element {
     email: "",
     password: "",
     confirmPassword: "",
+    firstName: "",
+    secondName: "",
+    location: "",
+    phone: "",
+    profilePicture: "",
     agree: false,
   });
+
+  
 
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
+    name: "",
+    location: "",
+    phone: "",
+    profilePicture: "",
     agree: "",
   });
 
@@ -55,59 +73,87 @@ function MyProfile(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+
+    const nameError = validateEmail(formData.email);
+    const locationError = validateEmail(formData.email);
+    const phoneError = validateEmail(formData.email);
+    const profilePictureError = validateEmail(formData.email);
+
+
+
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
     const confirmPasswordError = validateConfirmPassword(formData.password, formData.confirmPassword);
     const agreeError = formData.agree ? "" : "Agreement is required";
 
-    if (emailError || passwordError || confirmPasswordError || agreeError) {
-      setErrors({ email: emailError, password: passwordError, confirmPassword: confirmPasswordError, agree: agreeError });
+    if (emailError || passwordError || confirmPasswordError || agreeError || nameError || locationError || phoneError ||  profilePictureError) {
+      setErrors({ email: emailError, password: passwordError, confirmPassword: confirmPasswordError, agree: agreeError, name: nameError, location: locationError, phone: phoneError, profilePicture: profilePictureError });
       return;
     }
 
-    dispatch(signUp({ email: formData.email, password: formData.password }))
+
+    dispatch(myProfile({ id: user.id, firstName: formData.firstName, secondName: formData.secondName,  email: formData.email, phone: formData.phone, location: formData.location, profilePicture: formData.profilePicture, accessToken: user.accessToken }))
       .unwrap()
       .then(() => {
-        alert("Please, check your email.");
-        setFormData({ email: "", password: "", confirmPassword: "", agree: false }); // очистка формы
+        setFormData({ email: "", password: "", confirmPassword: "", firstName: "", secondName: "",  location: "", phone: "", agree: false, profilePicture: "" }); // очистка формы   
         navigate("/");
       })
       .catch(() => {}); 
   };
-
+  
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <h2 className={styles.title}>Registration</h2>
+      <h2 className={styles.title}>My Profile</h2>
 
       {error && <p className={styles.error}>{error}</p>}
       
+      <div className={styles.inputGroup}>
+      <div className={styles.imageContainer}>< img src="/no-profilePicture-default-image.jpg" alt="User photo"/></div>
+      <MyButton text="Remove photo" />
+      <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" required onChange={handleChange} />
+      </div>
+
+      <div className={styles.inputGroup}>
+        <MyInput name="firstName" type="text" placeholder="Enter your first name" label="First name" required onChange={handleChange} />
+        {errors.name && <p className={styles.error}>{errors.name}</p>}
+      </div>
+
+      <div className={styles.inputGroup}>
+        <MyInput name="secondName" type="text" placeholder="Enter your second name" label="Second name" required onChange={handleChange} />
+        {errors.name && <p className={styles.error}>{errors.name}</p>}
+      </div>
+
+      <div className={styles.inputGroup}>
+        <MyInput name="location" type="text" placeholder="Enter location for your offers" label="Location" required onChange={handleChange} />
+        {errors.location && <p className={styles.error}>{errors.location}</p>}
+      </div>
+
+      <div className={styles.inputGroup}>
+      <div className={styles.dropdown}>
+        <DropDown
+          url="/api/locations"
+          text="Choose city"
+          onChange={setSelectedCity}
+        />
+      </div>
+      </div>
+
       <div className={styles.inputGroup}>
         <MyInput name="email" type="email" placeholder="Enter your email" label="Email" required onChange={handleChange} />
         {errors.email && <p className={styles.error}>{errors.email}</p>}
       </div>
 
       <div className={styles.inputGroup}>
-        <MyInput name="password" type="password" placeholder="Enter your password" label="Password" required onChange={handleChange} />
-        {errors.password && <p className={styles.error}>{errors.password}</p>}
+        <MyInput name="phone" type="text" placeholder="Enter your phone number" label="Phone" required onChange={handleChange} />
+        {errors.phone && <p className={styles.error}>{errors.phone}</p>}
       </div>
-
-      <div className={styles.inputGroup}>
-        <MyInput name="confirmPassword" type="password" placeholder="Confirm your password" label="Confirm password" required onChange={handleChange} />
-        {errors.confirmPassword && <p className={styles.error}>{errors.confirmPassword}</p>}
-      </div>
-
-      <div className={styles.checkbox}>
-        <input type="checkbox" name="agree" checked={formData.agree} onChange={handleChange} />
-        <label>I agree with <a href="#">user agreement</a></label>
-      </div>
-      {errors.agree && <p className={styles.error}>{errors.agree}</p>}
-
+      
       <div className={styles.link}>
-        <MyButton type="button" text="Already have an account?" func={() => navigate("/sign-in-form")} variant="easy" />
+        <MyButton type="button" text="Change password" func={() => navigate("/sign-in-form")} variant="easy" />
       </div>
 
       <div className={styles.btnGroup}>
-        <MyButton type="submit" text={isLoading ? "Loading…" : "Sign up"} disabled={isLoading} />
+        <MyButton type="submit" text={isLoading ? "Loading…" : "Save changes"} disabled={isLoading} />
         <MyButton type="button" text="Go Back" to="/" />
       </div>
     </form>

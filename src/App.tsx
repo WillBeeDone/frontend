@@ -17,6 +17,7 @@ import AuthChecker from "./features/auth/AuthChecker";
 import ConfirmEmailPage from "./components/confirmEmailPage/ConfirmEmailPage";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import { MyOffersProvider } from "./context/MyOffersContext";
+import MyProfile from "./components/myProfile/MyProfile";
 
 function App() {
   const guestRoutes = [
@@ -54,6 +55,10 @@ function App() {
     {
       path: "favorites",
       element: <ShowFavorites />,
+    },
+    {
+      path: "my-profile",
+      element: <MyProfile />,
     },
   ];
 
