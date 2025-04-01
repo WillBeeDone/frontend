@@ -7,10 +7,9 @@ import { signInByEmailAndPass } from "../../features/auth/authActions";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import styles from "./SignIn.module.css";
-import validator from 'validator';
+import validator from "validator";
 
 function SignIn(): JSX.Element {
-  
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -21,12 +20,14 @@ function SignIn(): JSX.Element {
 
   // валидация email
   const validateEmail = (email: string) => {
-     return validator.isEmail(email) ? "" : "Incorrect email";
+    return validator.isEmail(email) ? "" : "Incorrect email";
   };
 
-   // валидация password
-   const validatePassword = (password: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password) ? "" : "Must contains upper&lower case, number, special character. Length 8 or more. ";
-  
+  // валидация password
+  const validatePassword = (password: string) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
+      ? ""
+      : "Must contains upper&lower case, number, special character. Length 8 or more. ";
 
   // изменения полей формы
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +53,6 @@ function SignIn(): JSX.Element {
       return;
     }
 
-    
     dispatch(signInByEmailAndPass(formData))
       .unwrap()
       .then(() => {
@@ -66,9 +66,7 @@ function SignIn(): JSX.Element {
 
   return (
     <div className={styles.signInContainer}>
-      <div className={styles.image}>
-        <img src="./signInimage.jpeg" alt="Sign In" />
-      </div>
+      <div className={styles.image}></div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2 className={styles.title}>Sign In</h2>
@@ -93,7 +91,9 @@ function SignIn(): JSX.Element {
               required
               onChange={handleChange}
             />
-            {errors.password && <p className={styles.error}>{errors.password}</p>}
+            {errors.password && (
+              <p className={styles.error}>{errors.password}</p>
+            )}
           </div>
           <div className={styles.btnGroup}>
             <MyButton
@@ -104,9 +104,18 @@ function SignIn(): JSX.Element {
             <MyButton type="button" text="Go back" to="/" />
           </div>
           <div className={styles.links}>
-
-            <MyButton type="button" text="Forget Password?" variant="easy" to="/email-for-password-recovery-form" />
-            <MyButton type="button" text="Don't have an account yet?" to="/sign-up-form" variant="easy" />
+            <MyButton
+              type="button"
+              text="Forget Password?"
+              variant="easy"
+              to="/email-for-password-recovery-form"
+            />
+            <MyButton
+              type="button"
+              text="Don't have an account yet?"
+              to="/sign-up-form"
+              variant="easy"
+            />
           </div>
         </form>
       </div>
