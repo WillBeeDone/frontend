@@ -11,22 +11,22 @@ import styles from "./PasswordRecovery.module.css";
 function PasswordRecovery(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { confirmationCode } = useParams<{ code: string }>(); // Отримуємо код підтвердження з URL
+  const { confirmationCode } = useParams<{ confirmationCode: string }>(); // Отримуємо код підтвердження з URL
 
   const [formData, setFormData] = useState({ newPassword: "", confirmNewPassword: "" });
   const [errors, setErrors] = useState({ newPassword: "", confirmNewPassword: "" });
 
-  // Валідація пароля
+  
   const validatePassword = (password: string) => 
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
       : "Must contain upper & lower case, number, special character. Length 8 or more.";
 
-  // Валідація підтвердження пароля
+ 
   const validateConfirmPassword = (password: string, confirmPassword: string) =>
     password === confirmPassword ? "" : "The passwords do not match";
 
-  // Обробка змін у полях
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -41,7 +41,7 @@ function PasswordRecovery(): JSX.Element {
     }
   };
 
-  // Обробка відправки форми
+ 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newPasswordError = validatePassword(formData.newPassword);
@@ -52,7 +52,7 @@ function PasswordRecovery(): JSX.Element {
       return;
     }
 
-    // Відправляємо запит на сервер разом із кодом підтвердження
+    
     dispatch(passwordRecovery({ password: formData.newPassword, confirmationCode: confirmationCode || "" }))
       .unwrap()
       .then(() => {

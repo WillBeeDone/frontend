@@ -16,16 +16,16 @@ function EmailForPassRecovery(): JSX.Element {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  // Валідація email
+  
   const validateEmail = (email: string) => validator.isEmail(email) ? "" : "Incorrect email";
 
-  // Обробка зміни email
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setEmailError(validateEmail(e.target.value));
   };
 
-  // Обробка відправки форми
+ 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errorMsg = validateEmail(email);

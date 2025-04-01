@@ -41,8 +41,6 @@ export const passwordRecovery = createAsyncThunk(
   "auth/passwordRecovery",
   async ({ password, confirmationCode }: { password: string; confirmationCode: string }, thunkAPI) => {
     try {
-      console.log("pass inside passwordRecovery before fetch - ", password);
-      console.log("CODE inside passwordRecovery before fetch - ", confirmationCode);
       
       const response = await axios.post(`api/auth/reset/${confirmationCode}`, { password });
 
