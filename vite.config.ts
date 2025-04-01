@@ -9,7 +9,9 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api": {
+        //для подключения к локальному БЕКу
         target: "http://localhost:8080",
+        //для подключения к диджитал оушн БЕКу
         //target: "https://monkfish-app-73239.ondigitalocean.app",
       },
     },
