@@ -12,6 +12,10 @@ import DropDown from "../dropDown/DropDown";
 
 
 function MyProfile(): JSX.Element {
+
+   // для удаления фото из инпута
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
+
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, error, user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
@@ -144,6 +148,16 @@ function MyProfile(): JSX.Element {
       .catch(() => {});
   };
 
+
+  const handleRemovePhoto = () => {
+    setFormData((prev) => ({
+      ...prev,
+      profilePicture: "", // Видаляємо фото локально
+    }));
+    //заставляем перерисовать инпут
+    setFileInputKey(Date.now());
+  };
+
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
       <h2 className={styles.title}>My Profile</h2>
@@ -157,11 +171,11 @@ function MyProfile(): JSX.Element {
         alt="User photo" />
         </div>
        
-        {formData.profilePicture && formData.profilePicture !== "/no-profilePicture-default-image.jpg" ? (
-       <MyButton text="Remove photo" />
-        ) : null}
+        {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
+       <MyButton text="Remove photo" func={handleRemovePhoto} />
+       ) : null}
         
-        <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange}/>
+        <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange} key={fileInputKey}/>
         {errors.profilePicture && <p className={styles.error}>{errors.profilePicture}</p>}
 
       </div>

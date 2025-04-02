@@ -10,11 +10,11 @@ interface IDropDown {
   url: string;
   text?: string;
   onChange?: (selectedElement: string) => void;
-  switcher?: number; // Необов'язковий параметр
+  switcher?: number; 
 }
 
 export default function DropDown({ url, text = "elements", onChange, switcher = 1 }: IDropDown): JSX.Element {
-  const isCitySelector = switcher === 1; // Якщо switcher не передано – це вибір міст
+  const isCitySelector = switcher === 1; // Якщо switcher = 1 – це вибір міст
   const storageKey = "selectedCity"; // Ключ для LocalStorage
 
   const initialValue = isCitySelector ? localStorage.getItem(storageKey) || "all" : "all";
