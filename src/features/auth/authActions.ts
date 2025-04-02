@@ -122,11 +122,13 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
 
         const fakeUser = {
             "id": 35,
-            "firstName": null,
-            "lastName": null,
+            "firstName": "FakeName",
+            "lastName": "FakeLastName",
             "email": "priestvolodya+21@gmail.com",
-            "phoneNumber": null,
-            "locationDto": null,
+            "phoneNumber": "111111",
+            "locationDto": {
+                "cityName": "Berlin"
+            },
             "profilePicture": "https://imgur.com/diLaoNW",
             "roles": [
                 {

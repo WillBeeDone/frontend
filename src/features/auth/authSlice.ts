@@ -99,8 +99,9 @@ export const authSlice = createSlice({
       .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = transformUser(action.payload);
-        console.log("user in slice ---- ", state.user);
-        
+        console.log("user in slice signInByEmailAndPass after transform ---- ", state.user);
+        localStorage.setItem("selectedCity", state.user.location);
+
         state.isAuthenticated = true;
       })
       .addCase(signInByEmailAndPass.rejected, (state, action) => {
@@ -151,7 +152,8 @@ export const authSlice = createSlice({
         state.isLoading = false
         state.user = transformUser(action.payload);
         console.log("user in slice getMyProfileDataByAccessToken ---- ", state.user);
-        
+        localStorage.setItem("selectedCity", state.user.location);
+
         state.isAuthenticated = true;
       })
       .addCase(getMyProfileDataByAccessToken.rejected, (state, action) => {

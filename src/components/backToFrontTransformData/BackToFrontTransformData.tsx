@@ -93,15 +93,17 @@ export const transformGuestOfferPage = (offer: any): IGuestOfferPage => {
     
         
 export const transformUser = (user: any): IUser => {
+  console.log("inside transformUser - ", user);
+  
   return {
     id: user.id,
     firstName: user.firstName || '',
     secondName: user.lastName || '',
     email: user.email,
     phone: user.phoneNumber || '',
-    location: user.locationDto || '',
+    location: user.locationDto?.cityName || '',
     role: user.roles?.length > 0 ? user.roles[0].title : '', 
-    profilePicture: user.profilePicture || '',
+    profilePicture: FixImgUrl(user.profilePicture) || '',
     accessToken: user.accessToken,
     refreshToken: user.refreshToken
   };
