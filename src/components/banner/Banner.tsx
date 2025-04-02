@@ -2,7 +2,6 @@ import { JSX, useState } from "react";
 import styles from "./Banner.module.css";
 import KeyWordInput from "../keyWordInput/KeyWordInput";
 import { useOffers } from "../../context/OffersContext";
-import MyButton from "../myButton/MyButton";
 
 export default function Banner(): JSX.Element {
   const { selectedKeyWord, setSelectedKeyWord } = useOffers();
@@ -34,7 +33,7 @@ export default function Banner(): JSX.Element {
           onChange={setLocalKeyWord} // изменение поля влияет только на локальную переменную состояния
           onKeyDown={handlePressEnter} // обработка нажатия Enter
         />
-        <MyButton text="Search" func={handleSearch} />
+        <button className={styles.searchButton}onClick={handleSearch}>Go →</button>
       </div>
     </div>
   );

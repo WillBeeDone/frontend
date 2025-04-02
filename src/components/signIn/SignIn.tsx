@@ -7,10 +7,9 @@ import { signInByEmailAndPass } from "../../features/auth/authActions";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import styles from "./SignIn.module.css";
-import validator from 'validator';
+import validator from "validator";
 
 function SignIn(): JSX.Element {
-  
   const navigate = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -19,30 +18,38 @@ function SignIn(): JSX.Element {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
 
-  // валидация email
-  const validateEmail = (email: string) => {
-     return validator.isEmail(email) ? "" : "Incorrect email";
-  };
+  // Флаг для отслеживания отправки формы
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-   // валидация password
-   const validatePassword = (password: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password) ? "" : "Must contains upper&lower case, number, special character. Length 8 or more. ";
-  
+  // валидация email
+  const validateEmail = (email: string) =>
+    validator.isEmail(email) ? "" : "Invalid login or password.";
+
+  // валидация password
+  const validatePassword = (password: string) =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
+      ? ""
+      : "Invalid login or password.";
 
   // изменения полей формы
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "email") {
-      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-    } else if (name === "password") {
-      setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
+    // Показываем ошибки только если форма уже была отправлена
+    if (isSubmitted) {
+      setErrors({
+        email: validateEmail(formData.email),
+        password: validatePassword(formData.password),
+      });
     }
   };
 
   // отправка формы
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsSubmitted(true); // Флаг выставляется при попытке отправки
 
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
@@ -52,11 +59,15 @@ function SignIn(): JSX.Element {
       return;
     }
 
-    
     dispatch(signInByEmailAndPass(formData))
       .unwrap()
       .then(() => {
-        setFormData({ email: "", password: "" }); // очистка формы
+        setFormData({ email: "", password: "" });
+
+        // Очистка ошибок и сброс флага отправки после успешного входа
+        setErrors({ email: "", password: "" });
+        setIsSubmitted(false);
+
         navigate("/");
       })
       .catch((err) => {
@@ -66,9 +77,7 @@ function SignIn(): JSX.Element {
 
   return (
     <div className={styles.signInContainer}>
-      <div className={styles.image}>
-        <img src="./signInimage.jpeg" alt="Sign In" />
-      </div>
+      <div className={styles.image}></div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2 className={styles.title}>Sign In</h2>
@@ -82,7 +91,6 @@ function SignIn(): JSX.Element {
               required
               onChange={handleChange}
             />
-            {errors.email && <p className={styles.error}>{errors.email}</p>}
           </div>
           <div className={styles.inputGroup}>
             <MyInput
@@ -93,9 +101,12 @@ function SignIn(): JSX.Element {
               required
               onChange={handleChange}
             />
-            {errors.password && <p className={styles.error}>{errors.password}</p>}
-          </div>
-          <div className={styles.btnGroup}>
+
+            {/* Ошибка теперь показывается только после отправки формы */}
+            {isSubmitted && (errors.email || errors.password) && (
+              <p className={styles.error}>{errors.email || errors.password}</p>
+            )}
+
             <MyButton
               type="submit"
               text={isLoading ? "Loading..." : "Sign in"}
@@ -104,9 +115,18 @@ function SignIn(): JSX.Element {
             <MyButton type="button" text="Go back" to="/" />
           </div>
           <div className={styles.links}>
-
-            <MyButton type="button" text="Forget Password?" variant="easy" to="/email-for-password-recovery-form" />
-            <MyButton type="button" text="Don't have an account yet?" to="/sign-up-form" variant="easy" />
+            <MyButton
+              type="button"
+              text="Forget Password?"
+              variant="easy"
+              to="/email-for-password-recovery-form"
+            />
+            <MyButton
+              type="button"
+              text="Don't have an account yet?"
+              to="/sign-up-form"
+              variant="easy"
+            />
           </div>
         </form>
       </div>
