@@ -110,3 +110,60 @@ export const signInByRefreshToken = createAsyncThunk(
     }
   }
 );
+
+//  запрос данных юзера через аксес токен
+export const getMyProfileDataByAccessToken = createAsyncThunk(
+  'auth/getMyProfileDataByAccessToken',
+  async (accessToken:string, thunkAPI) => {
+    try {
+  //     const response = await axios.get('/api/auth/my-profile', {headers: {
+  // 'Authorization' : `Bearer ${accessToken}`
+  //     }});
+
+        const fakeUser = {
+            "id": 35,
+            "firstName": "FakeName",
+            "lastName": "FakeLastName",
+            "email": "priestvolodya+21@gmail.com",
+            "phoneNumber": "111111",
+            "locationDto": {
+                "cityName": "Berlin"
+            },
+            "profilePicture": "https://imgur.com/diLaoNW",
+            "roles": [
+                {
+                    "id": 1,
+                    "title": "ROLE_USER",
+                    "authority": "ROLE_USER"
+                }
+            ],
+            "active": true,
+            "blocked": false,
+            "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0NDEzMjI2MSwicm9sZXMiOlt7ImlkIjoxLCJ0aXRsZSI6IlJPTEVfVVNFUiIsImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwibmFtZSI6InByaWVzdHZvbG9keWErMjFAZ21haWwuY29tIn0.nMpq5ljjygDccK6RKePABa8zMOjp3n_5q7nP6eiVQtjpPm9TBpEZ9G85CQDhxDRZ",
+            "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0Nzc2MTA2MX0.4aer_tGF5jBF_dTNa4AL3t3dyHT9DlX3_I8dhzzd_tWL4cCDx8xdjP0klfok4ivx"
+        }
+
+        return fakeUser;
+      //return response.data; // здесь должны быть все данные о юзере
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
+// все данные записываються в форме MyProfile
+export const myProfile = createAsyncThunk(
+  'auth/myProfile',
+  async (userData: { id: number, firstName:string, secondName:string, email: string; phone:string, location:string, profilePicture: string, accessToken: string}, thunkAPI) => {
+    try {
+      console.log("data in signUp slice --- ", userData);
+      
+      const responce = await axios.post('/api/myProfile', userData);
+      
+      return responce.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
