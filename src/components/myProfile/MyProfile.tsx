@@ -1,126 +1,147 @@
-import { JSX, useState } from "react";
+
+import {  JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { myProfile } from "../../features/auth/authActions";
-
 import styles from "./MyProfile.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import validator from "validator";
-import DropDown from "../dropDown/DropDown";
-import { useOffers } from "../../context/OffersContext";
-
 
 function MyProfile(): JSX.Element {
-
-  const { setSelectedCity } = useOffers();
-
-
-  //для регистрации
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, error, user } = useSelector((state: RootState) => state.auth);
-
   const navigate = useNavigate();
+  
 
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
-    confirmPassword: "",
     firstName: "",
     secondName: "",
     location: "",
     phone: "",
     profilePicture: "",
-    agree: false,
   });
-
-  
 
   const [errors, setErrors] = useState({
     email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
+    firstName: "",
+    secondName: "",
     location: "",
     phone: "",
     profilePicture: "",
-    agree: "",
   });
 
-  // валидация email
-    const validateEmail = (email: string) => {
-       return validator.isEmail(email) ? "" : "Incorrect email";
-    };
-  
-     // валидация password
-     const validatePassword = (password: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password) ? "" : "Must contains upper&lower case, number, special character. Length 8 or more. ";
-    
-  
-  const validateConfirmPassword = (password: string, confirmPassword: string) =>
-    password === confirmPassword ? "" : "The passwords do not match";
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        email: user.email || "",
+        firstName: user.firstName || "",
+        secondName: user.secondName || "",
+        location: user.location || "",
+        phone: user.phone || "",
+        profilePicture: user.profilePicture || "/no-profilePicture-default-image.jpg",
+      });
+    }
+  }, [user]);
+
+  const validateEmail = (email: string) => validator.isEmail(email) ? "" : "Incorrect email";
+  const validateFirstName = (firstName: string) => {
+    if (!/^[A-Z][a-zA-Z]*$/.test(firstName)) return "Start with upper case, letters only.";
+    if (firstName.length > 30) return "Max length 30 characters.";
+    return "";
+  };
+  const validateSecondName = (secondName: string) => {
+    if (!/^[A-Z][a-zA-Z]*$/.test(secondName)) return "Start with upper case, letters only.";
+    if (secondName.length > 40) return "Max length 40 characters.";
+    return "";
+  };
+  const validateLocation = (location: string) => {
+    if (!/^[A-Z][a-zA-Z- ]*$/.test(location)) return "Start with upper case, letters, spaces, and hyphens only.";
+    if (location.length > 20) return "Max length 20 characters.";
+    return "";
+  };
+  const validatePhone = (phone: string) => {
+    if (!/^\+?[0-9]+$/.test(phone)) return "Only numbers and + symbol allowed.";
+    if (phone.length > 30) return "Max length 30 characters.";
+    return "";
+  };
+  const validateProfilePicture = (file: File | null) => {
+    if (!file) return "No file selected.";
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+    if (!allowedTypes.includes(file.type)) return "Only JPG, PNG, and GIF are allowed.";
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) return "File size must be under 5MB.";
+    return "";
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
-
-    if (name === "email") setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-    if (name === "password") setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
-    if (name === "confirmPassword")
-      setErrors((prev) => ({ ...prev, confirmPassword: validateConfirmPassword(formData.password, value) }));
+    const { name, value, files } = e.target;
+    let newValue = name === "profilePicture" && files ? files[0] : value;
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
+    setErrors((prev) => ({
+      ...prev,
+      [name]: name === "email" ? validateEmail(value) :
+              name === "firstName" ? validateFirstName(value) :
+              name === "secondName" ? validateSecondName(value) :
+              name === "location" ? validateLocation(value) :
+              name === "phone" ? validatePhone(value) :
+              name === "profilePicture" ? validateProfilePicture(newValue as File | null) : "",
+    }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-
-    const nameError = validateEmail(formData.email);
-    const locationError = validateEmail(formData.email);
-    const phoneError = validateEmail(formData.email);
-    const profilePictureError = validateEmail(formData.email);
-
-
-
-    const emailError = validateEmail(formData.email);
-    const passwordError = validatePassword(formData.password);
-    const confirmPasswordError = validateConfirmPassword(formData.password, formData.confirmPassword);
-    const agreeError = formData.agree ? "" : "Agreement is required";
-
-    if (emailError || passwordError || confirmPasswordError || agreeError || nameError || locationError || phoneError ||  profilePictureError) {
-      setErrors({ email: emailError, password: passwordError, confirmPassword: confirmPasswordError, agree: agreeError, name: nameError, location: locationError, phone: phoneError, profilePicture: profilePictureError });
+    const validationErrors = {
+      email: validateEmail(formData.email),
+      firstName: validateFirstName(formData.firstName),
+      secondName: validateSecondName(formData.secondName),
+      location: validateLocation(formData.location),
+      phone: validatePhone(formData.phone),
+      profilePicture: validateProfilePicture(formData.profilePicture as unknown as File | null),
+    };
+    if (Object.values(validationErrors).some((err) => err)) {
+      setErrors(validationErrors);
       return;
     }
-
-
-    dispatch(myProfile({ id: user.id, firstName: formData.firstName, secondName: formData.secondName,  email: formData.email, phone: formData.phone, location: formData.location, profilePicture: formData.profilePicture, accessToken: user.accessToken }))
+    dispatch(myProfile({
+      id: user.id,
+      firstName: formData.firstName,
+      secondName: formData.secondName,
+      email: formData.email,
+      phone: formData.phone,
+      location: formData.location,
+      profilePicture: formData.profilePicture,
+      accessToken: user.accessToken,
+    }))
       .unwrap()
-      .then(() => {
-        setFormData({ email: "", password: "", confirmPassword: "", firstName: "", secondName: "",  location: "", phone: "", agree: false, profilePicture: "" }); // очистка формы   
-        navigate("/");
-      })
-      .catch(() => {}); 
+      .then(() => navigate("/"))
+      .catch(() => {});
   };
-  
+
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
       <h2 className={styles.title}>My Profile</h2>
-
       {error && <p className={styles.error}>{error}</p>}
       
       <div className={styles.inputGroup}>
-      <div className={styles.imageContainer}>< img src="/no-profilePicture-default-image.jpg" alt="User photo"/></div>
-      <MyButton text="Remove photo" />
-      <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" required onChange={handleChange} />
+        <div className={styles.imageContainer}>
+          <img src={typeof formData.profilePicture === "string" ? formData.profilePicture : URL.createObjectURL(formData.profilePicture)} alt="User photo" />
+        </div>
+        <MyButton text="Remove photo" />
+        <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange} />
+        {errors.profilePicture && <p className={styles.error}>{errors.profilePicture}</p>}
       </div>
 
       <div className={styles.inputGroup}>
         <MyInput name="firstName" type="text" placeholder="Enter your first name" label="First name" required onChange={handleChange} />
-        {errors.name && <p className={styles.error}>{errors.name}</p>}
+        {errors.firstName && <p className={styles.error}>{errors.firstName}</p>}
       </div>
 
       <div className={styles.inputGroup}>
         <MyInput name="secondName" type="text" placeholder="Enter your second name" label="Second name" required onChange={handleChange} />
-        {errors.name && <p className={styles.error}>{errors.name}</p>}
+        {errors.secondName && <p className={styles.error}>{errors.secondName}</p>}
       </div>
 
       <div className={styles.inputGroup}>
@@ -128,26 +149,12 @@ function MyProfile(): JSX.Element {
         {errors.location && <p className={styles.error}>{errors.location}</p>}
       </div>
 
-      {/* <div className={styles.inputGroup}>
-      <div className={styles.dropdown}>
-        <DropDown
-          url="/api/locations"
-          text="Choose city"
-          onChange={setSelectedCity}
-        />
-      </div>
-      </div> */}
-
       <div className={styles.inputGroup}>
-        <MyInput name="email" type="email" placeholder="Enter your email" label="Email" required onChange={handleChange} />
-        {errors.email && <p className={styles.error}>{errors.email}</p>}
+      <MyInput name="email" type="email" placeholder="Enter your email"  label="Email" required onChange={handleChange} value={formData.email} />
+      {errors.email && <p className={styles.error}>{errors.email}</p>}
       </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput name="phone" type="text" placeholder="Enter your phone number" label="Phone" required onChange={handleChange} />
-        {errors.phone && <p className={styles.error}>{errors.phone}</p>}
-      </div>
-      
+
       <div className={styles.link}>
         <MyButton type="button" text="Change password" func={() => navigate("/sign-in-form")} variant="easy" />
       </div>
