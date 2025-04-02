@@ -154,11 +154,6 @@ p{
   width: 1000px;
 }
 
-.offerImage {
-width: 200px;
-height: 190px;
-border-radius: 50px;
-}
 
 .mainPartOfferPage {
   display: flex;
@@ -257,6 +252,16 @@ border-radius: 50px;
   font-size: 20px;
   color: #f8f4f4;
   cursor: pointer;
+}
+.profileImageContainer{
+  width: 450px;
+  height: 350px;}
+
+.offerImage {
+  width: 350px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 30%;
 }
 
 @media (max-width: 1800px) {
