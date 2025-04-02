@@ -17,8 +17,9 @@
 }
 
 .easy {
-  background-color: #020201;
-  color: aliceblue;
+  background-color: #B5B9BD;
+  color: white;
+  width: 100%;
 }
 
 .primary:hover {
