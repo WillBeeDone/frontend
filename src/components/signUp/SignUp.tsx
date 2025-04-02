@@ -102,7 +102,7 @@ function SignUp(): JSX.Element {
     <div className={styles.signUpContainer}>
       <div className={styles.image}></div>
       <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
           <h2 className={styles.title}>Sign Up</h2>
           <div className={styles.signInLinkContainer}>
             <p>Already have an account?</p>
@@ -120,7 +120,8 @@ function SignUp(): JSX.Element {
                 label="Email address"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Hgvsl"               
+                data-testid="MyInputSignUp_Hgvsl" 
+                autoComplete="off"            
               />
               {errors.email && <p className={styles.error}>{errors.email}</p>}
             </div>
@@ -134,6 +135,7 @@ function SignUp(): JSX.Element {
                 required
                 onChange={handleChange}
                 data-testid="MyInputSignUp_Pgdts" 
+                autoComplete="off"   
               />
               {errors.password && (
                 <p className={styles.error}>{errors.password}</p>
@@ -149,6 +151,7 @@ function SignUp(): JSX.Element {
                 required
                 onChange={handleChange}
                 data-testid="MyInputSignUp_Ytdr" 
+                autoComplete="off"   
               />
               {errors.confirmPassword && (
                 <p className={styles.error}>{errors.confirmPassword}</p>
