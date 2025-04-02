@@ -87,7 +87,7 @@ function MyProfile(): JSX.Element {
   };
   const validateProfilePicture = (file: File | null) => {
     if (!file) return "No file selected.";
-    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
     if (!allowedTypes.includes(file.type)) return "Only JPG, PNG, and GIF are allowed.";
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) return "File size must be under 5MB.";
@@ -156,9 +156,14 @@ function MyProfile(): JSX.Element {
         : URL.createObjectURL(formData.profilePicture)) : "/no-profilePicture-default-image.jpg"} 
         alt="User photo" />
         </div>
-        <MyButton text="Remove photo" />
+       
+        {formData.profilePicture && formData.profilePicture !== "/no-profilePicture-default-image.jpg" ? (
+       <MyButton text="Remove photo" />
+        ) : null}
+        
         <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange}/>
         {errors.profilePicture && <p className={styles.error}>{errors.profilePicture}</p>}
+
       </div>
 
       <div className={styles.inputGroup}>

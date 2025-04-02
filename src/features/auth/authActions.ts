@@ -129,7 +129,8 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
             "locationDto": {
                 "cityName": "Berlin"
             },
-            "profilePicture": "https://imgur.com/diLaoNW",
+            //"profilePicture": "https://imgur.com/diLaoNW",
+            "profilePicture": "",
             "roles": [
                 {
                     "id": 1,
