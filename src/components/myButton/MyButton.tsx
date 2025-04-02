@@ -14,6 +14,7 @@ interface IMyButtonProps {
   variant?: "primary" | "danger" | "easy";
   to?: string;
   isSortButton?: boolean;
+  "data-testid"?: string;
 }
 
 function MyButton({
@@ -24,6 +25,7 @@ function MyButton({
   variant = "primary",
   to,
   isSortButton = false,
+  "data-testid": dataTestId = "default",
 }: IMyButtonProps) {
   const navigate = useNavigate();
   const { offerCards, setOfferCards } = useOffers();
@@ -50,6 +52,7 @@ function MyButton({
       onClick={handleClick}
       className={styles.sortContainer}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       <span className={styles.sortContainerText}>{text}</span>
       <img
@@ -69,6 +72,7 @@ function MyButton({
         [styles.disabled]: disabled,
       })}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       {text}
     </button>
