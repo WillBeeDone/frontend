@@ -44,7 +44,6 @@ function MyProfile(): JSX.Element {
     email: "",
     firstName: "",
     secondName: "",
-    location: "",
     phone: "",
     profilePicture: "",
   });
@@ -79,11 +78,6 @@ function MyProfile(): JSX.Element {
     if (secondName.length > 40) return "Max length 40 characters.";
     return "";
   };
-  const validateLocation = (location: string) => {
-    if (!/^[A-Z][a-zA-Z- ]*$/.test(location)) return "Start with upper case, letters, spaces, and hyphens only.";
-    if (location.length > 20) return "Max length 20 characters.";
-    return "";
-  };
   const validatePhone = (phone: string) => {
     if (!/^\+?[0-9]+$/.test(phone)) return "Only numbers and + symbol allowed.";
     if (phone.length > 30) return "Max length 30 characters.";
@@ -113,7 +107,6 @@ function MyProfile(): JSX.Element {
       [name]: name === "email" ? validateEmail(value) :
               name === "firstName" ? validateFirstName(value) :
               name === "secondName" ? validateSecondName(value) :
-              name === "location" ? validateLocation(value) :
               name === "phone" ? validatePhone(value) :
               name === "profilePicture" ? validateProfilePicture(newValue as File | null) : "",
     }));
@@ -125,7 +118,6 @@ function MyProfile(): JSX.Element {
       email: validateEmail(formData.email),
       firstName: validateFirstName(formData.firstName),
       secondName: validateSecondName(formData.secondName),
-      location: validateLocation(formData.location),
       phone: validatePhone(formData.phone),
       profilePicture: validateProfilePicture(formData.profilePicture as unknown as File | null),
     };
@@ -190,10 +182,7 @@ function MyProfile(): JSX.Element {
         {errors.secondName && <p className={styles.error}>{errors.secondName}</p>}
       </div>
 
-      {/* <div className={styles.inputGroup}>
-        <MyInput name="location" type="text" placeholder="Enter location for your offers" label="Location" required onChange={handleChange} value={formData.location}/>
-        {errors.location && <p className={styles.error}>{errors.location}</p>}
-      </div> */}
+     
 
       <div className={styles.inputGroup}>
       <MyInput name="email" type="email" placeholder="Enter your email"  label="Email" required onChange={handleChange} value={formData.email} />
