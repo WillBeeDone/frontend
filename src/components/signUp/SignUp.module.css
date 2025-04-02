@@ -27,28 +27,50 @@
 .form {
     max-width: 400px;
     margin: 0 auto;
-    padding: 20px;
-    background: #fff8e8;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: #fff8e8;      
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-direction: column;    
   }
   
   .title {
-    text-align: center;
+    text-align: left;
     font-size: 24px;
     font-weight: bold;
     color: #333;
+    margin: 0px;
+  }
+
+  .signInLinkContainer {
+    display: flex;
+    color: rgb(129, 122, 122);
+    font-size: small;
+    gap: 5px;
   }
   
   .inputGroup {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    margin-top: 35px;
+    width: 20vw;  /* 45% от ширины экрана */
+    height: 30vh;  /* 5% от высоты экрана */
   }
   
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+  }
+
+  .inputContainer input {
+    height: 50px;
+    font-size: 18px; 
+    padding: 10px; 
+    border-color: #d6cfcf;
+    border-width: 2px;
+    background-color: #FFF8E8;
+    color: black;
+  }
   .error {
     color: red;
     font-size: 12px;
@@ -72,28 +94,6 @@
     cursor: pointer;
   }
   
-  .checkbox a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .checkbox a:hover {
-    text-decoration: underline;
-  }
-  
-  .link {
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .link a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .link a:hover {
-    text-decoration: underline;
-  }
   
   .message {
     text-align: center;

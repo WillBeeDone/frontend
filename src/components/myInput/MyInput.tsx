@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import styles from "./MyInput.module.css";
+import classNames from "classnames";
 
 interface IMyInputProps {
   className?: string;
@@ -11,6 +12,8 @@ interface IMyInputProps {
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  error?: boolean; // Добавляем пропс для ошибок
+  variant?: "default" | "signInUp" ;
 }
 
 function MyInput({
@@ -22,6 +25,8 @@ function MyInput({
   required,
   onChange,
   value,
+  error,
+  variant = "default", 
 }: IMyInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // видимость Password
@@ -29,12 +34,21 @@ function MyInput({
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const inputClass = classNames(
+    styles.input, // Базовый стиль
+    className, // Переданный класс
+    styles[variant], // Стиль в зависимости от варианта
+    {
+      [styles.error]: error, // Если есть ошибка, добавляем стиль ошибки
+    }
+  );
+
   return (
     <div className={styles.inputContainer}>
       <label>{label}</label>
       <div className={styles.inputWrapper}>
         <input
-          className={className}
+          className={inputClass}
           name={name}
           type={type === "password" && isPasswordVisible ? "text" : type}
           placeholder={placeholder}

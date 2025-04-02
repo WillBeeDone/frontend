@@ -1,5 +1,5 @@
 import { JSX, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { signUp } from "../../features/auth/authActions";
@@ -103,50 +103,56 @@ function SignUp(): JSX.Element {
       <div className={styles.image}></div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <h2 className={styles.title}>Registration</h2>
+          <h2 className={styles.title}>Sign Up</h2>
+          <div className={styles.signInLinkContainer}>
+            <p>Already have an account?</p>
+            <Link to="/sign-in-form">Sign In</Link>
+          </div>
 
           {error && <p className={styles.error}>{error}</p>}
 
           <div className={styles.inputGroup}>
-            <MyInput
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              label="Email"
-              required
-              onChange={handleChange}
-            />
-            {errors.email && <p className={styles.error}>{errors.email}</p>}
-          </div>
+            <div className={styles.inputContainer}>
+              <MyInput
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                label="Email address"
+                required
+                onChange={handleChange}
+                variant="signInUp"
+              />
+              {errors.email && <p className={styles.error}>{errors.email}</p>}
+            </div>
 
-          <div className={styles.inputGroup}>
-            <MyInput
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              label="Password"
-              required
-              onChange={handleChange}
-            />
-            {errors.password && (
-              <p className={styles.error}>{errors.password}</p>
-            )}
-          </div>
+            <div className={styles.inputContainer }>
+              <MyInput
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                label="Password"
+                required
+                onChange={handleChange}
+              />
+              {errors.password && (
+                <p className={styles.error}>{errors.password}</p>
+              )}
+            </div>
 
-          <div className={styles.inputGroup}>
-            <MyInput
-              name="confirmPassword"
-              type="password"
-              placeholder="Confirm your password"
-              label="Confirm password"
-              required
-              onChange={handleChange}
-            />
-            {errors.confirmPassword && (
-              <p className={styles.error}>{errors.confirmPassword}</p>
-            )}
+            <div className={styles.inputContainer}>
+              <MyInput
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm your password"
+                label="Confirm password"
+                required
+                onChange={handleChange}
+              />
+              {errors.confirmPassword && (
+                <p className={styles.error}>{errors.confirmPassword}</p>
+              )}
+            </div>
           </div>
-
           <div className={styles.checkbox}>
             <input
               type="checkbox"
@@ -169,7 +175,8 @@ function SignUp(): JSX.Element {
             />
           </div>
 
-          <div className={styles.btnGroup}>
+          <div data-testid="main-containerGHGDY65H" className={styles.btnGroup}>
+            
             <MyButton
               type="submit"
               text={isLoading ? "Loading…" : "Sign up"}
