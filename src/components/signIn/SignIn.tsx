@@ -18,32 +18,38 @@ function SignIn(): JSX.Element {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
 
+  // Флаг для отслеживания отправки формы
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   // валидация email
-  const validateEmail = (email: string) => {
-    return validator.isEmail(email) ? "" : "Incorrect email";
-  };
+  const validateEmail = (email: string) =>
+    validator.isEmail(email) ? "" : "Invalid login or password.";
 
   // валидация password
   const validatePassword = (password: string) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
-      : "Must contains upper&lower case, number, special character. Length 8 or more. ";
+      : "Invalid login or password.";
 
   // изменения полей формы
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "email") {
-      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-    } else if (name === "password") {
-      setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
+    // Показываем ошибки только если форма уже была отправлена
+    if (isSubmitted) {
+      setErrors({
+        email: validateEmail(formData.email),
+        password: validatePassword(formData.password),
+      });
     }
   };
 
   // отправка формы
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    setIsSubmitted(true); // Флаг выставляется при попытке отправки
 
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
@@ -56,7 +62,12 @@ function SignIn(): JSX.Element {
     dispatch(signInByEmailAndPass(formData))
       .unwrap()
       .then(() => {
-        setFormData({ email: "", password: "" }); // очистка формы
+        setFormData({ email: "", password: "" });
+
+        // Очистка ошибок и сброс флага отправки после успешного входа
+        setErrors({ email: "", password: "" });
+        setIsSubmitted(false);
+
         navigate("/");
       })
       .catch((err) => {
@@ -80,7 +91,6 @@ function SignIn(): JSX.Element {
               required
               onChange={handleChange}
             />
-            {errors.email && <p className={styles.error}>{errors.email}</p>}
           </div>
           <div className={styles.inputGroup}>
             <MyInput
@@ -91,11 +101,12 @@ function SignIn(): JSX.Element {
               required
               onChange={handleChange}
             />
-            {errors.password && (
-              <p className={styles.error}>{errors.password}</p>
+
+            {/* Ошибка теперь показывается только после отправки формы */}
+            {isSubmitted && (errors.email || errors.password) && (
+              <p className={styles.error}>{errors.email || errors.password}</p>
             )}
-          </div>
-          <div className={styles.btnGroup}>
+
             <MyButton
               type="submit"
               text={isLoading ? "Loading..." : "Sign in"}
