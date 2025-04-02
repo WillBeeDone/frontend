@@ -14,6 +14,7 @@ interface IMyInputProps {
   value?: string;
   error?: boolean; // Добавляем пропс для ошибок
   variant?: "default" | "signInUp" ;
+  "data-testid"?: string;
 }
 
 function MyInput({
@@ -27,6 +28,7 @@ function MyInput({
   value,
   error,
   variant = "default", 
+  "data-testid": dataTestId = "default",
 }: IMyInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // видимость Password
@@ -55,6 +57,7 @@ function MyInput({
           required={required}
           onChange={onChange}
           value={value}
+          data-testid={dataTestId}
         />
         {type === "password" && (
           <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>

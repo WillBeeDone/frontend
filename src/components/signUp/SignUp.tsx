@@ -99,14 +99,14 @@ function SignUp(): JSX.Element {
   };
 
   return (
-    <div className={styles.signUnContainer}>
+    <div className={styles.signUpContainer}>
       <div className={styles.image}></div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2 className={styles.title}>Sign Up</h2>
           <div className={styles.signInLinkContainer}>
             <p>Already have an account?</p>
-            <Link to="/sign-in-form">Sign In</Link>
+            <Link data-testid="LinkToSignIn_Jhfy" to="/sign-in-form">Sign In</Link>
           </div>
 
           {error && <p className={styles.error}>{error}</p>}
@@ -120,7 +120,7 @@ function SignUp(): JSX.Element {
                 label="Email address"
                 required
                 onChange={handleChange}
-                variant="signInUp"
+                data-testid="MyInputSignUp_Hgvsl"               
               />
               {errors.email && <p className={styles.error}>{errors.email}</p>}
             </div>
@@ -133,6 +133,7 @@ function SignUp(): JSX.Element {
                 label="Password"
                 required
                 onChange={handleChange}
+                data-testid="MyInputSignUp_Pgdts" 
               />
               {errors.password && (
                 <p className={styles.error}>{errors.password}</p>
@@ -147,6 +148,7 @@ function SignUp(): JSX.Element {
                 label="Confirm password"
                 required
                 onChange={handleChange}
+                data-testid="MyInputSignUp_Ytdr" 
               />
               {errors.confirmPassword && (
                 <p className={styles.error}>{errors.confirmPassword}</p>
@@ -159,30 +161,25 @@ function SignUp(): JSX.Element {
               name="agree"
               checked={formData.agree}
               onChange={handleChange}
+              data-testid="SignUpCheckBox_Nhgy"
             />
             <label>
-              I agree with <a href="#">user agreement</a>
+              I agree with <a data-testid="IAgreeWith" href="#">user agreement</a>
             </label>
           </div>
           {errors.agree && <p className={styles.error}>{errors.agree}</p>}
 
-          <div className={styles.link}>
-            <MyButton
-              type="button"
-              text="Already have an account?"
-              func={() => navigate("/sign-in-form")}
-              variant="easy"
-            />
-          </div>
+      
 
-          <div data-testid="main-containerGHGDY65H" className={styles.btnGroup}>
-            
+          <div className={styles.signBtn}>            
             <MyButton
               type="submit"
               text={isLoading ? "Loading…" : "Sign up"}
               disabled={isLoading}
+              variant="easy"
+              data-testid="MyButtonSignUp_jhYgj"
             />
-            <MyButton type="button" text="Go Back" to="/" />
+            
           </div>
         </form>
       </div>
