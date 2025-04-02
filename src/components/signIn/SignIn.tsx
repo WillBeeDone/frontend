@@ -1,5 +1,5 @@
 import { JSX, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { signInByEmailAndPass } from "../../features/auth/authActions";
@@ -81,51 +81,65 @@ function SignIn(): JSX.Element {
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <h2 className={styles.title}>Sign In</h2>
-          {error && <p className={styles.error}>{error}</p>}
-          <div className={styles.inputGroup}>
-            <MyInput
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              label="Email"
-              required
-              onChange={handleChange}
-            />
+          <div className={styles.signInLinkContainer}>
+            <p>Don’t have an acount?</p>
+            <Link data-testid="LinkToSignUp_HyftR" to="/sign-Up-form">
+              Sign Up
+            </Link>
           </div>
+
+          {error && <p className={styles.error}>{error}</p>}
+
           <div className={styles.inputGroup}>
-            <MyInput
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              label="Password"
-              required
-              onChange={handleChange}
-            />
+            <div className={styles.inputContainer}>
+              <MyInput
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                label="Email"
+                required
+                onChange={handleChange}
+                data-testid="MyInputSignIp_KiuyyfY"
+                autoComplete="off"
+              />
+            </div>
 
-            {/* Ошибка теперь показывается только после отправки формы */}
-            {isSubmitted && (errors.email || errors.password) && (
-              <p className={styles.error}>{errors.email || errors.password}</p>
-            )}
+            <div className={styles.inputContainer}>
+              <MyInput
+                name="password"
+                type="password"
+                placeholder="Enter your password"
+                label="Password"
+                required
+                onChange={handleChange}
+                data-testid="MyInputSignIn_JhYtf"
+                autoComplete="off"
+              />
 
+              {/* Ошибка теперь показывается только после отправки формы */}
+              {isSubmitted && (errors.email || errors.password) && (
+                <p className={styles.error}>
+                  {errors.email || errors.password}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className={styles.signBtn}>
+
+            <div className={styles.forgotPassword}>
+              <Link
+                data-testid="LinkToPasswordRecovery_HgFtg"
+                to="/email-for-password-recovery-form"
+              >
+                Forget Password?
+              </Link>
+            </div>
             <MyButton
               type="submit"
               text={isLoading ? "Loading..." : "Sign in"}
               disabled={isLoading}
-            />
-            <MyButton type="button" text="Go back" to="/" />
-          </div>
-          <div className={styles.links}>
-            <MyButton
-              type="button"
-              text="Forget Password?"
               variant="easy"
-              to="/email-for-password-recovery-form"
-            />
-            <MyButton
-              type="button"
-              text="Don't have an account yet?"
-              to="/sign-up-form"
-              variant="easy"
+              data-testid="MyButtonSignIn_JuhYt"
             />
           </div>
         </form>
