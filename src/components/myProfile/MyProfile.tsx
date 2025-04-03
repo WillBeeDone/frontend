@@ -22,6 +22,8 @@ function MyProfile(): JSX.Element {
 
   const storedCity = localStorage.getItem("selectedCity") || user.location || "all";
   const [selectedCity, setSelectedCity] = useState(storedCity);
+  console.log(selectedCity);
+  
   useEffect(() => {
     if (user.location) {
       setSelectedCity(user.location);
