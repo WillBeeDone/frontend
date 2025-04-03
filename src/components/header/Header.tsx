@@ -70,7 +70,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
             <MyButton text="Favorites" to="/favorites" variant="primary" />
             <MyButton text="My Offers" func={() => fetchMyOffers()} />
             <MyButton text="My Profile" to="/my-profile"/>
-            {/* <MyButton text="Create Offer" to="/create-offer"/> */}
+            <MyButton text="Create new Offer" to="/create-new-offer"/>
             <SignOut />
           </>
         ) : (
@@ -80,10 +80,6 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           </>
         )}
       </div>
-
-      {/* временный вызов для проверки работы */}
-      {/* <MyButton text="Favorites" to="/favorites" variant="primary" /> */}
-      
     </header>
   );
 }

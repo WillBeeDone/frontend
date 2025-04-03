@@ -119,7 +119,8 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
   //     const response = await axios.get('/api/auth/my-profile', {headers: {
   // 'Authorization' : `Bearer ${accessToken}`
   //     }});
-
+        console.log(accessToken);
+        
         const fakeUser = {
             "id": 35,
             "firstName": "FakeName",

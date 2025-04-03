@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { myProfile } from "../../features/auth/authActions";
-import styles from "./MyProfile.module.css";
+import styles from "./CreateNewOffer.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import validator from "validator";
 import DropDown from "../dropDown/DropDown";
 
 
-function MyProfile(): JSX.Element {
+function CreateNewOffer(): JSX.Element {
 
    // для удаления фото из инпута
   const [fileInputKey, setFileInputKey] = useState(Date.now());
@@ -219,4 +219,4 @@ function MyProfile(): JSX.Element {
   );
 }
 
-export default MyProfile;
+export default CreateNewOffer;
