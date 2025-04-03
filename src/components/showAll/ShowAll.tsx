@@ -11,6 +11,18 @@ interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
   switcher?: "list" | "guestOfferPage";
 }
+//две функции ниже нужны чтобы при обрезке description не учитывался html в тексте
+function stripHtml(html: string): string {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
+
+function truncateDescription(description: string, maxLength: number): string {
+  const plainText = stripHtml(description);
+  return plainText.length > maxLength
+    ? plainText.slice(0, maxLength) + "..."
+    : plainText;
+}
 
 export default function ShowAll({
   source,
@@ -77,6 +89,10 @@ export default function ShowAll({
     const offers = source as IOfferCard[];
 
     return (
+      <div className={styles.offerCardMain}>
+        <div className={styles.sortButton}>
+          <MyButton data-testid="MyButtonHomePageSort_JnHb" text="Price" isSortButton={true} />
+        </div>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
           const imgSource =
@@ -106,7 +122,7 @@ export default function ShowAll({
                   <p className={styles.location}>{offer.location}</p>
                   <h4 className={styles.title}>
                     {offer.title.length > 40
-                      ? offer.title.slice(0, 40).concat("...")
+                      ? offer.title.slice(0, 30).concat("...")
                       : offer.title}
                   </h4>
                   <p className={styles.price}>
@@ -119,22 +135,19 @@ export default function ShowAll({
               <div className={styles.descriptionOffer}>
                 <p
                   dangerouslySetInnerHTML={{
-                    __html:
-                      offer.description.length < 150
-                        ? DOMPurify.sanitize(offer.description)
-                        : DOMPurify.sanitize(
-                            offer.description.slice(0, 130) + "..."
-                          ),
+                    __html: DOMPurify.sanitize(
+                      truncateDescription(offer.description, 130)
+                    ),
                   }}
                 />
               </div>
               <div className={styles.heartAndView}>
                 <div>
-                  <AddToFavoritesButton offer={offer} />
+                  <AddToFavoritesButton data-testid="AddToFavoritesButtonHomePage_HgyfTy" offer={offer} />
                 </div>
                 <div className={styles.view}>
                   <Link to={`/offer/${offer.id}`}>
-                    <MyButton variant="primary" text="View" />
+                    <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
               </div>
@@ -142,41 +155,61 @@ export default function ShowAll({
           );
         })}
       </div>
+      </div>
+
     );
   }
 
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
-    
+
     return (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
           <div className={styles.leftPartOfferPage}>
             <div className={styles.profileImageContainer}>
-            <img
-              src={
-                offer.profilePicture ||
-                `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`
-              }
-              alt="Profile picture"
-              className={styles.offerImage}
-            />
-              <AddToFavoritesButton 
-              className = {styles.AddToFavorites}
-              offer={offer} />
+              <img
+                src={
+                  offer.profilePicture ||
+                  `${
+                    import.meta.env.BASE_URL
+                  }no-profilePicture-default-image.jpg`
+                }
+                alt="Profile picture"
+                className={styles.offerImage}
+              />
+              <div className={styles.AddToFavoritesContainer}>
+                <div className={styles.AddToFavoritesBtn}>
+                  <AddToFavoritesButton data-testid="AddToFavoritesButtonOfferPage_JnHygdT"
+                    className={styles.AddToFavorites}
+                    offer={offer}
+                  />
+                </div>
               </div>
-            <p className={styles.name}>
+            </div>
+            <p className={styles.offerPageName}>
               {offer.firstName} {offer.secondName}
             </p>
+
+            <Link data-testid="LinkSignInOfferPage_fJndhTy" to="/sign-in-form">
+              <div className={styles.getContact}>
+                <img src="./call-phone.png" alt="call-phone icon" />
+                <div className={styles.textSignInGetContact}>
+                  <p> Sign in</p>
+                  <p> to get the contact.</p>
+                </div>
+                <img src="./mail.png" alt="mail icon" />
+              </div>
+            </Link>
           </div>
           <div className={styles.rightPartOfferPage}>
             <h1 className={styles.titleOffer}>{offer.title}</h1>
             <div className={styles.locCatPrice}>
               <p className={styles.location}>{offer.location}</p>
               <p className={styles.category}>{offer.category}</p>
-              <div className={styles.price}>
-              <p className={styles.textPrice}>Price per hour </p>
-              <p className={styles.euro}>{offer.price} € </p>
+              <div>
+                <p className={styles.textPrice}>Price per hour </p>
+                <p className={styles.euro}>{offer.price} € </p>
               </div>
             </div>
             <div>
@@ -242,7 +275,9 @@ export default function ShowAll({
           </div>
         )}
 
-        <Link to="/">🔙 Go back</Link>
+        <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to="/">
+          🔙 Go back
+        </Link>
       </div>
     );
   }
