@@ -89,6 +89,10 @@ export default function ShowAll({
     const offers = source as IOfferCard[];
 
     return (
+      <div className={styles.offerCardMain}>
+        <div className={styles.sortButton}>
+          <MyButton text="Price" isSortButton={true} />
+        </div>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
           const imgSource =
@@ -118,7 +122,7 @@ export default function ShowAll({
                   <p className={styles.location}>{offer.location}</p>
                   <h4 className={styles.title}>
                     {offer.title.length > 40
-                      ? offer.title.slice(0, 40).concat("...")
+                      ? offer.title.slice(0, 30).concat("...")
                       : offer.title}
                   </h4>
                   <p className={styles.price}>
@@ -151,6 +155,8 @@ export default function ShowAll({
           );
         })}
       </div>
+      </div>
+
     );
   }
 
@@ -172,21 +178,36 @@ export default function ShowAll({
                 alt="Profile picture"
                 className={styles.offerImage}
               />
-              <AddToFavoritesButton
-                className={styles.AddToFavorites}
-                offer={offer}
-              />
+              <div className={styles.AddToFavoritesContainer}>
+                <div className={styles.AddToFavoritesBtn}>
+                  <AddToFavoritesButton
+                    className={styles.AddToFavorites}
+                    offer={offer}
+                  />
+                </div>
+              </div>
             </div>
-            <p className={styles.name}>
+            <p className={styles.offerPageName}>
               {offer.firstName} {offer.secondName}
             </p>
+
+            <Link to="/sign-in-form">
+              <div className={styles.getContact}>
+                <img src="./call-phone.png" alt="call-phone icon" />
+                <div className={styles.textSignInGetContact}>
+                  <p> Sign in</p>
+                  <p> to get the contact.</p>
+                </div>
+                <img src="./mail.png" alt="mail icon" />
+              </div>
+            </Link>
           </div>
           <div className={styles.rightPartOfferPage}>
             <h1 className={styles.titleOffer}>{offer.title}</h1>
             <div className={styles.locCatPrice}>
               <p className={styles.location}>{offer.location}</p>
               <p className={styles.category}>{offer.category}</p>
-              <div className={styles.price}>
+              <div>
                 <p className={styles.textPrice}>Price per hour </p>
                 <p className={styles.euro}>{offer.price} € </p>
               </div>
@@ -254,7 +275,9 @@ export default function ShowAll({
           </div>
         )}
 
-        <Link to="/">🔙 Go back</Link>
+        <Link className={styles.goBackBtn} to="/">
+          🔙 Go back
+        </Link>
       </div>
     );
   }

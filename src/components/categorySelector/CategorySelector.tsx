@@ -40,9 +40,7 @@ export default function CategorySelector(): JSX.Element {
           switcher={2}
         />
       </div>
-      <div className={styles.sortButton}>
-        <MyButton text="Price" isSortButton={true} />
-      </div>
+      
     </div>
   );
 }
