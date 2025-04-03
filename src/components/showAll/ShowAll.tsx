@@ -11,6 +11,18 @@ interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
   switcher?: "list" | "guestOfferPage";
 }
+//две функции ниже нужны чтобы при обрезке description не учитывался html в тексте
+function stripHtml(html: string): string {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
+}
+
+function truncateDescription(description: string, maxLength: number): string {
+  const plainText = stripHtml(description);
+  return plainText.length > maxLength
+    ? plainText.slice(0, maxLength) + "..."
+    : plainText;
+}
 
 export default function ShowAll({
   source,
@@ -119,12 +131,9 @@ export default function ShowAll({
               <div className={styles.descriptionOffer}>
                 <p
                   dangerouslySetInnerHTML={{
-                    __html:
-                      offer.description.length < 150
-                        ? DOMPurify.sanitize(offer.description)
-                        : DOMPurify.sanitize(
-                            offer.description.slice(0, 130) + "..."
-                          ),
+                    __html: DOMPurify.sanitize(
+                      truncateDescription(offer.description, 130)
+                    ),
                   }}
                 />
               </div>
@@ -147,24 +156,27 @@ export default function ShowAll({
 
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
-    
+
     return (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
           <div className={styles.leftPartOfferPage}>
             <div className={styles.profileImageContainer}>
-            <img
-              src={
-                offer.profilePicture ||
-                `${import.meta.env.BASE_URL}no-profilePicture-default-image.jpg`
-              }
-              alt="Profile picture"
-              className={styles.offerImage}
-            />
-              <AddToFavoritesButton 
-              className = {styles.AddToFavorites}
-              offer={offer} />
-              </div>
+              <img
+                src={
+                  offer.profilePicture ||
+                  `${
+                    import.meta.env.BASE_URL
+                  }no-profilePicture-default-image.jpg`
+                }
+                alt="Profile picture"
+                className={styles.offerImage}
+              />
+              <AddToFavoritesButton
+                className={styles.AddToFavorites}
+                offer={offer}
+              />
+            </div>
             <p className={styles.name}>
               {offer.firstName} {offer.secondName}
             </p>
@@ -175,8 +187,8 @@ export default function ShowAll({
               <p className={styles.location}>{offer.location}</p>
               <p className={styles.category}>{offer.category}</p>
               <div className={styles.price}>
-              <p className={styles.textPrice}>Price per hour </p>
-              <p className={styles.euro}>{offer.price} € </p>
+                <p className={styles.textPrice}>Price per hour </p>
+                <p className={styles.euro}>{offer.price} € </p>
               </div>
             </div>
             <div>
