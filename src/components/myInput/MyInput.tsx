@@ -15,6 +15,7 @@ interface IMyInputProps {
   error?: boolean; // Добавляем пропс для ошибок
   variant?: "default" | "signInUp" ;
   "data-testid"?: string;
+  autoComplete?: string;
 }
 
 function MyInput({
@@ -29,6 +30,7 @@ function MyInput({
   error,
   variant = "default", 
   "data-testid": dataTestId = "default",
+  autoComplete = "off",
 }: IMyInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // видимость Password
@@ -58,6 +60,7 @@ function MyInput({
           onChange={onChange}
           value={value}
           data-testid={dataTestId}
+          autoComplete={autoComplete} 
         />
         {type === "password" && (
           <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>
