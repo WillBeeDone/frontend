@@ -11,11 +11,14 @@ interface IMyInputProps {
   label: string;
   required?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
+  value?: string | number;
   error?: boolean; // Добавляем пропс для ошибок
   variant?: "default" | "signInUp" ;
   "data-testid"?: string;
   autoComplete?: string;
+  isReadOnly?: boolean;
+  isPhoto?: boolean;
+  isGallery?: boolean;
 }
 
 function MyInput({
@@ -31,6 +34,9 @@ function MyInput({
   variant = "default", 
   "data-testid": dataTestId = "default",
   autoComplete = "off",
+  isReadOnly =  false,
+  isPhoto = false,
+  isGallery = false,
 }: IMyInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // видимость Password
@@ -44,6 +50,7 @@ function MyInput({
     styles[variant], // Стиль в зависимости от варианта
     {
       [styles.error]: error, // Если есть ошибка, добавляем стиль ошибки
+      [styles.readOnly]: isReadOnly, // стилизация заблокированного инпута
     }
   );
 
@@ -60,7 +67,10 @@ function MyInput({
           onChange={onChange}
           value={value}
           data-testid={dataTestId}
-          autoComplete={autoComplete} 
+          autoComplete={autoComplete}
+          readOnly = {isReadOnly}
+          accept={isPhoto ? "image/*" : undefined}
+          {...(isGallery ? { multiple: true} : {})}
         />
         {type === "password" && (
           <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>

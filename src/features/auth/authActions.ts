@@ -145,6 +145,36 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
             "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0Nzc2MTA2MX0.4aer_tGF5jBF_dTNa4AL3t3dyHT9DlX3_I8dhzzd_tWL4cCDx8xdjP0klfok4ivx"
         }
 
+        const fakeUserWithoutData = {
+          "id": 35,
+          "firstName": "",
+          "lastName": "",
+          "email": "priestvolodya+21@gmail.com",
+          "phoneNumber": "",
+          "locationDto": {
+              "cityName": "Berlin"
+          },
+          //"profilePicture": "https://imgur.com/diLaoNW",
+          "profilePicture": "",
+          "roles": [
+              {
+                  "id": 1,
+                  "title": "ROLE_USER",
+                  "authority": "ROLE_USER"
+              }
+          ],
+          "active": true,
+          "blocked": false,
+          "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0NDEzMjI2MSwicm9sZXMiOlt7ImlkIjoxLCJ0aXRsZSI6IlJPTEVfVVNFUiIsImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwibmFtZSI6InByaWVzdHZvbG9keWErMjFAZ21haWwuY29tIn0.nMpq5ljjygDccK6RKePABa8zMOjp3n_5q7nP6eiVQtjpPm9TBpEZ9G85CQDhxDRZ",
+          "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0Nzc2MTA2MX0.4aer_tGF5jBF_dTNa4AL3t3dyHT9DlX3_I8dhzzd_tWL4cCDx8xdjP0klfok4ivx"
+      }
+
+        console.log(fakeUserWithoutData);
+        console.log(fakeUser);
+
+
+
+
         return fakeUser;
       //return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
