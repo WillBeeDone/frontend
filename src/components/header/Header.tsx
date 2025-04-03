@@ -48,6 +48,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           url="/api/locations"
           text="Choose city"
           onChange={setSelectedCity}
+          data-testid="DropDownLocationHeader_HfZydgG"
         />
       </div>
 

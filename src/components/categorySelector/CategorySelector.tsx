@@ -34,10 +34,11 @@ export default function CategorySelector(): JSX.Element {
         ))}
       </div>
       <div className={styles.dropdown}>
-        <DropDown
+        <DropDown 
           url="/api/categories"
           onChange={setSelectedCategory}
           switcher={2}
+          data-testid="DropDownCategoriesHomePage_yHfgzdgG"
         />
       </div>
       

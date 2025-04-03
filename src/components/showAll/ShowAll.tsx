@@ -91,7 +91,7 @@ export default function ShowAll({
     return (
       <div className={styles.offerCardMain}>
         <div className={styles.sortButton}>
-          <MyButton text="Price" isSortButton={true} />
+          <MyButton data-testid="MyButtonHomePageSort_JnHb" text="Price" isSortButton={true} />
         </div>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
@@ -143,11 +143,11 @@ export default function ShowAll({
               </div>
               <div className={styles.heartAndView}>
                 <div>
-                  <AddToFavoritesButton offer={offer} />
+                  <AddToFavoritesButton data-testid="AddToFavoritesButtonHomePage_HgyfTy" offer={offer} />
                 </div>
                 <div className={styles.view}>
                   <Link to={`/offer/${offer.id}`}>
-                    <MyButton variant="primary" text="View" />
+                    <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function ShowAll({
               />
               <div className={styles.AddToFavoritesContainer}>
                 <div className={styles.AddToFavoritesBtn}>
-                  <AddToFavoritesButton
+                  <AddToFavoritesButton data-testid="AddToFavoritesButtonOfferPage_JnHygdT"
                     className={styles.AddToFavorites}
                     offer={offer}
                   />
@@ -191,7 +191,7 @@ export default function ShowAll({
               {offer.firstName} {offer.secondName}
             </p>
 
-            <Link to="/sign-in-form">
+            <Link data-testid="LinkSignInOfferPage_fJndhTy" to="/sign-in-form">
               <div className={styles.getContact}>
                 <img src="./call-phone.png" alt="call-phone icon" />
                 <div className={styles.textSignInGetContact}>
@@ -275,7 +275,7 @@ export default function ShowAll({
           </div>
         )}
 
-        <Link className={styles.goBackBtn} to="/">
+        <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to="/">
           🔙 Go back
         </Link>
       </div>
