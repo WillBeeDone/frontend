@@ -11,9 +11,13 @@ import { selectIsAuthenticated } from "../../features/auth/authSlice";
 interface AddToFavoritesProps {
   offer: IOfferCard;
   className?: string;
+  "data-testid"?: string;
 }
 
-export default function AddToFavorites({ offer }: AddToFavoritesProps) {
+export default function AddToFavorites({ 
+  offer,
+  "data-testid": dataTestId = "default",
+ }: AddToFavoritesProps) {
   const { favoriteOffers, addFavorite, removeFavorite } = useFavorites();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -37,7 +41,7 @@ export default function AddToFavorites({ offer }: AddToFavoritesProps) {
 
   return (
     <div className={styles.favorites}>
-      <button onClick={handleClick} className={styles.favoriteButton}>
+      <button onClick={handleClick} className={styles.favoriteButton} data-testid={dataTestId}>
         <img
           src={isOfferFavoriteAlready ? offerInFavorites : offerIsUsual}
           alt="heart"
