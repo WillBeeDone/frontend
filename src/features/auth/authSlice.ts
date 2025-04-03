@@ -1,7 +1,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
-import { emailForPassRecovery, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
+import { emailForPassRecovery, getMyProfileDataByAccessToken, myProfile, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
 import { RootState } from '../../app/store';
 import { transformUser } from '../../components/backToFrontTransformData/BackToFrontTransformData';
 
@@ -99,8 +99,9 @@ export const authSlice = createSlice({
       .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
         state.isLoading = false
         state.user = transformUser(action.payload);
-        console.log("user in slice ---- ", state.user);
-        
+        console.log("user in slice signInByEmailAndPass after transform ---- ", state.user);
+        localStorage.setItem("selectedCity", state.user.location);
+
         state.isAuthenticated = true;
       })
       .addCase(signInByEmailAndPass.rejected, (state, action) => {
@@ -115,9 +116,9 @@ export const authSlice = createSlice({
       .addCase(signInByAccessToken.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signInByAccessToken.fulfilled, (state, action) => {
+      .addCase(signInByAccessToken.fulfilled, (state) => {
         state.isLoading = false
-        state.user = action.payload;
+        //state.user = action.payload;
         state.isAuthenticated = true;
       })
       .addCase(signInByAccessToken.rejected, (state, action) => {
@@ -131,10 +132,10 @@ export const authSlice = createSlice({
       .addCase(signInByRefreshToken.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(signInByRefreshToken.fulfilled, (state, action) => {
+      .addCase(signInByRefreshToken.fulfilled, (state) => {
         state.isLoading = false;
         //state.isAuthenticated = true;
-        state.user = action.payload;
+        //state.user = action.payload;
       })
       .addCase(signInByRefreshToken.rejected, (state, action) => {
         state.isLoading = false;
@@ -142,6 +143,41 @@ export const authSlice = createSlice({
         state.isAuthenticated = false;
         state.error = action.payload as string;
       })
+
+      // запрос отправляющий отправляющий аксес токен и получающий все данные юзера - кнопка MyProfile
+      .addCase(getMyProfileDataByAccessToken.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMyProfileDataByAccessToken.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.user = transformUser(action.payload);
+        console.log("user in slice getMyProfileDataByAccessToken ---- ", state.user);
+        localStorage.setItem("selectedCity", state.user.location);
+
+        state.isAuthenticated = true;
+      })
+      .addCase(getMyProfileDataByAccessToken.rejected, (state, action) => {
+        state.isLoading = false
+        state.user = initialUser
+        state.isAuthenticated = false;
+        state.error = action.payload as string
+      })
+
+      // слайс обрабатывающий форму MyProfile
+      .addCase(myProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(myProfile.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(myProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
+
+
+     
 
 
   },

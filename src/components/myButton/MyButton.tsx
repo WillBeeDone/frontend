@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
 import { useOffers } from "../../context/OffersContext";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getMyProfileDataByAccessToken } from "../../features/auth/authActions";
 import sortAscIcon from "/sort-from-low.png";
 import sortDescIcon from "/sort-from-high.png";
 
@@ -14,6 +16,7 @@ interface IMyButtonProps {
   variant?: "primary" | "danger" | "easy";
   to?: string;
   isSortButton?: boolean;
+  "data-testid"?: string;
 }
 
 function MyButton({
@@ -24,15 +27,31 @@ function MyButton({
   variant = "primary",
   to,
   isSortButton = false,
+  "data-testid": dataTestId = "default",
 }: IMyButtonProps) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector((state) => state.auth.user.accessToken);
   const { offerCards, setOfferCards } = useOffers();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  const handleClick = () => {
-    if (to) {
+  const handleClick = async () => {
+    if ((text === "My Profile" || text === "Create Offer") && accessToken) {
+      try {
+        await dispatch(getMyProfileDataByAccessToken(accessToken)).unwrap();
+        
+        if (text === "My Profile") {
+          navigate("/my-profile");
+        } else if (text === "Create Offer") {
+          navigate("/create-offer");
+        }
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    } else if (to) {
       navigate(to);
     }
+
     func();
 
     if (isSortButton) {
@@ -50,6 +69,7 @@ function MyButton({
       onClick={handleClick}
       className={styles.sortContainer}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       <span className={styles.sortContainerText}>{text}</span>
       <img
@@ -69,6 +89,7 @@ function MyButton({
         [styles.disabled]: disabled,
       })}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       {text}
     </button>

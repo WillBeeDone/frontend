@@ -1,11 +1,19 @@
 *{
   box-sizing: border-box;
 }
+input:focus {
+  box-shadow: none;
+}
+input:focus {
+  outline: none;
+}
+
 
 :root {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  font-size: 18px;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -19,7 +27,7 @@
   height: 100%;
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -30,7 +38,7 @@ a:hover {
 
 .container{
   width: 100%;
-}
+} */
 
 body {
   margin: 0;
