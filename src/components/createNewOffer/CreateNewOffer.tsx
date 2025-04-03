@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { myProfile } from "../../features/auth/authActions";
-import styles from "./MyProfile.module.css";
+import styles from "./CreateNewOffer.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import validator from "validator";
