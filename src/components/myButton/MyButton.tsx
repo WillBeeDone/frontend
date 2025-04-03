@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
 import { useOffers } from "../../context/OffersContext";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getMyProfileDataByAccessToken } from "../../features/auth/authActions";
 import sortAscIcon from "/sort-from-low.png";
 import sortDescIcon from "/sort-from-high.png";
 
@@ -28,13 +30,28 @@ function MyButton({
   "data-testid": dataTestId = "default",
 }: IMyButtonProps) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector((state) => state.auth.user.accessToken);
   const { offerCards, setOfferCards } = useOffers();
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
-  const handleClick = () => {
-    if (to) {
+  const handleClick = async () => {
+    if ((text === "My Profile" || text === "Create Offer") && accessToken) {
+      try {
+        await dispatch(getMyProfileDataByAccessToken(accessToken)).unwrap();
+        
+        if (text === "My Profile") {
+          navigate("/my-profile");
+        } else if (text === "Create Offer") {
+          navigate("/create-offer");
+        }
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    } else if (to) {
       navigate(to);
     }
+
     func();
 
     if (isSortButton) {
