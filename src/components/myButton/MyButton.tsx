@@ -17,6 +17,7 @@ interface IMyButtonProps {
   to?: string;
   isSortButton?: boolean;
   "data-testid"?: string;
+  className?:string;
 }
 
 function MyButton({

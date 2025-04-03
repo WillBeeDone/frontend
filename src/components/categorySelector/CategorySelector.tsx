@@ -3,7 +3,6 @@ import styles from "./CategorySelector.module.css";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
 
-
 export default function CategorySelector(): JSX.Element {
   const { setSelectedCategory } = useOffers();
 

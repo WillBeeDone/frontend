@@ -165,14 +165,26 @@ function MyProfile(): JSX.Element {
         alt="User photo" />
         </div>
        
-        {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
+       {/* цей варіант добре працює якщо в юзера є фото */}
+        {formData.profilePicture && formData.profilePicture !== "/no-profilePicture-default-image.jpg" && (
+        <MyButton text="Remove photo" func={handleRemovePhoto} />
+          )}
+
+           {/* цей варіант добре працює якщо в юзера НЕМАЄ фото */}
+        {/* {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
        <MyButton text="Remove photo" func={handleRemovePhoto} />
-       ) : null}
+       ) : null} */}
+
+    
+       
         
-        <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange} key={fileInputKey}/>
+        <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange} key={fileInputKey} isPhoto={true}/>
         {errors.profilePicture && <p className={styles.error}>{errors.profilePicture}</p>}
 
       </div>
+
+ 
+
 
       <div className={styles.inputGroup}>
         <MyInput name="firstName" type="text" placeholder="Enter your first name" label="First name" required onChange={handleChange} value={formData.firstName}/>

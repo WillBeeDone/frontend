@@ -10,6 +10,8 @@ import { useAppSelector } from "../../app/hooks";
 import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
+import CreateNewOfferButton from "../createNewOffer/CreateNewOfferButton";
+
 
 
 interface ILink {
@@ -71,7 +73,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
             <MyButton text="Favorites" to="/favorites" variant="primary" />
             <MyButton text="My Offers" func={() => fetchMyOffers()} />
             <MyButton text="My Profile" to="/my-profile"/>
-            <MyButton text="Create new Offer" to="/create-new-offer"/>
+            <CreateNewOfferButton/>
+            {/* <MyButton text="Create new Offer" to="/create-new-offer"/> */}
             <SignOut />
           </>
         ) : (

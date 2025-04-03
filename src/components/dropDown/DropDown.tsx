@@ -11,6 +11,7 @@ interface IDropDown {
   text?: string;
   onChange?: (selectedElement: string) => void;
   switcher?: number;
+  isReadOnly?: boolean;
   "data-testid"?: string;
 }
 
@@ -20,6 +21,7 @@ export default function DropDown({
   onChange,
   switcher = 1,
   "data-testid": dataTestId = "default",
+  isReadOnly = false,
 }: IDropDown): JSX.Element {
   const isCitySelector = switcher === 1; // Якщо switcher = 1 – це вибір міст
   const storageKey = "selectedCity"; // Ключ для LocalStorage
@@ -64,25 +66,17 @@ export default function DropDown({
   };
 
   return (
-    <select
-      className={styles.dropdown}
-      value={selectedElement}
-      onChange={handleChange}
-      data-testid={dataTestId}
-    >
-      {switcher === 1 ? (
-        <option value="all" disabled>
-          {text}
-        </option>
-      ) : (
-        <option value="all">All categories</option>
-      )}
+    <select className={styles.dropdown} value={selectedElement} onChange={handleChange} disabled = {isReadOnly} data-testid={dataTestId}>
+      
+      {switcher === 1 ? ( <option value="all" disabled>{text}</option> )
+      : switcher === 3 ? <option value="all" disabled>{text}</option> : <option value="all">All categories</option>}
 
-      {list.map((el, index) => (
-        <option key={index} value={el.value}>
-          {el.element}
-        </option>
-      ))}
-    </select>
+
+    {list.map((el, index) => (
+      <option key={index} value={el.value}>
+        {el.element}
+      </option>
+    ))}
+  </select>
   );
 }
