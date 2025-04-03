@@ -59,3 +59,9 @@ export interface IOfferForTransformOfferCardPagination {
     };
   };
 }
+
+export interface IOfferState  {
+    offer: IUserOfferPage,
+    isLoading: boolean,
+    error: string,
+  };

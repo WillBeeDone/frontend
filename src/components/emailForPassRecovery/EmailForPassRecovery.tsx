@@ -49,12 +49,15 @@ function EmailForPassRecovery(): JSX.Element {
 
   return (
     <div className={styles.signInContainer}>
-      <div className={styles.image}>
-        <img src="./signInimage.jpeg" alt="Sign In" />
-      </div>
+      <div className={styles.image}></div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.inputGroup}>
+        <h2 className={styles.title}>Forgot Password?</h2>
+          <div className={styles.dontWory}>
+            <p>Dont wory. We can help</p>
+            </div>
+        <div className={styles.inputGroup}>
+          <div className={styles.inputContainer}>
             <MyInput
               name="email"
               type="email"
@@ -63,13 +66,14 @@ function EmailForPassRecovery(): JSX.Element {
               required
               onChange={handleChange}
               value={email}
+              data-testid="MyInputPassRecovery_HdgfY"
             />
             {emailError && <p className={styles.error}>{emailError}</p>}
           </div>
-          <div className={styles.btnGroup}>
-            <MyButton type="submit" text="Send" />
-            <MyButton type="button" text="Go back" to="/" />
           </div>
+          <div className={styles.btnGroup}>
+            <MyButton data-testid="MyButtonPassRecovery_PhedgfY" type="submit" text="Send" variant="easy"/>
+           </div>
         </form>
       </div>
     </div>
