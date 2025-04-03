@@ -1,29 +1,52 @@
-
 .signInContainer {
   display: flex;
   width: 100%;
   height: 100vh;
   overflow: hidden;
-}
-
-.form {
-  width: 100%;
-  max-width: 400px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
+  background-color: #fff8e8;
   
 }
 
-.title {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
+.signInContainer img {
+  width: 100%;
+  height: 100hv;
+  object-fit: contain;
+  overflow: hidden;
 }
 
-.inputGroup {
-  margin-bottom: 15px;
+.dontWory {
+  display: flex;
+  align-items: start;
+  color: rgb(129, 122, 122);
+  font-size: medium;
+  gap: 5px;
+  margin-bottom: 10px;
 }
+
+
+.form {
+  background: #fff8e8;
+  display: flex;
+  flex-direction: column;  
+}
+
+.title {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 0px;
+}
+
+.image {
+  background-image: url("/recoveryPassword.jpg");
+  background-size: cover;
+  width: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: flex;
+}
+
 
 .error {
   color: red;
@@ -31,33 +54,13 @@
   margin-top: 5px;
 }
 
-.btnGroup {
+
+
+.inputGroup {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.links {
-  text-align: center;
-  margin-top: 15px;
-}
-
-.link {
-  display: block;
-  color: #007bff;
-  text-decoration: none;
-  margin-top: 10px;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-.signInContainer img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: top;
+  flex-direction: column;
+  margin-top: 35px;
+  width: 20vw; /* 45% от ширины экрана */
 }
 
 .formContainer {
@@ -66,24 +69,20 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: #fff;
+  background: #fff8e8;
 }
 
-.image {
-  
-  height: 100vh;
-  overflow: hidden;
+.inputContainer {
   display: flex;
-  background: #fff;
-  
-  
+  flex-direction: column;
 }
 
-.image img {
-  width: 100%;
-  min-width: 1000px;
-  object-fit: contain;
-  object-position: left;
-  
+.inputContainer input {
+  height: 50px;
+  font-size: 18px !important;
+  padding: 10px;
+  border-color: #d6cfcf;
+  border-width: 2px;
+  background-color: #fff8e8;
+  color: black;
 }
-
