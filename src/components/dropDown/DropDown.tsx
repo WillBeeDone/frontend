@@ -10,14 +10,23 @@ interface IDropDown {
   url: string;
   text?: string;
   onChange?: (selectedElement: string) => void;
-  switcher?: number; 
+  switcher?: number;
+  "data-testid"?: string;
 }
 
-export default function DropDown({ url, text = "elements", onChange, switcher = 1 }: IDropDown): JSX.Element {
+export default function DropDown({
+  url,
+  text = "elements",
+  onChange,
+  switcher = 1,
+  "data-testid": dataTestId = "default",
+}: IDropDown): JSX.Element {
   const isCitySelector = switcher === 1; // Якщо switcher = 1 – це вибір міст
   const storageKey = "selectedCity"; // Ключ для LocalStorage
 
-  const initialValue = isCitySelector ? localStorage.getItem(storageKey) || "all" : "all";
+  const initialValue = isCitySelector
+    ? localStorage.getItem(storageKey) || "all"
+    : "all";
 
   const [selectedElement, setSelectedElement] = useState(initialValue);
   const [list, setList] = useState<IDataForSelector[]>([]);
@@ -55,18 +64,25 @@ export default function DropDown({ url, text = "elements", onChange, switcher = 
   };
 
   return (
-    <select className={styles.dropdown} value={selectedElement} onChange={handleChange}>
-      
-      {switcher === 1 ? ( <option value="all" disabled>{text}</option> )
-      : <option value="all">All categories</option>}
+    <select
+      className={styles.dropdown}
+      value={selectedElement}
+      onChange={handleChange}
+      data-testid={dataTestId}
+    >
+      {switcher === 1 ? (
+        <option value="all" disabled>
+          {text}
+        </option>
+      ) : (
+        <option value="all">All categories</option>
+      )}
 
-    {list.map((el, index) => (
-      <option key={index} value={el.value}>
-        {el.element}
-      </option>
-    ))}
-  </select>
-
+      {list.map((el, index) => (
+        <option key={index} value={el.value}>
+          {el.element}
+        </option>
+      ))}
+    </select>
   );
 }
-

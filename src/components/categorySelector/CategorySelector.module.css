@@ -83,7 +83,7 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 300px) {
   .sortButton {
     margin-right: 10px;
   }
