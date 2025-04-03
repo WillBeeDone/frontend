@@ -2,7 +2,7 @@ import { JSX } from "react";
 import styles from "./CategorySelector.module.css";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
-import MyButton from "../myButton/MyButton";
+
 
 export default function CategorySelector(): JSX.Element {
   const { setSelectedCategory } = useOffers();
