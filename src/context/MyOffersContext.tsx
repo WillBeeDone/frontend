@@ -11,10 +11,7 @@ import { transformOfferCardPagination } from "../components/backToFrontTransform
 interface MyOffersContextType {
   myOfferCards: IOfferCard[];
   setMyOfferCards: (offer: IOfferCard[]) => void;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
-  totalPages: number;
-  fetchMyOffers: (page?: number) => void;
+  fetchMyOffers: () => void;
   addNewOfferToMyOffers: (newOffer: IOfferCard) => void;
   removeOfferFromMyOffers: (offerId: number) => void;
   clearAllMyOffers: () => void;
@@ -27,13 +24,9 @@ export const MyOffersContext = createContext<MyOffersContextType | undefined>(
 export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
   const [myOfferCards, setMyOfferCards] = useState<IOfferCard[]>([]);
  
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  
-
-  const fetchMyOffers = async (page: number = 0) => {
+  const fetchMyOffers = async () => {
     try {
-      const response = await fetch(`/api/my-offers?page=${page}&size=9`);
+      const response = await fetch(`/api/my-offers`);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
@@ -42,16 +35,14 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
       const formattedMyOffers = transformOfferCardPagination(data);
       console.log(data);
       setMyOfferCards(formattedMyOffers);
-      setTotalPages(data.totalPages);
-      setCurrentPage(page);
     } catch (error) {
       console.error("Mistake while my offers receive:", error);
     }
   };
 
   useEffect(() => {
-    fetchMyOffers(currentPage);
-  }, [currentPage]);
+    fetchMyOffers();
+  }, []);
 
 
 
@@ -94,9 +85,21 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
   };
 
 
-const clearAllMyOffers = () => {
-  setMyOfferCards([]);
-};
+  const clearAllMyOffers = async () => {
+    try {
+      const response = await fetch(`/api/clearAllMyOffers`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+  
+      setMyOfferCards([]);
+    } catch (error) {
+      console.error("Error while removing all offers from my offers:", error);
+    }
+  };
 
 
   return (
@@ -104,9 +107,6 @@ const clearAllMyOffers = () => {
       value={{
         myOfferCards,
         setMyOfferCards,
-        currentPage,
-        setCurrentPage,
-        totalPages,
         fetchMyOffers,
         addNewOfferToMyOffers,
         removeOfferFromMyOffers,

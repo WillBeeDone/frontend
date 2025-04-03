@@ -44,6 +44,10 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   // чтоб fetchOffers не отрабатывал после fetchOffersFirstRender
   const firstRender = useRef(true);
 
+  
+  localStorage.setItem("selectedCity", selectedCity)
+  
+
   const fetchOffersFirstRender = async (page: number = 0) => {
     try {
       const response = await fetch(`/api/offers?page=${page}&size=9`);

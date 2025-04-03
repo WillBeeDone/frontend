@@ -17,6 +17,8 @@ import AuthChecker from "./features/auth/AuthChecker";
 import ConfirmEmailPage from "./components/confirmEmailPage/ConfirmEmailPage";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import { MyOffersProvider } from "./context/MyOffersContext";
+import MyProfile from "./components/myProfile/MyProfile";
+import CreateNewOffer from "./components/createNewOffer/CreateNewOffer";
 
 function App() {
   const guestRoutes = [
@@ -25,23 +27,23 @@ function App() {
       element: <Main />,
     },
     {
-      path: "sign-in-form",
+      path: "/sign-in-form",
       element: <SignIn />,
     },
     {
-      path: "sign-up-form",
+      path: "/sign-up-form",
       element: <SignUp />,
     },
     {
-      path: "offer/:id",
+      path: "/offer/:id",
       element: <GuestOfferPage />,
     },
     {
-      path: "email-for-password-recovery-form",
+      path: "/email-for-password-recovery-form",
       element: <EmailForPassRecovery />,
     },
     {
-      path: "password-recovery-form",
+      path: "/password-recovery-form",
       element: <PasswordRecovery />,
     },
     {
@@ -52,8 +54,16 @@ function App() {
 
   const userRoutes = [
     {
-      path: "favorites",
+      path: "/favorites",
       element: <ShowFavorites />,
+    },
+    {
+      path: "/my-profile",
+      element: <MyProfile />,
+    },
+    {
+      path: "/create-new-offer",
+      element: <CreateNewOffer />,
     },
   ];
 
@@ -95,3 +105,4 @@ function App() {
 }
 
 export default App;
+
