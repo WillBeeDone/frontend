@@ -7,7 +7,7 @@ import GuestOfferPage from "./components/offerPage/GuestOfferPage";
 import { OffersProvider } from "./context/OffersContext";
 import SignUp from "./components/signUp/SignUp";
 import SignIn from "./components/signIn/SignIn";
-import { FavoritesProvider } from "./context/FavoritesContext";
+import { FavoriteProvider } from "./context/FavoriteContext";
 import ShowFavorites from "./components/showFavorites/ShowFavorites";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
@@ -54,7 +54,7 @@ function App() {
 
   const userRoutes = [
     {
-      path: "/favorites",
+      path: "/favorite",
       element: <ShowFavorites />,
     },
     {
@@ -72,7 +72,7 @@ function App() {
       <AuthChecker />
       <OffersProvider>
         <MyOffersProvider>
-        <FavoritesProvider>
+        <FavoriteProvider>
           <HashRouter>
             <Routes>
               <Route path="/" element={<Layout />}>
@@ -97,7 +97,7 @@ function App() {
               <Route path="*" element={<NoPage />} />
             </Routes>
           </HashRouter>
-        </FavoritesProvider>
+        </FavoriteProvider>
         </MyOffersProvider>
       </OffersProvider>
     </Provider>

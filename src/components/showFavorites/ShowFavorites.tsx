@@ -1,8 +1,8 @@
 import { JSX } from "react";
 import ShowAll from "../showAll/ShowAll";
-import { useFavorites } from "../../context/FavoritesContext";
+import { useFavorite } from "../../context/FavoriteContext";
 
 export default function ShowFavorites(): JSX.Element {
-  const { favoriteOffers } = useFavorites();
+  const { favoriteOffers } = useFavorite();
   return <ShowAll source={favoriteOffers} />;
 }
