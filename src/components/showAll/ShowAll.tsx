@@ -6,10 +6,13 @@ import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
 import MyButton from "../myButton/MyButton";
 import DOMPurify from "dompurify";
 import Gallery from "../gallery/Gallery";
+import { useOffers } from "../../context/OffersContext";
+import { useFavorite } from "../../context/FavoriteContext";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
   switcher?: "list" | "guestOfferPage";
+  isFavotite?:boolean;
 }
 //две функции ниже нужны чтобы при обрезке description не учитывался html в тексте
 function stripHtml(html: string): string {
@@ -27,10 +30,16 @@ function truncateDescription(description: string, maxLength: number): string {
 export default function ShowAll({
   source,
   switcher = "list",
+  isFavotite,
 }: ShowAllProps): JSX.Element {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  
+  const {offerCards, setOfferCards} = useOffers();
+  const {favoriteOffers, setFavoriteOffers} = useFavorite();
+  const offerCardsFinal : IOfferCard[] = isFavotite ? favoriteOffers : offerCards;
+  const setOfferCardsFinal : (offer: IOfferCard[]) => void = isFavotite ? setFavoriteOffers : setOfferCards;
 
   const handleNext = () => {
     if (currentIndex < (source as IGuestOfferPage).gallery.length - 4) {
@@ -91,7 +100,7 @@ export default function ShowAll({
     return (
       <div className={styles.offerCardMain}>
         <div className={styles.sortButton}>
-          <MyButton data-testid="MyButtonHomePageSort_JnHb" text="Price" isSortButton={true} />
+          <MyButton data-testid="MyButtonHomePageSort_JnHb" text="Price" isSortButton={true} offerCards={offerCardsFinal} setOfferCards={setOfferCardsFinal} />
         </div>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
