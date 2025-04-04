@@ -54,7 +54,7 @@ function EmailForPassRecovery(): JSX.Element {
         <form onSubmit={handleSubmit} className={styles.form}>
         <h2 className={styles.title}>Forgot Password?</h2>
           <div className={styles.dontWory}>
-            <p>Dont wory. We can help</p>
+            <p>Dont wory. We can help.</p>
             </div>
         <div className={styles.inputGroup}>
           <div className={styles.inputContainer}>
