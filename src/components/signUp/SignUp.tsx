@@ -167,12 +167,10 @@ function SignUp(): JSX.Element {
               data-testid="SignUpCheckBox_Nhgy"
             />
             <label>
-              I agree with <a data-testid="IAgreeWith" href="#">user agreement</a>
+              I agree with <a data-testid="IAgreeWith" href="#/user-agreement">user agreement</a>
             </label>
           </div>
           {errors.agree && <p className={styles.error}>{errors.agree}</p>}
-
-      
 
           <div className={styles.signBtn}>            
             <MyButton
@@ -182,7 +180,6 @@ function SignUp(): JSX.Element {
               variant="easy"
               data-testid="MyButtonSignUp_jhYgj"
             />
-            
           </div>
         </form>
       </div>
