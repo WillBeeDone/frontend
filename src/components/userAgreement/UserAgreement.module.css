@@ -1,0 +1,52 @@
+.UserAgreementContainer {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    line-height: 1.7;
+  }
+  
+  .UserAgreementContainer h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .UserAgreementContainer h2 {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    color: #34495e;
+  }
+  
+  .UserAgreementContainer p {
+    margin: 10px 0;
+  }
+  
+  .UserAgreementContainer ul {
+    margin: 10px 0 20px 20px;
+    padding-left: 20px;
+  }
+  
+  .UserAgreementContainer li {
+    margin-bottom: 8px;
+  }
+  
+  .UserAgreementContainer a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .UserAgreementContainer a:hover {
+    text-decoration: underline;
+  }
+  
+  .UserAgreementContainer .lastUpdated {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  

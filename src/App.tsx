@@ -19,6 +19,7 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import { MyOffersProvider } from "./context/MyOffersContext";
 import MyProfile from "./components/myProfile/MyProfile";
 import CreateNewOffer from "./components/createNewOffer/CreateNewOffer";
+import UserAgreement from "./components/userAgreement/UserAgreement";
 
 function App() {
   const guestRoutes = [
@@ -50,6 +51,11 @@ function App() {
       path: "/confirm-email",
       element: <ConfirmEmailPage />,
     },
+    {
+      path: "/user-agreement",
+      element: <UserAgreement />,
+    },
+
   ];
 
   const userRoutes = [
