@@ -42,7 +42,7 @@ const GuestOfferPage = () => {
   if (error) return <p>{error}</p>;
   if (!offer) return <p>Offer not found</p>;
 
-  return <ShowAll source={offer} switcher="guestOfferPage" />;
+  return <ShowAll source={offer} switcher="guestOfferPage"/>;
 };
 
 export default GuestOfferPage;

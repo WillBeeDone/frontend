@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import styles from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
@@ -11,6 +11,7 @@ import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
 import CreateNewOfferButton from "../createNewOffer/CreateNewOfferButton";
+import { useFavorite } from "../../context/FavoriteContext";
 
 
 
@@ -24,12 +25,15 @@ interface IHeaderProps {
 }
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
-  const { setSelectedCity } = useOffers();
+  const { setSelectedCity: setCityForOffer } = useOffers();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
+  const { fetchFavoriteOffers } = useFavorite();
   const { fetchMyOffers } = useMyOffers();
+  const {setSelectedCity: setCityForFavorite} = useFavorite();
+
+  const location = useLocation();
   
- 
 
   return (
     <header className={styles.header}>
@@ -49,7 +53,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         <DropDown
           url="/api/locations"
           text="Choose city"
-          onChange={setSelectedCity}
+          onChange={location.pathname === "/favorite" ? setCityForFavorite : setCityForOffer}
           data-testid="DropDownLocationHeader_HfZydgG"
         />
       </div>
@@ -70,7 +74,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                 />
               </div>
             </div>
-            <MyButton text="Favorites" to="/favorite" variant="primary" />
+            <MyButton text="Favorites" to="/favorite" variant="primary" func={fetchFavoriteOffers}/>
             <MyButton text="My Offers" func={() => fetchMyOffers()} />
             <MyButton text="My Profile" to="/my-profile"/>
             <CreateNewOfferButton/>

@@ -9,7 +9,6 @@ import {
 import { IOfferCard } from "../components/types/OfferInterfaces";
 import { transformOfferCardPagination } from "../components/backToFrontTransformData/BackToFrontTransformData";
 import { useOffers } from "./OffersContext";
-import { favorites } from "../test data/Offer";
 
 interface FavoritesContextType {
   offerCards: IOfferCard[];
@@ -30,13 +29,13 @@ interface FavoritesContextType {
     keyWord?: string,
     page?: number
   ) => void;
-  fetchFavoriteOffersFirstRender: () => void;
+  fetchFavoriteOffers: () => void;
   addFavorite: (offerId: string) => void;
   removeFavorite: (offerId: string) => void;
   clearFavorite: () => void;
 }
 
-const FavoriteContext = createContext<FavoritesContextType | undefined>(
+export const FavoriteContext = createContext<FavoritesContextType | undefined>(
   undefined
 );
 
@@ -48,14 +47,14 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   const [selectedKeyWord, setSelectedKeyWord] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
-  // чтоб fetchOffers не отрабатывал после fetchOffersFirstRender
+  // чтоб fetchFilteredFavoriteOffers не отрабатывал после fetchFavoriteOffers
   const firstRender = useRef(true);
 
 
   //localStorage.setItem("selectedCity", selectedCity) //проверить нужно ли здесь это
 
 
-  const fetchFavoriteOffersFirstRender = async (page: number = 0) => {
+  const fetchFavoriteOffers = async (page: number = 0) => {
     try {
 
       const accessToken = localStorage.getItem("accessToken");
@@ -80,10 +79,12 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  
   useEffect(() => {
-    fetchFavoriteOffersFirstRender(currentPage);
+    if (!firstRender.current) {
+      fetchFavoriteOffers(currentPage);
+    }
   }, [currentPage]);
-
 
 
   //получение от сервера списка любимых с учетом параметров
@@ -94,6 +95,9 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
       page: number = 0
     ) => {
       try {
+        console.log("inside fetchFilteredFavoriteOffers selected category - ", category);
+        console.log("inside fetchFilteredFavoriteOffers selected city - ", city);
+        console.log("inside fetchFilteredFavoriteOffers selected key word - ", keyWord);
         const accessToken = localStorage.getItem("accessToken");
         const response = await fetch(
           `/api/users/favourites?page=${page}&size=9&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
@@ -114,8 +118,14 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
+      //не делать fetchFilteredFavoriteOffers() при первой загрузке страницы, а только после изменения значения city, category или keyWord
+      if (firstRender.current) {
+        firstRender.current = false;
+        return;
+      }
       fetchFilteredFavoriteOffers();
     }, [selectedCity, selectedCategory, selectedKeyWord]);
+  
 
 
     // запрос на сервер для добавления в любимые
@@ -180,43 +190,9 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
-
-  //локальные данные
-  // const fetchFavorites = async () => {
-  //   try {
-  //    
-  //     setFavoriteOffers(favorites);
-  //   } catch (error) {
-  //     console.error("Error while receiving favorites:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchFavorites();
-  // }, []);
-
-  // // добавление
-  // const addFavorite = (offerId: string) => {
-  //   // проверка есть ли уже в любимых
-  //   if (favoriteOffers.some((offer) => offer.id === Number(offerId))) return;
-
-  //   const newOffer = offerCards.find((o) => o.id === Number(offerId));
-  //   if (!newOffer) return;
-
-  //   setFavoriteOffers((prev) => [...prev, newOffer]);
-  // };
-
-  // // удаление
-  // const removeFavorite = (offerId: string) => {
-  //   setFavoriteOffers((prev) =>
-  //     prev.filter((offer) => offer.id !== Number(offerId))
-  //   );
-  // };
-
   return (
     <FavoriteContext.Provider
-      value={{offerCards, favoriteOffers, setFavoriteOffers, addFavorite, removeFavorite, clearFavorite, fetchFavoriteOffersFirstRender, fetchFilteredFavoriteOffers,selectedCity, selectedCategory, selectedKeyWord, setSelectedCity, setSelectedCategory, setSelectedKeyWord, currentPage, setCurrentPage, totalPages}}
+      value={{offerCards, favoriteOffers, setFavoriteOffers, addFavorite, removeFavorite, clearFavorite, fetchFavoriteOffers, fetchFilteredFavoriteOffers,selectedCity, selectedCategory, selectedKeyWord, setSelectedCity, setSelectedCategory, setSelectedKeyWord, currentPage, setCurrentPage, totalPages}}
     >
       {children}
     </FavoriteContext.Provider>
