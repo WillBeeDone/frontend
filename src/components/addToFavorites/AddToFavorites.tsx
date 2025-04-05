@@ -22,6 +22,7 @@ export default function AddToFavorites({
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [showTooltip, setShowTooltip] = useState(false);
 
+
   const isOfferFavoriteAlready = favoriteOffers.some(
     (favOffer) => favOffer.id === offer.id
   );
@@ -47,7 +48,7 @@ export default function AddToFavorites({
         data-testid={dataTestId}
       >
         <img
-          src={isOfferFavoriteAlready ? offerInFavorites : offerIsUsual}
+          src={isOfferFavoriteAlready && isAuthenticated? offerInFavorites : offerIsUsual}
           alt="heart"
         />
       </button>

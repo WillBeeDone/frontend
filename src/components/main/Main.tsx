@@ -6,39 +6,25 @@ import CategorySelector from "../categorySelector/CategorySelector";
 
 import { OffersContext, useOffers } from "../../context/OffersContext";
 import { Pagination } from "../pagination/Pagination";
-import { useLocation } from "react-router-dom";
-import { useFavorite } from "../../context/FavoriteContext";
-import ShowAll from "../showAll/ShowAll";
 
 export default function Main(): JSX.Element {
-  const { currentPage, totalPages, setCurrentPage } =
+  const { currentPage, totalPages, setCurrentPage, setSelectedCategory } =
     useContext(OffersContext)!;
-
-  const location = useLocation();
-  const isFavoritesPage = location.pathname === "/favorite";
-
-  // const { currentPage, totalPages, setCurrentPage } =
-  //   useContext({isFavoritesPage ? FavoritesContext : OffersContext}OffersContext)!;
-
-  const { favoriteOffers } = useFavorite();
-  const { offerCards } = useOffers();
-  //const { offerCards, currentPage, totalPages, setCurrentPage } = useOffers();
-
-  const offersToDisplay = isFavoritesPage ? favoriteOffers : offerCards;
-
+   
+    const {selectedKeyWord, setSelectedKeyWord} = useOffers();
+    
   return (
     <div className={styles.mainContainer}>
       <div className={styles.banner}>
-        <Banner />
+        <Banner selectedKeyWord={selectedKeyWord} setSelectedKeyWord={setSelectedKeyWord}/>
       </div>
 
       <div className={styles.category}>
-        <CategorySelector />
+        <CategorySelector  setSelectedCategory={setSelectedCategory}/>
       </div>
 
       <div className={styles.offerCard}>
-        <ShowAll source={offersToDisplay} />
-        {/* <OfferCard /> */}
+        <OfferCard />
       </div>
 
       {/* Пагинация отображается всегда, но можно добавить проверку на загрузку */}

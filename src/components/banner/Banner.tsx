@@ -1,11 +1,14 @@
 import { JSX, useState } from "react";
 import styles from "./Banner.module.css";
 import KeyWordInput from "../keyWordInput/KeyWordInput";
-import { useOffers } from "../../context/OffersContext";
 
-export default function Banner(): JSX.Element {
-  const { selectedKeyWord, setSelectedKeyWord } = useOffers();
-  // сохранение введенного значения в локальную переменную состояния
+interface IKeyWordSelectorProps {
+  selectedKeyWord: string,
+  setSelectedKeyWord: (keyWord: string) => void;
+}
+
+export default function Banner({selectedKeyWord, setSelectedKeyWord}:IKeyWordSelectorProps): JSX.Element {
+
   const [localKeyWord, setLocalKeyWord] = useState(selectedKeyWord);
 
   // фактический перенос значения локальной переменной состояния в переменную для фетч-запроса
