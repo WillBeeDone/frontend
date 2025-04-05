@@ -1,91 +1,105 @@
+.signUpContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff8e8;
+}
+
+.signUpContainer img {
+  width: 100%;
+  height: 100hv;
+  object-fit: contain;
+  overflow: hidden;
+}
 .formContainer {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .error {
-    color: red;
-    font-size: 12px;
-    margin-top: -5px;
-  }
-  
-  .checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-  }
-  
-  .checkbox input {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-  }
-  
-  .checkbox label {
-    cursor: pointer;
-  }
-  
-  .checkbox a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .checkbox a:hover {
-    text-decoration: underline;
-  }
-  
-  .link {
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .link a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .link a:hover {
-    text-decoration: underline;
-  }
-  
-  .message {
-    text-align: center;
-    font-size: 14px;
-    color: green;
-  }
-  
-  .btnGroup {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff8e8;
+}
+
+.form {
+  background: #fff8e8;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 0px;
+}
+
+.signInLinkContainer {
+  display: flex;
+  color: rgb(129, 122, 122);
+  font-size: small;
+  gap: 5px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  width: 20vw; /* 45% от ширины экрана */
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer input {
+  height: 50px;
+  font-size: 18px !important;
+  padding: 10px;
+  border-color: #d6cfcf;
+  border-width: 2px;
+  background-color: #fff8e8;
+  color: black;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -5px;
+}
+
+.checkbox {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.checkbox input {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.checkbox label {
+  cursor: pointer;
+  font-size: small;
+}
+
+.message {
+  text-align: center;
+  font-size: 14px;
+  color: green;
+}
+
+.signBtn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.image {
+  background-image: url("/signUp.jpeg");
+  background-size: cover;
+  width: 100%;
+  background-repeat: no-repeat;
+}

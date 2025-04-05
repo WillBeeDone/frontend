@@ -4,37 +4,72 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-}
-
-.form {
-  width: 100%;
-  max-width: 400px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 10px;
+  background-color: #fff8e8;
   
 }
 
+.signInContainer img {
+  width: 100%;
+  height: 100hv;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.form {
+  background: #fff8e8;
+  display: flex;
+  flex-direction: column;  
+}
+
 .title {
-  text-align: center;
+  text-align: left;
   font-size: 24px;
-  margin-bottom: 20px;
+  font-weight: bold;
+  color: #333;
+  margin: 0px;
+}
+
+.signInLinkContainer {
+  display: flex;
+  align-items: start;
+  color: rgb(129, 122, 122);
+  font-size: small;
+  gap: 5px;
+  margin-bottom: 10px;
 }
 
 .inputGroup {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  width: 20vw; /* 45% от ширины экрана */
 }
 
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer input {
+  height: 50px;
+  font-size: 18px !important;
+  padding: 10px;
+  border-color: #d6cfcf;
+  border-width: 2px;
+  background-color: #fff8e8;
+  color: black;
+}
 .error {
   color: red;
   font-size: 14px;
   margin-top: 5px;
 }
 
-.btnGroup {
+.signBtn {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-top: 20px;
+  width: 100%;
 }
 
 .links {
@@ -53,12 +88,6 @@
   text-decoration: underline;
 }
 
-.signInContainer img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: top;
-}
 
 .formContainer {
   width: 100%;
@@ -66,17 +95,17 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: #fff;
+  background: #fff8e8;
+  
 }
 
 .image {
-  
-  height: 100vh;
+  background-image: url("/signIn1.jpg");
+  background-size: cover;
+  width: 100%;
+  background-repeat: no-repeat;
   overflow: hidden;
   display: flex;
-  background: #fff;
-  
-  
 }
 
 .image img {
@@ -84,6 +113,16 @@
   min-width: 1000px;
   object-fit: contain;
   object-position: left;
+  overflow: hidden;
   
 }
 
+.forgotPassword {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  color: rgb(129, 122, 122);
+  font-size: small;
+  gap: 5px;
+  margin-bottom: 40px;
+}

@@ -1,0 +1,88 @@
+.signInContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff8e8;
+  
+}
+
+.signInContainer img {
+  width: 100%;
+  height: 100hv;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.dontWory {
+  display: flex;
+  align-items: start;
+  color: rgb(129, 122, 122);
+  font-size: medium;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+
+.form {
+  background: #fff8e8;
+  display: flex;
+  flex-direction: column;  
+}
+
+.title {
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 0px;
+}
+
+.image {
+  background-image: url("/recoveryPassword.jpg");
+  background-size: cover;
+  width: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: flex;
+}
+
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  width: 20vw; /* 45% от ширины экрана */
+}
+
+.formContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #fff8e8;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer input {
+  height: 50px;
+  font-size: 18px !important;
+  padding: 10px;
+  border-color: #d6cfcf;
+  border-width: 2px;
+  background-color: #fff8e8;
+  color: black;
+}

@@ -17,8 +17,14 @@
 }
 
 .easy {
-  background-color: #020201;
-  color: aliceblue;
+  background-color: #74ee93;
+  color: rgb(7, 6, 6);
+  width: 100%;
+}
+
+.easy:hover {
+  background-color: #69e688;
+
 }
 
 .primary:hover {
@@ -70,3 +76,4 @@
   outline: none;
   box-shadow: none;
 }
+

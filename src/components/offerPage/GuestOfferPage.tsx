@@ -1,5 +1,4 @@
-import { useParams, Link } from "react-router-dom";
-import styles from "./GuestOfferPage.module.css";
+import { useParams } from "react-router-dom";
 //import { guestOfferPageList } from "../../test data/Offer";
 import { useEffect, useState } from "react";
 import ShowAll from "../showAll/ShowAll";
@@ -43,7 +42,7 @@ const GuestOfferPage = () => {
   if (error) return <p>{error}</p>;
   if (!offer) return <p>Offer not found</p>;
 
-  return <ShowAll source={offer} switcher="guestOfferPage" />;
+  return <ShowAll source={offer} switcher="guestOfferPage"/>;
 };
 
 export default GuestOfferPage;

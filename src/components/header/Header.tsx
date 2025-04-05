@@ -1,10 +1,17 @@
 import { JSX } from "react";
 import styles from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
-import { useOffers } from "../context/OffersContext";
+import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
-import RecoveryForm from "../recoveryForm/RecoveryForm";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../../features/auth/authSlice";
+import { useAppSelector } from "../../app/hooks";
+import SignOut from "../signOut/SignOut";
+import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
+import { useMyOffers } from "../../context/MyOffersContext";
+import CreateNewOfferButton from "../createNewOffer/CreateNewOfferButton";
+import { useFavorite } from "../../context/FavoriteContext";
 
 
 
@@ -18,9 +25,16 @@ interface IHeaderProps {
 }
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
-  const { setSelectedCity } = useOffers();
+  const { setSelectedCity: setCityForOffer } = useOffers();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const { user } = useAppSelector((state) => state.auth);
+  const { fetchFavoriteOffers } = useFavorite();
+  const { fetchMyOffers } = useMyOffers();
+  const {setSelectedCity: setCityForFavorite} = useFavorite();
+
+  const location = useLocation();
   
-  
+
   return (
     <header className={styles.header}>
       {links.map(({ text, path }, index) => (
@@ -34,21 +48,46 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           {text}
         </NavLink>
       ))}
-
-      <div className = {styles.dropdown}>
-        <DropDown  url="/api/locations" text="Choose city" onChange={setSelectedCity} />
+      
+      <div className={styles.dropdown}>
+        <DropDown
+          url="/api/locations"
+          text="Choose city"
+          onChange={location.pathname === "/favorite" ? setCityForFavorite : setCityForOffer}
+          data-testid="DropDownLocationHeader_HfZydgG"
+        />
       </div>
 
       <div>
-        <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
-        <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
+        {isAuthenticated ? (
+          <>
+            <div className={styles.authUserDataBox}>
+              <h3 className={styles.authUserFirstName}>
+                Hello, {user.firstName}
+              </h3>
+              <div className={styles.authUserProfilePictureBox}>
+                {" "}
+                <img
+                  className={styles.authUserProfilePicture}
+                  src={FixImgUrl(user.profilePicture)}
+                  alt="User profile picture"
+                />
+              </div>
+            </div>
+            <MyButton text="Favorites" to="/favorite" variant="primary" func={fetchFavoriteOffers}/>
+            <MyButton text="My Offers" func={() => fetchMyOffers()} />
+            <MyButton text="My Profile" to="/my-profile"/>
+            <CreateNewOfferButton/>
+            {/* <MyButton text="Create new Offer" to="/create-new-offer"/> */}
+            <SignOut />
+          </>
+        ) : (
+          <>
+            <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
+            <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
+          </>
+        )}
       </div>
-      
-      <MyButton text="Favorites" to="/favorites" variant="primary" />
-     
-      
-      {/* временный вызов для посмотреть и проверки работы формы */}
-      {/* <RecoveryForm/>  */}
     </header>
   );
 }

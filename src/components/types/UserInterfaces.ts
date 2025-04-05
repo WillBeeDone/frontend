@@ -6,7 +6,9 @@ export interface IUser {
     email: string
     phone:string
     location:string
-    role: string
+
+    role:string
+   
     profilePicture: string
 
     accessToken: string
@@ -17,5 +19,6 @@ export interface IAuthState  {
     user: IUser,
     isLoading: boolean,
     error: string,
+    isAuthenticated: boolean,
   };
 
