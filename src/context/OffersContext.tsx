@@ -50,7 +50,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchOffersFirstRender = async (page: number = 0) => {
     try {
-      const response = await fetch(`/api/offers?page=${page}&size=12`);
+      const response = await fetch(`/api/offers?page=${page}&size=9`);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
