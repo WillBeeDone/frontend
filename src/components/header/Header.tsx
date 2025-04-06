@@ -1,18 +1,14 @@
 import { JSX } from "react";
 import styles from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
-import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
-import CreateNewOfferButton from "../createNewOffer/CreateNewOfferButton";
-
-
 
 interface ILink {
   text: React.ReactNode;
@@ -29,7 +25,6 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { user } = useAppSelector((state) => state.auth);
   const { fetchMyOffers } = useMyOffers();
   
- 
 
   return (
     <header className={styles.header}>
@@ -44,7 +39,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           {text}
         </NavLink>
       ))}
-      
+
       <div className={styles.dropdown}>
         <DropDown
           url="/api/locations"
@@ -57,25 +52,32 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       <div>
         {isAuthenticated ? (
           <>
-            <div className={styles.authUserDataBox}>
-              <h3 className={styles.authUserFirstName}>
-                Hello, {user.firstName}
-              </h3>
-              <div className={styles.authUserProfilePictureBox}>
-                {" "}
-                <img
-                  className={styles.authUserProfilePicture}
-                  src={FixImgUrl(user.profilePicture)}
-                  alt="User profile picture"
-                />
-              </div>
+            <div className={styles.menuLinkContainer}>
+              <div className={styles.linkBlock}>
+              <span>
+                <Link to="/favorites" className={styles.menuLink}>
+                  Favorites
+                </Link>
+              </span>
+              <span onClick={fetchMyOffers} className={styles.menuLink}>
+                My Offers
+              </span>
+              <Link to="/create-new-offer" className={styles.menuLinkCreateOffer}>
+                Create Offer
+              </Link>
             </div>
-            <MyButton text="Favorites" to="/favorites" variant="primary" />
-            <MyButton text="My Offers" func={() => fetchMyOffers()} />
-            <MyButton text="My Profile" to="/my-profile"/>
-            <CreateNewOfferButton/>
-            {/* <MyButton text="Create new Offer" to="/create-new-offer"/> */}
-            <SignOut />
+            </div>
+            <div className={styles.authUserProfilePictureBox}>
+              {" "}
+              <img
+                className={styles.authUserProfilePicture}
+                src={FixImgUrl(user.profilePicture)}
+                alt="User profile picture"
+              />
+            </div>
+            <div>
+            <img src="/Hamburger.png" alt="Hamburger icon" />
+            </div>
           </>
         ) : (
           <>

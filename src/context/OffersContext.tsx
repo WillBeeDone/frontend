@@ -50,7 +50,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchOffersFirstRender = async (page: number = 0) => {
     try {
-      const response = await fetch(`/api/offers?page=${page}&size=9`);
+      const response = await fetch(`/api/offers?page=${page}&size=12`);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
@@ -82,7 +82,7 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
       console.log("Обране ключове слово - ", keyWord);
 
       const response = await fetch(
-        `/api/offers/filter?page=${page}&cityName=${city}&category=${category}&keyPhrase=${keyWord}`
+        `/api/offers?page=${page}&cityName=${city}&category=${category}&keyPhrase=${keyWord}`
       );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
