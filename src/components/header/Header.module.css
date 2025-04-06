@@ -16,7 +16,6 @@
   color: white;
 }
 
-
 .totalAmount {
   color: rgb(187, 94, 199);
   font-size: 18px;
@@ -47,23 +46,29 @@
   color: black;
 }
 .authUserProfilePicture {
-  width: 30px;
-  height: 40px;
+  width: 85x;
+  height: 85px;
+  margin-top: 5px;
+  border-radius: 50%;
+  margin-right: 20px;
 }
 
 .menuLinkContainer {
   display: flex;
- 
- width: 100vh;
- 
+  align-items: center;
+  width: 50vw;
 }
 
+.burgerMenu {
+  margin-top: 30px;
+  margin-right: 20px;
+}
 .linkBlock {
   display: flex;
   align-items: start;
   justify-content: start;
   font-size: larger;
-  gap: 30px;
+  gap: 100px;
 }
 
 .menuLink {
@@ -72,24 +77,24 @@
 
 a.menuLink {
   color: #000;
-  text-decoration: none
+  text-decoration: none;
 }
 
 a.menuLink:hover {
-  color: #FCCC00;
-  }
+  color: #fccc00;
+}
 
 span.menuLink {
-cursor: pointer;
+  cursor: pointer;
 }
 
 span.menuLink:hover {
-  color: #FCCC00;
-  }
+  color: #fccc00;
+}
 
 a.menuLinkCreateOffer {
   color: #000;
-  text-decoration: none
+  text-decoration: none;
 }
 
 a.menuLinkCreateOffer {
@@ -100,7 +105,7 @@ a.menuLinkCreateOffer {
   transition: color 0.3s ease;
 
   &:hover {
-    color: #FCCC00; /* изменение цвета при наведении */
+    color: #fccc00; /* изменение цвета при наведении */
   }
 
   /* Пульсация */
@@ -122,56 +127,18 @@ a.menuLinkCreateOffer {
   }
 }
 
-
-/* Медиазапрос для экранов шириной до 1200px */
-@media (max-width: 1200px) {
-  .menuLinkContainer {
-    gap: 150px; /* уменьшили gap для больших экранов */
-  }
+.modal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px 15px;
+  z-index: 1000;
 }
 
-/* Медиазапрос для экранов шириной до 992px */
-@media (max-width: 992px) {
-  .menuLinkContainer {
-    gap: 100px; /* уменьшаем gap для средних экранов */
-  }
-}
-
-/* Медиазапрос для экранов шириной до 768px */
-@media (max-width: 768px) {
-  .menuLinkContainer {
-    gap: 50px; /* еще уменьшаем gap для маленьких экранов */
-  }
-}
-
-/* Медиазапрос для экранов шириной до 480px */
-@media (max-width: 480px) {
-  .menuLinkContainer {
-    gap: 20px; /* минимальный gap для самых маленьких экранов */
-  }
-}
-
-/* Медиазапрос для экранов шириной меньше 1200px */
-@media (max-width: 1200px) {
-  .menuLinkContainer {
-    width: 70vh; /* Уменьшаем ширину для экранов меньше 1200px */
-    flex-direction: column; /* Меняем расположение элементов на вертикальное */
-  }
-}
-
-/* Медиазапрос для экранов шириной меньше 768px */
-@media (max-width: 768px) {
-  .menuLinkContainer {
-    width: 60vh; /* Уменьшаем ширину для экранов меньше 768px */
-    flex-direction: column; /* Вертикальное расположение элементов */
-    gap: 10px; /* Добавляем немного пространства между элементами */
-  }
-}
-
-/* Медиазапрос для экранов шириной меньше 480px */
-@media (max-width: 480px) {
-  .menuLinkContainer {
-    width: 50vh; /* Уменьшаем ширину для экранов меньше 480px */
-    gap: 5px; /* Уменьшаем расстояние между элементами */
-  }
+.modalContent {
+  position:relative;
+  top: 117px;
+  left: 610px;
+  border-radius: 15px 15px;
+  
 }

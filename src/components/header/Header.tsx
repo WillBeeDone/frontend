@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useState } from "react";
 import styles from "./Header.module.css";
 import { Link, NavLink } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
@@ -9,6 +9,7 @@ import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
+import Menu from "../menu/Menu";
 
 interface ILink {
   text: React.ReactNode;
@@ -24,7 +25,19 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
   const { fetchMyOffers } = useMyOffers();
-  
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleBurgerClick = () => {
+    setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
+  };
+
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false); // закрытие меню
+  };
+
+  const handleModalContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
+  };
 
   return (
     <header className={styles.header}>
@@ -54,21 +67,32 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           <>
             <div className={styles.menuLinkContainer}>
               <div className={styles.linkBlock}>
-              <span>
-                <Link to="/favorites" className={styles.menuLink}>
-                  Favorites
+                <span>
+                  <Link
+                    data-testid="LinkFavoritesInHeader_Jhfyghdg"
+                    to="/favorites"
+                    className={styles.menuLink}
+                  >
+                    Favorites
+                  </Link>
+                </span>
+                <span
+                  data-testid="LinkMyOffersInHeader_Jjhfyfdg"
+                  onClick={fetchMyOffers}
+                  className={styles.menuLink}
+                >
+                  My Offers
+                </span>
+                <Link
+                  data-testid="LinkCreateOfferInHeader_KhjfdghHkd"
+                  to="/create-new-offer"
+                  className={styles.menuLinkCreateOffer}
+                >
+                  Create Offer
                 </Link>
-              </span>
-              <span onClick={fetchMyOffers} className={styles.menuLink}>
-                My Offers
-              </span>
-              <Link to="/create-new-offer" className={styles.menuLinkCreateOffer}>
-                Create Offer
-              </Link>
-            </div>
+              </div>
             </div>
             <div className={styles.authUserProfilePictureBox}>
-              {" "}
               <img
                 className={styles.authUserProfilePicture}
                 src={FixImgUrl(user.profilePicture)}
@@ -76,16 +100,43 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
               />
             </div>
             <div>
-            <img src="/Hamburger.png" alt="Hamburger icon" />
+              <img
+                className={styles.burgerMenu}
+                src="/Hamburger.png"
+                alt="Hamburger icon"
+                onClick={handleBurgerClick}
+              />
             </div>
           </>
         ) : (
           <>
-            <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
-            <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
+            <MyButton
+              data-testid="SignInButtonInHeader_kdjHgf"
+              text="Sign In"
+              to="/sign-in-form"
+              variant="primary"
+            />
+            <MyButton
+              data-testid="SignUpButtonInHeader_kdjHgf"
+              text="Sign Up"
+              to="/sign-up-form"
+              variant="primary"
+            />
           </>
         )}
       </div>
+
+      {/* Модальное окно с компонентом Menu */}
+      {isMenuOpen && (
+        <div className={styles.modal} onClick={handleCloseMenu}>
+          <div
+            className={styles.modalContent}
+            onClick={handleModalContentClick} // останавливаем всплытие события
+          >
+            <Menu />
+          </div>
+        </div>
+      )}
     </header>
   );
 }
