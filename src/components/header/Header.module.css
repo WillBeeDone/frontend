@@ -7,18 +7,13 @@
   height: 100%;
   height: 117px;
   gap: 15px;
-  
 
-  background-color: #FFF8E6;
+  background-color: #fff8e6;
   border-bottom: 2px solid #000; /* Нижняя граница */
 }
 
 .header a {
   color: white;
-}
-
-.header a:hover {
-  text-decoration: underline;
 }
 
 .totalAmount {
@@ -43,15 +38,114 @@
 }
 
 .dropdown {
-   margin-left: 35px;
+  margin-left: 35px;
 }
-
 
 /* приветствие юзеру - имя + фото */
 .authUserFirstName {
   color: black;
 }
-.authUserProfilePicture{
-  width: 30px;
-  height: 40px;
+.authUserProfilePicture {
+  position: absolute;
+  width: 85x;
+  height: 85px;
+  right: 125px;
+  bottom: 18px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  
+}
+
+.menuLinkContainer {
+  position: absolute;
+  right: 150px;
+  width: 50vw;
+}
+
+.burgerMenu {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+}
+.linkBlock {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  font-size: larger;
+  gap: 100px;
+}
+
+.menuLink {
+  color: #000;
+}
+
+a.menuLink {
+  color: #000;
+  text-decoration: none;
+}
+
+a.menuLink:hover {
+  color: #fccc00;
+}
+
+span.menuLink {
+  cursor: pointer;
+}
+
+span.menuLink:hover {
+  color: #fccc00;
+}
+
+a.menuLinkCreateOffer {
+  color: #000;
+  text-decoration: none;
+}
+
+a.menuLinkCreateOffer {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #fccc00; /* изменение цвета при наведении */
+  }
+
+  /* Пульсация */
+  animation: pulse 3.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1); /* увеличиваем размер */
+    opacity: 0.7; /* немного делаем прозрачным */
+  }
+  100% {
+    transform: scale(1); /* возвращаем в исходное состояние */
+    opacity: 1;
+  }
+}
+
+.modal {
+  position: fixed; /* Меняем на fixed, чтобы окно всегда было на экране */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  align-items: center; /* Центрируем содержимое по вертикали */
+  z-index: 1000; /* Делаем модальное окно поверх всех элементов */
+}
+
+.modalContent {
+  position:absolute;
+  top: 118px;
+  right: 3px;
 }
