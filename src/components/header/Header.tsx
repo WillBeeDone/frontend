@@ -25,7 +25,6 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { setSelectedCity: setCityForOffer } = useOffers();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
-  const { fetchFavoriteOffers } = useFavorite();
   const { fetchMyOffers } = useMyOffers();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
