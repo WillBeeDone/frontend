@@ -11,6 +11,8 @@ export default defineConfig({
       "/api": {
         //для подключения к локальному БЕКу
         target: "http://localhost:8080",
+        changeOrigin: true,
+        secure: false,
         //для подключения к диджитал оушн БЕКу
         //target: "https://monkfish-app-73239.ondigitalocean.app",
       },

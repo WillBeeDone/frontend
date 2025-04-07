@@ -142,6 +142,20 @@ function SignIn(): JSX.Element {
               data-testid="MyButtonSignIn_JuhYt"
             />
           </div>
+{/* Вход через Google */}
+<div className={styles.divider}>or</div>
+
+<div className={styles.googleSignIn}>
+  <a href="http://localhost:8080/api/oauth2/authorization/google">
+    <img
+      src="/public/web_dark_rd_ctn@4x.png"
+      alt="Sign in with Google"
+      className={styles.googleIconStandalone}
+    />
+  </a>
+</div>
+
+
         </form>
       </div>
     </div>
