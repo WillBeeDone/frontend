@@ -24,7 +24,7 @@ export default function Menu({
           />{" "}
           My Profile
         </Link>
-        <Link to="/favorites" className={styles.menuItem} data-testid="favoritesLinkMenu_HgfbGbf">
+        <Link to="/favorite" className={styles.menuItem} data-testid="favoritesLinkMenu_HgfbGbf">
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/favourite.png"

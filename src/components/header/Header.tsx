@@ -74,7 +74,7 @@ const {setSelectedCity: setCityForFavorite} = useFavorite();
                 <span>
                   <Link
                     data-testid="LinkFavoritesInHeader_Jhfyghdg"
-                    to="/favorites"
+                    to="/favorite"
                     className={styles.menuLink}
                   >
                     Favorites
