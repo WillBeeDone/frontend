@@ -1,7 +1,7 @@
 import { JSX, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
 import { clearAuthError, passwordRecovery } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
@@ -9,6 +9,7 @@ import MyButton from "../myButton/MyButton";
 import styles from "./PasswordRecovery.module.css";
 
 function PasswordRecovery(): JSX.Element {
+  const { isLoading} = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { confirmationCode } = useParams<{ confirmationCode: string }>(); // Отримуємо код підтвердження з URL
@@ -130,7 +131,7 @@ function PasswordRecovery(): JSX.Element {
             <MyButton
               type="submit"
               variant="easy"
-              text="Save new password"
+              text={isLoading ? "Loading…" : "Save new password"} disabled={isLoading}
               data-testid="MyButtonPasswordRecovery_HgftFdgtd"
             />
             <MyButton
