@@ -132,10 +132,16 @@ a.menuLinkCreateOffer {
 }
 
 .modal {
-  position: absolute;
+  position: fixed; /* Меняем на fixed, чтобы окно всегда было на экране */
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
+  
+  display: flex;
+  justify-content: center; /* Центрируем содержимое по горизонтали */
+  align-items: center; /* Центрируем содержимое по вертикали */
+  z-index: 1000; /* Делаем модальное окно поверх всех элементов */
 }
 
 .modalContent {

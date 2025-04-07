@@ -133,7 +133,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
             className={styles.modalContent}
             onClick={handleModalContentClick} // останавливаем всплытие события
           >
-            <Menu />
+            <Menu onCloseMenu={handleCloseMenu} data-testid="burgerMenu_hfgYgf" />
           </div>
         </div>
       )}

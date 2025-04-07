@@ -1,19 +1,31 @@
-import { JSX } from 'react'
-import MyButton from '../myButton/MyButton'
-import { useDispatch } from 'react-redux';
-import { signOut } from '../../features/auth/authSlice';
+import { JSX } from "react";
+import styles from "./SignOut.module.css";
+import { useDispatch } from "react-redux";
+import { signOut } from "../../features/auth/authSlice";
+import { Link } from "react-router-dom";
 
-export default function SignOut(): JSX.Element {
+interface ISignOutProps {
+  onSignOut: () => void;
+}
+
+export default function SignOut({ onSignOut }: ISignOutProps): JSX.Element {
   const dispatch = useDispatch();
+
+  const handleSignOut = () => {
+    dispatch(signOut());
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    onSignOut(); 
+  };
+
   return (
-    <MyButton
-      text="SignOut"
-      variant="primary"
-      func={() => {
-        dispatch(signOut());
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-      }}
-    />
+    <Link
+      to="/"
+      className={styles.buttonSignOut}
+      onClick={handleSignOut}
+      data-testid="sign-out-link"
+    >
+      Sign out
+    </Link>
   );
 }

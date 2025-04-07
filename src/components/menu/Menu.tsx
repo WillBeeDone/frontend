@@ -3,11 +3,20 @@ import styles from "./Menu.module.css";
 import SignOut from "../signOut/SignOut";
 import { Link } from "react-router-dom";
 
-export default function Menu(): JSX.Element {
+interface IMenu {
+  "data-testid"?: string;
+  onCloseMenu: () => void;
+}
+
+
+export default function Menu({
+  "data-testid": dataTestId = "default",
+  onCloseMenu,
+}: IMenu):JSX.Element {
   return (
-    <div className={styles.menuMain}>
+    <div className={styles.menuMain}  data-testid={dataTestId} >
       <div className={styles.menuContainer}>
-        <Link to="/my-profile" className={styles.menuItem}>
+        <Link to="/my-profile" className={styles.menuItem} data-testid="myProfileLinkMenu_lkfHhnmf">
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/user-check.png"
@@ -15,7 +24,7 @@ export default function Menu(): JSX.Element {
           />{" "}
           My Profile
         </Link>
-        <Link to="/favorites" className={styles.menuItem}>
+        <Link to="/favorites" className={styles.menuItem} data-testid="favoritesLinkMenu_HgfbGbf">
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/favourite.png"
@@ -23,7 +32,7 @@ export default function Menu(): JSX.Element {
           />{" "}
           Favourites
         </Link>
-        <Link to="#" className={styles.menuItem}>
+        <Link to="#" className={styles.menuItem} data-testid="myOffersLinkMenu_JndgGbfdh">
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/elements.png"
@@ -31,7 +40,7 @@ export default function Menu(): JSX.Element {
           />
           My offers
         </Link>
-        <Link to="/create-new-offer" className={styles.menuItem}>
+        <Link to="/create-new-offer" className={styles.menuItem} data-testid="createOfferLinkMenu_lkfHhnmf">
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/Plus.png"
@@ -45,10 +54,10 @@ export default function Menu(): JSX.Element {
             src="/menuIcon/exit.png"
             alt="sign out icon"
           />
-          Sign out
+         <SignOut onSignOut={onCloseMenu} />
         </Link>
 
-        {/* <SignOut /> */}
+       
       </div>
     </div>
   );

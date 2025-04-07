@@ -1,0 +1,7 @@
+.buttonSignOut {
+    margin-top: 2px;
+}
+
+.buttonSignOut:hover {
+    color: #007bff;
+}
