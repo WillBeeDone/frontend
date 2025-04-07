@@ -46,22 +46,26 @@
   color: black;
 }
 .authUserProfilePicture {
+  position: absolute;
   width: 85x;
   height: 85px;
-  margin-top: 5px;
+  right: 125px;
+  bottom: 18px;
   border-radius: 50%;
-  margin-right: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  
 }
 
 .menuLinkContainer {
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 150px;
   width: 50vw;
 }
 
 .burgerMenu {
-  margin-top: 30px;
-  margin-right: 20px;
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
 }
 .linkBlock {
   display: flex;
@@ -128,17 +132,14 @@ a.menuLinkCreateOffer {
 }
 
 .modal {
-  position: relative;
+  position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 15px 15px;
   z-index: 1000;
 }
 
 .modalContent {
-  position:relative;
-  top: 117px;
-  left: 610px;
-  border-radius: 15px 15px;
-  
+  position:absolute;
+  top: 118px;
+  right: 3px;
 }
