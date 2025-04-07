@@ -13,7 +13,7 @@ interface IMyInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
   error?: boolean; // Добавляем пропс для ошибок
-  variant?: "default" | "signInUp" ;
+  variant?: "default" | "signInUp" | "upload" ;
   "data-testid"?: string;
   autoComplete?: string;
   isReadOnly?: boolean;

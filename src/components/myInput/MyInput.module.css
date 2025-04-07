@@ -48,3 +48,8 @@ input {
   cursor: not-allowed; 
   border: 1px solid #d3d3d3; 
 }
+
+.input.upload {
+
+background-color: #cbdcfa;
+}
