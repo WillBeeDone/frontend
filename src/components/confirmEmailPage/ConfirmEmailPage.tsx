@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import styles from "./ConfirmEmailPage.module.css";
 import axios from "axios";
 
 export default function ConfirmEmailPage() {
@@ -24,15 +25,26 @@ export default function ConfirmEmailPage() {
   }, [confirmationCode]);
 
   return (
-    <div>
+    <div className={styles.confirmEmailContainer}>
       {userId ? (
         <>
+       <img
+            className={styles.Logo}
+            src="/logoWillBeeDone1.png"
+            alt="logo icon"
+          />{" "}
           <h2>Welcome!</h2>
           <p>{message}</p>
           <p>Please,<Link to="/sign-in-form"> Sign In.</Link> </p>
         </>
       ) : (
         <>
+         <img
+            className={styles.Logo}
+            src="/logoWillBeeDone1.png"
+            alt="logo icon"
+          />{" "}
+         
           <h2>Oops!</h2>
           <p>{message}</p>
         </>
