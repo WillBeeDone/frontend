@@ -116,7 +116,7 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
   'auth/getMyProfileDataByAccessToken',
   async (accessToken:string, thunkAPI) => {
     try {
-  //     const response = await axios.get('/api/auth/my-profile', {headers: {
+  //     const response = await axios.get('/api/users', {headers: {
   // 'Authorization' : `Bearer ${accessToken}`
   //     }});
         console.log(accessToken);
@@ -189,11 +189,17 @@ export const myProfile = createAsyncThunk(
   'auth/myProfile',
   async (userData: { id: number, firstName:string, secondName:string, email: string; phone:string, location:string, profilePicture: string, accessToken: string}, thunkAPI) => {
     try {
-      console.log("data in signUp slice --- ", userData);
+      const {id, firstName, secondName, email, phone, location, profilePicture, accessToken} = userData;
+      const body = {id, firstName, secondName, email, phone, location, profilePicture};
       
-      const responce = await axios.post('/api/myProfile', userData);
+      console.log("data in myProfile action before send --- ", body);
+
+      const responce = await axios.put('/api/users', body, {headers: {
+        'Authorization' : `Bearer ${accessToken}`
+            }});
+
       
-      return responce.data;
+      return responce.status;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
