@@ -1,19 +1,16 @@
-import { JSX } from "react";
+import { JSX, useState } from "react";
 import styles from "./Header.module.css";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
-import SignOut from "../signOut/SignOut";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
-import CreateNewOfferButton from "../createNewOffer/CreateNewOfferButton";
+import Menu from "../menu/Menu";
 import { useFavorite } from "../../context/FavoriteContext";
-
-
 
 interface ILink {
   text: React.ReactNode;
@@ -28,12 +25,22 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { setSelectedCity: setCityForOffer } = useOffers();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
-  const { fetchFavoriteOffers } = useFavorite();
   const { fetchMyOffers } = useMyOffers();
-  const {setSelectedCity: setCityForFavorite} = useFavorite();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleBurgerClick = () => {
+    setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
+  };
+const {setSelectedCity: setCityForFavorite} = useFavorite();
 
   const location = useLocation();
-  
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false); // закрытие меню
+  };
+ 
+  const handleModalContentClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
+  };
 
   return (
     <header className={styles.header}>
@@ -48,7 +55,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           {text}
         </NavLink>
       ))}
-      
+
       <div className={styles.dropdown}>
         <DropDown
           url="/api/locations"
@@ -61,33 +68,78 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
       <div>
         {isAuthenticated ? (
           <>
-            <div className={styles.authUserDataBox}>
-              <h3 className={styles.authUserFirstName}>
-                Hello, {user.firstName}
-              </h3>
-              <div className={styles.authUserProfilePictureBox}>
-                {" "}
-                <img
-                  className={styles.authUserProfilePicture}
-                  src={FixImgUrl(user.profilePicture)}
-                  alt="User profile picture"
-                />
+            <div className={styles.menuLinkContainer}>
+              <div className={styles.linkBlock}>
+                <span>
+                  <Link
+                    data-testid="LinkFavoritesInHeader_Jhfyghdg"
+                    to="/favorite"
+                    className={styles.menuLink}
+                  >
+                    Favorites
+                  </Link>
+                </span>
+                <span
+                  data-testid="LinkMyOffersInHeader_Jjhfyfdg"
+                  onClick={fetchMyOffers}
+                  className={styles.menuLink}
+                >
+                  My Offers
+                </span>
+                <Link
+                  data-testid="LinkCreateOfferInHeader_KhjfdghHkd"
+                  to="/create-new-offer"
+                  className={styles.menuLinkCreateOffer}
+                >
+                  Create Offer
+                </Link>
               </div>
             </div>
-            <MyButton text="Favorites" to="/favorite" variant="primary" func={fetchFavoriteOffers}/>
-            <MyButton text="My Offers" func={() => fetchMyOffers()} />
-            <MyButton text="My Profile" to="/my-profile"/>
-            <CreateNewOfferButton/>
-            {/* <MyButton text="Create new Offer" to="/create-new-offer"/> */}
-            <SignOut />
+            <div className={styles.authUserProfilePictureBox}>
+              <img
+                className={styles.authUserProfilePicture}
+                src={FixImgUrl(user.profilePicture)}
+                alt="User profile picture"
+              />
+            </div>
+            <div>
+              <img
+                className={styles.burgerMenu}
+                src="/Hamburger.png"
+                alt="Hamburger icon"
+                onClick={handleBurgerClick}
+              />
+            </div>
           </>
         ) : (
           <>
-            <MyButton text="Sign In" to="/sign-in-form" variant="primary" />
-            <MyButton text="Sign Up" to="/sign-up-form" variant="primary" />
+            <MyButton
+              data-testid="SignInButtonInHeader_kdjHgf"
+              text="Sign In"
+              to="/sign-in-form"
+              variant="primary"
+            />
+            <MyButton
+              data-testid="SignUpButtonInHeader_kdjHgf"
+              text="Sign Up"
+              to="/sign-up-form"
+              variant="primary"
+            />
           </>
         )}
       </div>
+
+      {/* Модальное окно с компонентом Menu */}
+      {isMenuOpen && (
+        <div className={styles.modal} onClick={handleCloseMenu}>
+          <div
+            className={styles.modalContent}
+            onClick={handleModalContentClick} // останавливаем всплытие события
+          >
+            <Menu onCloseMenu={handleCloseMenu} data-testid="burgerMenu_hfgYgf" />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

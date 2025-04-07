@@ -134,10 +134,10 @@ export default function ShowAll({
                       ? offer.title.slice(0, 30).concat("...")
                       : offer.title}
                   </h4>
-                  <p className={styles.price}>
+                  <div className={styles.price}>
                     <p className={styles.textPrice}>Price per hour: </p>
                     <p className={styles.euro}>{offer.price} € </p>
-                  </p>
+                  </div>
                 </div>
               </div>
 
