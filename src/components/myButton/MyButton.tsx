@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
-import { useOffers } from "../../context/OffersContext";
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getMyProfileDataByAccessToken } from "../../features/auth/authActions";
 import sortAscIcon from "/sort-from-low.png";
 import sortDescIcon from "/sort-from-high.png";
+import { IOfferCard } from "../types/OfferInterfaces";
 
 interface IMyButtonProps {
   type?: "button" | "submit" | "reset";
@@ -18,6 +19,8 @@ interface IMyButtonProps {
   isSortButton?: boolean;
   "data-testid"?: string;
   className?:string;
+ offerCards?: IOfferCard[];
+   setOfferCards?: (offer: IOfferCard[]) => void;
 }
 
 function MyButton({
@@ -29,11 +32,13 @@ function MyButton({
   to,
   isSortButton = false,
   "data-testid": dataTestId = "default",
+  offerCards,
+  setOfferCards,
 }: IMyButtonProps) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.auth.user.accessToken);
-  const { offerCards, setOfferCards } = useOffers();
+ 
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleClick = async () => {
@@ -55,7 +60,7 @@ function MyButton({
 
     func();
 
-    if (isSortButton) {
+    if (isSortButton && offerCards && setOfferCards) {
       const sortedOffers = [...offerCards].sort((b, a) =>
         sortOrder === "asc" ? a.price - b.price : b.price - a.price
       );

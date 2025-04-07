@@ -1,7 +1,7 @@
 import { JSX, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
 import { emailForPassRecovery } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
@@ -12,6 +12,7 @@ import validator from 'validator';
 function EmailForPassRecovery(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { isLoading } = useSelector((state: RootState) => state.auth);
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -72,7 +73,8 @@ function EmailForPassRecovery(): JSX.Element {
           </div>
           </div>
           <div className={styles.btnGroup}>
-            <MyButton data-testid="MyButtonPassRecovery_PhedgfY" type="submit" text="Send" variant="easy"/>
+            <MyButton data-testid="MyButtonPassRecovery_PhedgfY" type="submit" text={isLoading ? "Loading…" : "Send"} variant="easy"/>
+            
            </div>
         </form>
       </div>

@@ -1,6 +1,6 @@
 import { JSX, useState } from "react";
 import styles from "./Header.module.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
@@ -10,6 +10,7 @@ import { useAppSelector } from "../../app/hooks";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import { useMyOffers } from "../../context/MyOffersContext";
 import Menu from "../menu/Menu";
+import { useFavorite } from "../../context/FavoriteContext";
 
 interface ILink {
   text: React.ReactNode;
@@ -21,20 +22,23 @@ interface IHeaderProps {
 }
 
 export default function Header({ links }: IHeaderProps): JSX.Element {
-  const { setSelectedCity } = useOffers();
+  const { setSelectedCity: setCityForOffer } = useOffers();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
+  const { fetchFavoriteOffers } = useFavorite();
   const { fetchMyOffers } = useMyOffers();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleBurgerClick = () => {
     setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
   };
+const {setSelectedCity: setCityForFavorite} = useFavorite();
 
+  const location = useLocation();
   const handleCloseMenu = () => {
     setIsMenuOpen(false); // закрытие меню
   };
-
+ 
   const handleModalContentClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
   };
@@ -57,7 +61,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
         <DropDown
           url="/api/locations"
           text="Choose city"
-          onChange={setSelectedCity}
+          onChange={location.pathname === "/favorite" ? setCityForFavorite : setCityForOffer}
           data-testid="DropDownLocationHeader_HfZydgG"
         />
       </div>

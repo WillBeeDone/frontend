@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./AddToFavorites.module.css";
-import { useFavorites } from "../../context/FavoritesContext";
+import { useFavorite } from "../../context/FavoriteContext";
 import { IOfferCard } from "../types/OfferInterfaces";
 import offerInFavorites from "/offerInFavorites.png";
 import offerIsUsual from "/offerIsUsual.png";
@@ -14,13 +14,14 @@ interface AddToFavoritesProps {
   "data-testid"?: string;
 }
 
-export default function AddToFavorites({ 
+export default function AddToFavorites({
   offer,
   "data-testid": dataTestId = "default",
- }: AddToFavoritesProps) {
-  const { favoriteOffers, addFavorite, removeFavorite } = useFavorites();
+}: AddToFavoritesProps) {
+  const { favoriteOffers, addFavorite, removeFavorite } = useFavorite();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [showTooltip, setShowTooltip] = useState(false);
+
 
   const isOfferFavoriteAlready = favoriteOffers.some(
     (favOffer) => favOffer.id === offer.id
@@ -41,9 +42,13 @@ export default function AddToFavorites({
 
   return (
     <div className={styles.favorites}>
-      <button onClick={handleClick} className={styles.favoriteButton} data-testid={dataTestId}>
+      <button
+        onClick={handleClick}
+        className={styles.favoriteButton}
+        data-testid={dataTestId}
+      >
         <img
-          src={isOfferFavoriteAlready ? offerInFavorites : offerIsUsual}
+          src={isOfferFavoriteAlready && isAuthenticated? offerInFavorites : offerIsUsual}
           alt="heart"
         />
       </button>
