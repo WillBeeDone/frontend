@@ -1,7 +1,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { IAuthState, IUser } from '../../components/types/UserInterfaces';
-import { emailForPassRecovery, getMyProfileDataByAccessToken, myProfile, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
+import { clearAuthError, emailForPassRecovery, getMyProfileDataByAccessToken, myProfile, passwordChange, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
 import { RootState } from '../../app/store';
 import { transformUser } from '../../components/backToFrontTransformData/BackToFrontTransformData';
 
@@ -175,9 +175,22 @@ export const authSlice = createSlice({
         state.error = action.payload as string;
       })
 
+      // слайс обрабатывающий форму PasswordChange
+      .addCase(passwordChange.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(passwordChange.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(passwordChange.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
 
-
-     
+      //обработка екшена по очистке ошибки в формах
+      .addCase(clearAuthError, (state) => {
+        state.error = "";
+      });
 
 
   },

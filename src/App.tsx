@@ -20,6 +20,7 @@ import { MyOffersProvider } from "./context/MyOffersContext";
 import MyProfile from "./components/myProfile/MyProfile";
 import CreateNewOffer from "./components/createNewOffer/CreateNewOffer";
 import UserAgreement from "./components/userAgreement/UserAgreement";
+import PasswordChange from "./components/passwordChange/PasswordChange";
 
 function App() {
   const guestRoutes = [
@@ -70,6 +71,10 @@ function App() {
     {
       path: "/create-new-offer",
       element: <CreateNewOffer />,
+    },
+    {
+      path: "/password-change-form",
+      element: <PasswordChange />,
     },
   ];
 

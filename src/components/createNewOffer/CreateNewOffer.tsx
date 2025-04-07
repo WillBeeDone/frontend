@@ -8,6 +8,7 @@ import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import DropDown from "../dropDown/DropDown";
 import { createNewOffer } from "../../features/offer/offerActions";
+import { clearAuthError } from "../../features/auth/authActions";
 
 function CreateNewOffer(): JSX.Element {
 
@@ -145,6 +146,13 @@ function CreateNewOffer(): JSX.Element {
     }));
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthError());
+    };
+  }, [dispatch]);
+
+
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
       <h2 className={styles.title}>My Profile</h2>
@@ -176,11 +184,11 @@ function CreateNewOffer(): JSX.Element {
   </div>
 
       <div className={styles.inputGroup}>
-        <MyInput name="firstName" type="text" placeholder="Enter your first name" label="First name" required onChange={handleChange} value={user.firstName} isReadOnly={true}/>
+        <MyInput name="firstName" type="text" placeholder="Enter your first name" label="First name" required value={user.firstName} isReadOnly={true}/>
       </div>
 
       <div className={styles.inputGroup}>
-        <MyInput name="secondName" type="text" placeholder="Enter your second name" label="Second name" required onChange={handleChange} value={user.secondName} isReadOnly={true}/>
+        <MyInput name="secondName" type="text" placeholder="Enter your second name" label="Second name" required value={user.secondName} isReadOnly={true}/>
       </div>
 
       <div className={styles.inputGroup}>
@@ -208,11 +216,11 @@ function CreateNewOffer(): JSX.Element {
 
 
       <div className={styles.inputGroup}>
-      <MyInput name="email" type="email" placeholder="Enter your email"  label="Email" required onChange={handleChange} value={user.email} isReadOnly={true}/>
+      <MyInput name="email" type="email" placeholder="Enter your email"  label="Email" required value={user.email} isReadOnly={true}/>
       </div>
 
       <div className={styles.inputGroup}>
-        <MyInput name="phone" type="text" placeholder="Enter your phone number" label="Phone" required onChange={handleChange} value={user.phone} isReadOnly={true}/>
+        <MyInput name="phone" type="text" placeholder="Enter your phone number" label="Phone" required value={user.phone} isReadOnly={true}/>
       </div>
 
       <div className={styles.inputGroup}>

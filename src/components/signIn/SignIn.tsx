@@ -1,8 +1,8 @@
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { signInByEmailAndPass } from "../../features/auth/authActions";
+import { clearAuthError, signInByEmailAndPass } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
@@ -75,6 +75,12 @@ function SignIn(): JSX.Element {
       });
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthError());
+    };
+  }, [dispatch]);
+
   return (
     <div className={styles.signInContainer}>
       <div className={styles.image}></div>
@@ -88,7 +94,8 @@ function SignIn(): JSX.Element {
             </Link>
           </div>
 
-          {error && <p className={styles.error}>{error}</p>}
+          {/* визуализация ошибки об протухании рефреш токена или аксес токена */}
+          {/* {error && <p className={styles.error}>{error}</p>} */}
 
           <div className={styles.inputGroup}>
             <div className={styles.inputContainer}>

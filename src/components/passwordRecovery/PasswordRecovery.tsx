@@ -1,8 +1,8 @@
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { passwordRecovery } from "../../features/auth/authActions";
+import { clearAuthError, passwordRecovery } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
@@ -81,6 +81,12 @@ function PasswordRecovery(): JSX.Element {
         alert("Something went wrong... Password not changed.");
       });
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthError());
+    };
+  }, [dispatch]);
 
   return (
     <div className={styles.passwordRecoveryContainer}>
