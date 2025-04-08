@@ -1,5 +1,5 @@
 .tooltip {
-    position: fixed; /* Фіксоване положення поверх усіх елементів */
+    position: absolute;  
     display: flex;
     top: 50%; /* В центрі екрану */
     left: 50%;
@@ -60,4 +60,8 @@
 }
 .tooltip .menuItem {
   color: aqua;
+}
+
+.normalLink {
+  color: black;
 }

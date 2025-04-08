@@ -4,7 +4,7 @@ import styles from "./CreateNewOfferLink.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function CreateNewOfferLink() {
+export default function CreateNewOfferLink({ className = "" }: { className?: string }) {
   const { user } = useSelector((state: RootState) => state.auth);
   const [showTooltip, setShowTooltip] = useState(false);
   const navigate = useNavigate();
@@ -14,23 +14,22 @@ function CreateNewOfferLink() {
 
   const handleClick = (e: React.MouseEvent) => {
     if (!isProfileComplete) {
-      e.preventDefault(); // остановить переход по ссылке
+      e.preventDefault();
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 3000);
     }
   };
 
   return (
-    <div>
-      <div className={styles.menuLinkCreateOffer}>
-        <Link
-          to="/create-new-offer"
-          onClick={handleClick}
-          className={styles.linkButton}
-        >
-          Create Offer
-        </Link>
-      </div>
+    <div className={`${styles[className]}`}>
+      <Link
+        to="/create-new-offer"
+        onClick={handleClick}
+        className={styles.linkButton}
+      >
+        Create Offer
+      </Link>
+
       {showTooltip && (
         <div className={styles.tooltip}>
           <p>Fill out </p>
@@ -43,5 +42,3 @@ function CreateNewOfferLink() {
     </div>
   );
 }
-
-export default CreateNewOfferLink;

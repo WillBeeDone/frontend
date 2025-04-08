@@ -43,6 +43,7 @@
    color: #007bff;
   }
 
-  .menuLinkCreateOffer {
-    color: #007bff !important;
+  .createOfferLInk{
+    display: flex;
+    gap: 15px
   }

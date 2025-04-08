@@ -53,14 +53,14 @@ export default function Menu({
           My offers
         </Link>
 
-        <span className={styles.menuLinkCreateOffer}>
+        <span className={styles.createOfferLInk}>
           {" "}
-          <CreateNewOfferLink />
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/Plus.png"
             alt="create offer icon"
           />
+          <CreateNewOfferLink className="normalLink"/>
         </span>
 
         <Link to="#" className={styles.menuItem}>

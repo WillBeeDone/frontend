@@ -90,10 +90,10 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                   className={styles.menuLink}
                 >
                   My Offers
-                </span>
+                </span >
                 <span className={styles.menuLinkCreateOffer}>
                   {" "}
-                  <CreateNewOfferLink />
+                  <CreateNewOfferLink className="menuLinkCreateOffer"/>
                 </span>
               </div>
             </div>
