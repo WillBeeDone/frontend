@@ -1,6 +1,6 @@
 import { JSX, useState } from "react";
 import styles from "./ShowAll.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IOfferCard, IGuestOfferPage, IMyOfferCard } from "../types/OfferInterfaces";
 import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
 import MyButton from "../myButton/MyButton";
@@ -57,6 +57,10 @@ export default function ShowAll({
   const handleRemove = async (id: number) => {
     await removeOfferFromMyOffers(id);
   };
+
+  //нужно для возврата к правильному списку по нажатию Go back
+  const location = useLocation();
+  const goBackPath = location.state?.from || "/";
 
 
   const handleNext = () => {
@@ -173,7 +177,7 @@ export default function ShowAll({
                   <AddToFavoritesButton data-testid="AddToFavoritesButtonHomePage_HgyfTy" offer={offer} />
                 </div>
                 <div className={styles.view}>
-                  <Link to={`/offer/${offer.id}`}>
+                  <Link to={`/offer/${offer.id}`} state={{ from: location.pathname }}>
                     <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
@@ -250,7 +254,7 @@ export default function ShowAll({
                 />
                 </div>
                 <div className={styles.view}>
-                  <Link to={`/offer/${offer.id}`}>
+                  <Link to={`/offer/${offer.id}`} state={{ from: location.pathname }}>
                     <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
@@ -386,7 +390,13 @@ export default function ShowAll({
           </div>
         )}
 
-        <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to="/">
+
+{/* 
+    <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to={location.pathname === "/favorite" ? "/favorite" : location.pathname === "/my-offers"? "/my-offers" : "/"}>
+          🔙 Go back
+        </Link> */}
+       
+        <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to={goBackPath}>
           🔙 Go back
         </Link>
       </div>

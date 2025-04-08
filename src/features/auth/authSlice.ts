@@ -1,64 +1,72 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { IAuthState, IUser } from "../../components/types/UserInterfaces";
+import {
+  clearAuthError,
+  emailForPassRecovery,
+  getMyProfileDataByAccessToken,
+  myProfile,
+  passwordChange,
+  passwordRecovery,
+  signInByAccessToken,
+  signInByEmailAndPass,
+  signInByRefreshToken,
+  signUp,
+} from "./authActions";
+import { RootState } from "../../app/store";
+import { transformUser } from "../../components/backToFrontTransformData/BackToFrontTransformData";
 
-import { createSlice } from '@reduxjs/toolkit';
-import { IAuthState, IUser } from '../../components/types/UserInterfaces';
-import { clearAuthError, emailForPassRecovery, getMyProfileDataByAccessToken, myProfile, passwordChange, passwordRecovery, signInByAccessToken, signInByEmailAndPass, signInByRefreshToken, signUp } from './authActions';
-import { RootState } from '../../app/store';
-import { transformUser } from '../../components/backToFrontTransformData/BackToFrontTransformData';
-
-
-const initialUser:IUser ={
+const initialUser: IUser = {
   id: 0,
-  firstName: '',
-  secondName: '',
-  email: '',
-  phone: '',
-  location: '',
-  profilePicture: '',
-  accessToken: '',
-  refreshToken: '',
-  role: ''
-}
+  firstName: "",
+  secondName: "",
+  email: "",
+  phone: "",
+  location: "",
+  profilePicture: "",
+  accessToken: "",
+  refreshToken: "",
+  role: "",
+};
 
 const initialState: IAuthState = {
   user: initialUser,
   isLoading: false,
   error: "",
-  isAuthenticated: false, 
+  isAuthenticated: localStorage.getItem("isAuthenticated") || undefined,
 };
 
 export const authSlice = createSlice({
-  name: 'authSlice',
+  name: "authSlice",
   initialState,
   reducers: {
-    signOut: (state) => {
+    signOut(state) {
       state.user = initialUser;
-      state.isAuthenticated = false;
+      state.isAuthenticated = undefined;
+      localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     },
   },
   extraReducers: (builder) => {
     builder
-    // обработка запроса из формы SignUp
+      // обработка запроса из формы SignUp
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(signUp.fulfilled, (state, action) => {
-        state.isLoading = false
+        state.isLoading = false;
 
         if (action.payload) {
           state.user.id = action.payload; // зберігаємо userId
         } else {
           state.error = "No user ID returned from server";
         }
-        state.error = ""
-
-        
+        state.error = "";
       })
       .addCase(signUp.rejected, (state, action) => {
-        state.isLoading = false
-        state.user = initialUser
-        state.error = action.payload as string
+        state.isLoading = false;
+        state.user = initialUser;
+        state.error = action.payload as string;
       })
 
       //  обработка запроса из формы EmailForPassRecovery
@@ -78,14 +86,14 @@ export const authSlice = createSlice({
         state.user = initialUser;
         state.error = action.payload as string;
       })
-      
+
       // слайс обрабатывающий форму PasswordRecovery
       .addCase(passwordRecovery.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(passwordRecovery.fulfilled, (state) => {
         state.isLoading = false;
-        state.user = initialUser; 
+        state.user = initialUser;
       })
       .addCase(passwordRecovery.rejected, (state, action) => {
         state.isLoading = false;
@@ -97,34 +105,40 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
-        state.isLoading = false
+        state.isLoading = false;
         state.user = transformUser(action.payload);
-        console.log("user in slice signInByEmailAndPass after transform ---- ", state.user);
+        console.log(
+          "user in slice signInByEmailAndPass after transform ---- ",
+          state.user
+        );
         localStorage.setItem("selectedCity", state.user.location);
 
-        state.isAuthenticated = true;
+        state.isAuthenticated = "true";
+        localStorage.setItem("isAuthenticated", "true");
       })
       .addCase(signInByEmailAndPass.rejected, (state, action) => {
-        state.isLoading = false
-        state.user = initialUser
-        state.isAuthenticated = false;
-        state.error = action.payload as string
+        state.isLoading = false;
+        state.user = initialUser;
+        state.isAuthenticated = undefined;
+        localStorage.removeItem("isAuthenticated")
+        state.error = action.payload as string;
       })
-
 
       //запрос из юзЕфекта использующего аксес токен для входа
       .addCase(signInByAccessToken.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(signInByAccessToken.fulfilled, (state) => {
-        state.isLoading = false
+        state.isLoading = false;
         //state.user = action.payload;
-        state.isAuthenticated = true;
+        state.isAuthenticated = "true";
+        localStorage.setItem("isAuthenticated", "true");
       })
       .addCase(signInByAccessToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
-        state.isAuthenticated = false;
+        state.isAuthenticated = undefined;
+      localStorage.removeItem("isAuthenticated")
         state.error = action.payload as string;
       })
 
@@ -134,13 +148,15 @@ export const authSlice = createSlice({
       })
       .addCase(signInByRefreshToken.fulfilled, (state) => {
         state.isLoading = false;
-        //state.isAuthenticated = true;
+        state.isAuthenticated = "true";
+        localStorage.setItem("isAuthenticated", "true");
         //state.user = action.payload;
       })
       .addCase(signInByRefreshToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
-        state.isAuthenticated = false;
+        state.isAuthenticated = undefined;
+        localStorage.removeItem("isAuthenticated")
         state.error = action.payload as string;
       })
 
@@ -149,18 +165,23 @@ export const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getMyProfileDataByAccessToken.fulfilled, (state, action) => {
-        state.isLoading = false
+        state.isLoading = false;
         state.user = transformUser(action.payload);
-        console.log("user in slice getMyProfileDataByAccessToken ---- ", state.user);
+        console.log(
+          "user in slice getMyProfileDataByAccessToken ---- ",
+          state.user
+        );
         localStorage.setItem("selectedCity", state.user.location);
 
-        state.isAuthenticated = true;
+        state.isAuthenticated = "true";
+        localStorage.setItem("isAuthenticated", "true");
       })
       .addCase(getMyProfileDataByAccessToken.rejected, (state, action) => {
-        state.isLoading = false
-        state.user = initialUser
-        state.isAuthenticated = false;
-        state.error = action.payload as string
+        state.isLoading = false;
+        state.user = initialUser;
+        state.isAuthenticated = undefined;
+        localStorage.removeItem("isAuthenticated")
+        state.error = action.payload as string;
       })
 
       // слайс обрабатывающий форму MyProfile
@@ -191,11 +212,10 @@ export const authSlice = createSlice({
       .addCase(clearAuthError, (state) => {
         state.error = "";
       });
-
-
   },
 });
 
 export const { signOut } = authSlice.actions;
-export const selectIsAuthenticated = (state: RootState): boolean => state.auth.isAuthenticated;
+export const selectIsAuthenticated = (state: RootState): string | undefined =>
+  state.auth.isAuthenticated;
 export default authSlice.reducer;
