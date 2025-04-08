@@ -1,39 +1,39 @@
 import { JSX, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { clearAuthError, signUp } from "../../features/auth/authActions";
+import { clearAuthError, passwordChange } from "../../features/auth/authActions";
 
-import styles from "./SignUp.module.css";
+import styles from "./PasswordChange.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
-import validator from "validator";
 
-function SignUp(): JSX.Element {
+
+function PasswordChange(): JSX.Element {
   //для регистрации
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector((state: RootState) => state.auth);
+  const { isLoading, error, user } = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
+    currentPassword: "",
     password: "",
     confirmPassword: "",
-    agree: false,
   });
 
   const [errors, setErrors] = useState({
-    email: "",
+    currentPassword: "",
     password: "",
     confirmPassword: "",
-    agree: "",
   });
 
-  // валидация email
-  const validateEmail = (email: string) => {
-    return validator.isEmail(email) ? "" : "Incorrect email";
-  };
+  // валидация currentPassword
+  const validateCurrentPassword = (currentPassword: string) => 
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(currentPassword)
+    ? ""
+    : "Must contains upper&lower case, number, special character. Length 8 or more. ";
+  
 
   // валидация password
   const validatePassword = (password: string) =>
@@ -51,8 +51,8 @@ function SignUp(): JSX.Element {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    if (name === "email")
-      setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
+    if (name === "currentPassword")
+      setErrors((prev) => ({ ...prev, currentPassword: validateCurrentPassword(value) }));
     if (name === "password")
       setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
     if (name === "confirmPassword")
@@ -65,71 +65,73 @@ function SignUp(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const emailError = validateEmail(formData.email);
+    const currentPasswordError = validateCurrentPassword(formData.currentPassword);
     const passwordError = validatePassword(formData.password);
     const confirmPasswordError = validateConfirmPassword(
       formData.password,
       formData.confirmPassword
     );
-    const agreeError = formData.agree ? "" : "Agreement is required";
+   
 
-    if (emailError || passwordError || confirmPasswordError || agreeError) {
+    if (currentPasswordError || passwordError || confirmPasswordError) {
       setErrors({
-        email: emailError,
+        currentPassword: currentPasswordError,
         password: passwordError,
         confirmPassword: confirmPasswordError,
-        agree: agreeError,
       });
       return;
     }
 
-    dispatch(signUp({ email: formData.email, password: formData.password }))
+ dispatch(
+      passwordChange({
+        currentPassword: formData.currentPassword,
+        newPassword: formData.password,
+        accessToken: user.accessToken,
+      })
+    )
       .unwrap()
       .then(() => {
-        alert("Please, check your email.");
+        alert("Password successfully changed!");
         setFormData({
-          email: "",
-          password: "",
-          confirmPassword: "",
-          agree: false,
-        }); // очистка формы
+            currentPassword: "",
+            password: "",
+            confirmPassword: "",
+          });
         navigate("/");
       })
-      .catch(() => {});
-  };
-  
-  useEffect(() => {
-    return () => {
-      dispatch(clearAuthError());
-    };
-  }, [dispatch]);
+      .catch(() => {
+        alert("Something went wrong... Password not changed.");
+      });
+    }
+    
+      useEffect(() => {
+        return () => {
+          dispatch(clearAuthError());
+        };
+      }, [dispatch]);
 
   return (
     <div className={styles.signUpContainer}>
       <div className={styles.image}></div>
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
-          <h2 className={styles.title}>Sign Up</h2>
-          <div className={styles.signInLinkContainer}>
-            <p>Already have an account?</p>
-            <Link data-testid="LinkToSignIn_Jhfy" to="/sign-in-form">Sign In</Link>
-          </div>
-
+          <h2 className={styles.title}>Change password</h2>
+          
           {error && <p className={styles.error}>{error}</p>}
 
           <div className={styles.inputGroup}>
             <div className={styles.inputContainer}>
               <MyInput
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                label="Email address"
+                name="currentPassword"
+                type="password"
+                placeholder="Enter your current password"
+                label="Current password"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Hgvsl" 
+                data-testid="" 
                 autoComplete="off"            
               />
-              {errors.email && <p className={styles.error}>{errors.email}</p>}
+              {errors.currentPassword && <p className={styles.error}>{errors.currentPassword}</p>}
             </div>
 
             <div className={styles.inputContainer }>
@@ -140,7 +142,7 @@ function SignUp(): JSX.Element {
                 label="Password"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Pgdts" 
+                data-testid="" 
                 autoComplete="off"   
               />
               {errors.password && (
@@ -156,7 +158,7 @@ function SignUp(): JSX.Element {
                 label="Confirm password"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Ytdr" 
+                data-testid="" 
                 autoComplete="off"   
               />
               {errors.confirmPassword && (
@@ -164,33 +166,16 @@ function SignUp(): JSX.Element {
               )}
             </div>
           </div>
-          <div className={styles.checkbox}>
-            <input
-              type="checkbox"
-              name="agree"
-              checked={formData.agree}
-              onChange={handleChange}
-              data-testid="SignUpCheckBox_Nhgy"
-            />
-            <label>
-              I agree with <a data-testid="IAgreeWith" href="#/user-agreement">user agreement</a>
-            </label>
-          </div>
-          {errors.agree && <p className={styles.error}>{errors.agree}</p>}
-
-          <div className={styles.signBtn}>            
-            <MyButton
-              type="submit"
-              text={isLoading ? "Loading…" : "Sign up"}
-              disabled={isLoading}
-              variant="easy"
-              data-testid="MyButtonSignUp_jhYgj"
-            />
-          </div>
+         
+          <div className={styles.btnGroup}>
+        <MyButton type="submit" text={isLoading ? "Loading…" : "Save changes"} disabled={isLoading} data-testid="" />
+        <MyButton type="button" text="Go Back" to="/" data-testid="" />
+        </div>
         </form>
       </div>
     </div>
   );
 }
 
-export default SignUp;
+
+export default PasswordChange;

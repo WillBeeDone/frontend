@@ -1,0 +1,44 @@
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  height: 320px;
+  padding: 30px;
+  color: black;
+  border-radius: 25px;
+  gap: 17px;
+}
+.menuContainer img {
+  object-fit: contain;
+}
+
+.burgerMenuIcon {
+  display: flex;
+  flex-direction: column;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+
+.menuContainer > :last-child {
+  margin-top: auto;
+}
+.menuContainer a {
+  display: flex;
+  gap: 15px;
+  color: black;
+  text-decoration: none;
+}
+
+.menuMain {
+  background-color: #fff8e8;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  
+}
+
+.menuItem:hover {
+   color: #007bff;
+  }

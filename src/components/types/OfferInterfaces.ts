@@ -29,18 +29,20 @@ export interface IGuestOfferPage {
   description: string;
   profilePicture: string;
   gallery: IGallery[];
-}
-
-//тип для конкретного оффера в режиме User
-export interface IUserOfferPage extends IGuestOfferPage {
   email: string;
   phone: string;
 }
 
-export interface IAdminOfferPage extends IUserOfferPage {
-  userId: number;
-  isActive: boolean;
-}
+//тип для конкретного оффера в режиме User
+// export interface IUserOfferPage extends IGuestOfferPage {
+//   email: string;
+//   phone: string;
+// }
+
+// export interface IAdminOfferPage extends IUserOfferPage {
+//   userId: number;
+//   isActive: boolean;
+// }
 
 export interface IOfferForTransformOfferCardPagination {
   id: number;
@@ -60,8 +62,38 @@ export interface IOfferForTransformOfferCardPagination {
   };
 }
 
+
+export interface IMyOfferForTransformOfferCardPagination {
+  id: number;
+  title: string;
+  categoryDto: {
+    name: string;
+  };
+  pricePerHour: number;
+  description: string;
+  userFilterResponseDto: {
+    firstName: string;
+    lastName: string;
+    profilePicture: string;
+    locationDto: {
+      cityName: string;
+    };
+  };
+  active:boolean;
+}
+
 export interface IOfferState  {
-    offer: IUserOfferPage,
+    offer: IGuestOfferPage,
     isLoading: boolean,
     error: string,
   };
+
+
+  //тип для моего оффера в общем списке
+export interface IMyOfferCard extends IOfferCard{
+  active: boolean;
+}
+
+
+
+

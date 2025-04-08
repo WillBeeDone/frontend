@@ -1,17 +1,20 @@
 import { JSX, useState } from "react";
 import styles from "./ShowAll.module.css";
-import { Link } from "react-router-dom";
-import { IOfferCard, IGuestOfferPage } from "../types/OfferInterfaces";
+import { Link, useLocation } from "react-router-dom";
+import { IOfferCard, IGuestOfferPage, IMyOfferCard } from "../types/OfferInterfaces";
 import AddToFavoritesButton from "../addToFavorites/AddToFavorites";
 import MyButton from "../myButton/MyButton";
 import DOMPurify from "dompurify";
 import Gallery from "../gallery/Gallery";
 import { useOffers } from "../../context/OffersContext";
 import { useFavorite } from "../../context/FavoriteContext";
+import { useMyOffers } from "../../context/MyOffersContext";
+import { useSelector } from "react-redux";
+import { selectIsAuthenticated } from "../../features/auth/authSlice";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
-  switcher?: "list" | "guestOfferPage";
+  switcher?: "list" | "guestOfferPage" | "my-offer";
   isFavotite?:boolean;
 }
 //две функции ниже нужны чтобы при обрезке description не учитывался html в тексте
@@ -38,8 +41,27 @@ export default function ShowAll({
   
   const {offerCards, setOfferCards} = useOffers();
   const {favoriteOffers, setFavoriteOffers} = useFavorite();
+
+  //проверка авторизации
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  //для сортировки любимых по цене
   const offerCardsFinal : IOfferCard[] = isFavotite ? favoriteOffers : offerCards;
   const setOfferCardsFinal : (offer: IOfferCard[]) => void = isFavotite ? setFavoriteOffers : setOfferCards;
+
+  // для операций с my offers
+  const { isLoading, removeOfferFromMyOffers, activateDeactivateMyOffers} = useMyOffers();
+  const handleActivate = async (id: number) => {
+    await activateDeactivateMyOffers(id);
+  };
+  const handleRemove = async (id: number) => {
+    await removeOfferFromMyOffers(id);
+  };
+
+  //нужно для возврата к правильному списку по нажатию Go back
+  const location = useLocation();
+  const goBackPath = location.state?.from || "/";
+
 
   const handleNext = () => {
     if (currentIndex < (source as IGuestOfferPage).gallery.length - 4) {
@@ -85,11 +107,11 @@ export default function ShowAll({
 
   if (
     !source ||
-    (switcher === "list" && (source as IOfferCard[]).length === 0)
+    ((switcher === "list" || "my-offer" )  && (source as IOfferCard[]).length === 0)
   ) {
     return (
       <div className="no-data">
-        <p>I'm waiting for data ;)</p>
+        <p>There is no offers... ;)</p>
       </div>
     );
   }
@@ -134,10 +156,10 @@ export default function ShowAll({
                       ? offer.title.slice(0, 30).concat("...")
                       : offer.title}
                   </h4>
-                  <p className={styles.price}>
+                  <div className={styles.price}>
                     <p className={styles.textPrice}>Price per hour: </p>
                     <p className={styles.euro}>{offer.price} € </p>
-                  </p>
+                  </div>
                 </div>
               </div>
 
@@ -155,7 +177,7 @@ export default function ShowAll({
                   <AddToFavoritesButton data-testid="AddToFavoritesButtonHomePage_HgyfTy" offer={offer} />
                 </div>
                 <div className={styles.view}>
-                  <Link to={`/offer/${offer.id}`}>
+                  <Link to={`/offer/${offer.id}`} state={{ from: location.pathname }}>
                     <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
@@ -168,6 +190,90 @@ export default function ShowAll({
 
     );
   }
+
+
+  if (switcher === "my-offer") {
+    const offers = source as IMyOfferCard[];
+
+    return (
+      <div className={styles.offerCardMain}>
+      <div className={styles.offerContainer}>
+        {offers.map((offer) => {
+          const imgSource =
+            offer.profilePicture || "/no-profilePicture-default-image.jpg";
+
+          return (
+            <div key={offer.id} className={styles.offerCard}>
+              <div className={styles.firstPartOfferCard}>
+                <div className={styles.offerCardleftPart}>
+                  <div className={styles.offerCardImageContainer}>
+                    <img
+                      className={styles.offerCardImage}
+                      src={imgSource}
+                      alt="Profile picture"
+                      width={150}
+                      height={150}
+                    />
+                  </div>
+
+                  <p className={styles.category}>{offer.category}</p>
+                </div>
+
+                <div className={styles.offerCardRightPart}>
+                  <p className={styles.name}>
+                    {offer.firstName} {offer.secondName}
+                  </p>
+                  <p className={styles.location}>{offer.location}</p>
+                  <h4 className={styles.title}>
+                    {offer.title.length > 40
+                      ? offer.title.slice(0, 30).concat("...")
+                      : offer.title}
+                  </h4>
+                  <div className={styles.price}>
+                    <p className={styles.textPrice}>Price per hour: </p>
+                    <p className={styles.euro}>{offer.price} € </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.descriptionOffer}>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      truncateDescription(offer.description, 130)
+                    ),
+                  }}
+                />
+              </div>
+              <div className={styles.heartAndView}>
+                <div>
+                <MyButton
+                type="submit"
+                text={offer.active ? "Deactivate" : "Activate"}
+                func={() => handleActivate(offer.id)}
+                />
+                </div>
+                <div className={styles.view}>
+                  <Link to={`/offer/${offer.id}`} state={{ from: location.pathname }}>
+                    <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
+                  </Link>
+                </div>
+              </div>
+              <MyButton
+               type="submit"
+               text={isLoading ? "Loading…" : "Remove offer"}
+              disabled={isLoading}
+              func={() => handleRemove(offer.id)}
+              />
+            </div>
+          );
+        })}
+      </div>
+      </div>
+
+    );
+  }
+
 
   if (switcher === "guestOfferPage") {
     const offer = source as IGuestOfferPage;
@@ -199,8 +305,7 @@ export default function ShowAll({
             <p className={styles.offerPageName}>
               {offer.firstName} {offer.secondName}
             </p>
-
-            <Link data-testid="LinkSignInOfferPage_fJndhTy" to="/sign-in-form">
+             {isAuthenticated ? (<div> <span>{offer.phone}</span><br /><span>{offer.email}</span></div>) : (<Link data-testid="LinkSignInOfferPage_fJndhTy" to="/sign-in-form">
               <div className={styles.getContact}>
                 <img src="./call-phone.png" alt="call-phone icon" />
                 <div className={styles.textSignInGetContact}>
@@ -209,7 +314,8 @@ export default function ShowAll({
                 </div>
                 <img src="./mail.png" alt="mail icon" />
               </div>
-            </Link>
+            </Link>)}
+            
           </div>
           <div className={styles.rightPartOfferPage}>
             <h1 className={styles.titleOffer}>{offer.title}</h1>
@@ -284,7 +390,13 @@ export default function ShowAll({
           </div>
         )}
 
-        <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to="/">
+
+{/* 
+    <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to={location.pathname === "/favorite" ? "/favorite" : location.pathname === "/my-offers"? "/my-offers" : "/"}>
+          🔙 Go back
+        </Link> */}
+       
+        <Link data-testid="GoBackbtnOfferPage_HLkdyTy" className={styles.goBackBtn} to={goBackPath}>
           🔙 Go back
         </Link>
       </div>

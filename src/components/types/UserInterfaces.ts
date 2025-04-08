@@ -19,6 +19,6 @@ export interface IAuthState  {
     user: IUser,
     isLoading: boolean,
     error: string,
-    isAuthenticated: boolean,
+    isAuthenticated?: string,
   };
 

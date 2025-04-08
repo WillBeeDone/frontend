@@ -5,16 +5,20 @@ import {
   useState,
   ReactNode,
 } from "react";
-import { IOfferCard } from "../components/types/OfferInterfaces";
-import { transformOfferCardPagination } from "../components/backToFrontTransformData/BackToFrontTransformData";
+import { IMyOfferCard, IOfferCard } from "../components/types/OfferInterfaces";
+import { transformMyOfferCard } from "../components/backToFrontTransformData/BackToFrontTransformData";
+import axios from "axios";
 
 interface MyOffersContextType {
-  myOfferCards: IOfferCard[];
-  setMyOfferCards: (offer: IOfferCard[]) => void;
+  myOfferCards: IMyOfferCard[];
+  setMyOfferCards: (offer: IMyOfferCard[]) => void;
   fetchMyOffers: () => void;
-  addNewOfferToMyOffers: (newOffer: IOfferCard) => void;
+  addNewOfferToMyOffers: (newOffer: IMyOfferCard) => void;
   removeOfferFromMyOffers: (offerId: number) => void;
   clearAllMyOffers: () => void;
+  isLoading:boolean;
+  error:string;
+  activateDeactivateMyOffers: (offerId: number) => void;
 }
 
 export const MyOffersContext = createContext<MyOffersContextType | undefined>(
@@ -22,27 +26,44 @@ export const MyOffersContext = createContext<MyOffersContextType | undefined>(
 );
 
 export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
-  const [myOfferCards, setMyOfferCards] = useState<IOfferCard[]>([]);
+  const [myOfferCards, setMyOfferCards] = useState<IMyOfferCard[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const accessToken = localStorage.getItem("accessToken");
  
   const fetchMyOffers = async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch(`/api/my-offers`);
-      if (!response.ok) {
+      const response = await axios.get(`/api/users/offers`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      
+      console.log("пришло от сервера в fetchMyOffers - response - : ", response);
+      console.log("пришло от сервера в fetchMyOffers - response.data - : ", response.data);
+  
+      if (response.status !== 200) {
         throw new Error(`Server error: ${response.status}`);
       }
-
-      const data = await response.json();
-      const formattedMyOffers = transformOfferCardPagination(data);
+      
+      const data = response.data;
+      const formattedMyOffers = transformMyOfferCard(data);
+      console.log("форматированные оферы- : ", formattedMyOffers);
       console.log(data);
       setMyOfferCards(formattedMyOffers);
+      setIsLoading(false);
     } catch (error) {
+      setError(error as string)
       console.error("Mistake while my offers receive:", error);
     }
   };
 
   useEffect(() => {
-    fetchMyOffers();
-  }, []);
+    if (accessToken) {
+      fetchMyOffers();
+    }
+  }, [accessToken]);
 
 
 
@@ -53,6 +74,10 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newOffer),
       });
+
+
+
+      
   
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
@@ -60,6 +85,7 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
   
       const savedOffer = await response.json();
       setMyOfferCards((prevMyOfferCards) => [...prevMyOfferCards, savedOffer]);
+      fetchMyOffers();
     } catch (error) {
       console.error("Error while adding new offer:", error);
     }
@@ -68,19 +94,44 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
 
   const removeOfferFromMyOffers = async (id: number) => {
     try {
-      const response = await fetch(`/api/remove-offer-from-my-offers/${id}`, {
-        method: "DELETE",
+      console.log("id - ",id);
+      console.log("token - ",accessToken);
+
+      await axios.delete(`/api/users/offers/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
-  
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
   
       setMyOfferCards((prevMyOfferCards) =>
         prevMyOfferCards.filter((offer) => offer.id !== id)
       );
-    } catch (error) {
-      console.error("Error while removing offer from my offers:", error);
+  
+      alert("Offer is removed !")
+    } catch (error: any) {
+      console.error("Error while removing offer:", error);
+      
+    }
+  };
+
+  const activateDeactivateMyOffers = async (id: number): Promise<string | null> => {
+    try {
+      await axios.put(`/api/users/offers/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
+      setMyOfferCards((prevMyOfferCards) =>
+        prevMyOfferCards.map((offer) =>
+          offer.id === id ? { ...offer, active: !offer.active } : offer
+        )
+      );
+  
+      return null;
+    } catch (error: any) {
+      console.error("Error while changing offer status:", error);
+      return error?.response?.data?.message || "Failed to change offer status";
     }
   };
 
@@ -110,7 +161,10 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
         fetchMyOffers,
         addNewOfferToMyOffers,
         removeOfferFromMyOffers,
-        clearAllMyOffers
+        clearAllMyOffers,
+        isLoading,
+        error,
+        activateDeactivateMyOffers,
       }}
     >
       {children}
