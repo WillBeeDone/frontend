@@ -67,7 +67,7 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-
+      
       const data = await response.json();
       const formattedFavoriteOffers = transformOfferCardPagination(data);
       console.log(data);
