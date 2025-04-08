@@ -1,15 +1,17 @@
 .tooltip {
     position: fixed; /* Фіксоване положення поверх усіх елементів */
+    display: flex;
     top: 50%; /* В центрі екрану */
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 10px 20px;
-    border: solid 2px blue;
+    border: solid 2pxP; 
     border-radius: 10px;
     z-index: 1000; /* Щоб бути поверх інших елементів */
     white-space: nowrap;
+    gap: 6px;
   }
 
   .menuLinkCreateOffer{
@@ -18,8 +20,44 @@
   cursor: pointer;
   display: inline-block;
   transition: color 0.3s ease;
+
+  &:hover {
+    color: #fccc00; /* изменение цвета при наведении */
+  }
+
+  /* Пульсация */
+  animation: pulse 3.5s infinite;
 }
 
-.linkButton{
- color: #000;
+.menuLinkCreateOffer .linkButton{
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #fccc00; /* изменение цвета при наведении */
+  }
+
+  /* Пульсация */
+  animation: pulse 3.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05); /* увеличиваем размер */
+    opacity: 0.7; /* немного делаем прозрачным */
+  }
+  100% {
+    transform: scale(1); /* возвращаем в исходное состояние */
+    opacity: 1;
+  }
+}
+.tooltip .menuItem {
+  color: aqua;
 }

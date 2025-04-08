@@ -42,3 +42,7 @@
 .menuItem:hover {
    color: #007bff;
   }
+
+  .menuLinkCreateOffer {
+    color: #007bff !important;
+  }

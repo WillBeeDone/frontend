@@ -21,16 +21,24 @@ function CreateNewOfferLink() {
   };
 
   return (
-    <div className={styles.menuLinkCreateOffer}>
-      <Link
-        to="/create-new-offer"
-        onClick={handleClick}
-        className={styles.linkButton}
-      >
-        Create new Offer
-      </Link>
+    <div>
+      <div className={styles.menuLinkCreateOffer}>
+        <Link
+          to="/create-new-offer"
+          onClick={handleClick}
+          className={styles.linkButton}
+        >
+          Create Offer
+        </Link>
+      </div>
       {showTooltip && (
-        <div className={styles.tooltip}>Fill out My Profile first.</div>
+        <div className={styles.tooltip}>
+          <p>Fill out </p>
+          <Link to="/my-profile" className={styles.menuItem}>
+            My Profile
+          </Link>
+          <p> first.</p>
+        </div>
       )}
     </div>
   );
