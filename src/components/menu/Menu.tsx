@@ -1,7 +1,10 @@
 import { JSX } from "react";
 import styles from "./Menu.module.css";
-import SignOut from "../signOut/SignOut";
+//import SignOut from "../signOut/SignOut";
 import { Link } from "react-router-dom";
+
+import { useAppDispatch } from "../../app/hooks";
+import { signOut } from '../../features/auth/authSlice';
 
 interface IMenu {
   "data-testid"?: string;
@@ -13,6 +16,14 @@ export default function Menu({
   "data-testid": dataTestId = "default",
   onCloseMenu,
 }: IMenu):JSX.Element {
+
+  const dispatch = useAppDispatch();
+  
+  const handleSignOut = () => {
+    dispatch(signOut());
+    onCloseMenu();
+  }
+
   return (
     <div className={styles.menuMain}  data-testid={dataTestId} >
       <div className={styles.menuContainer}>
@@ -48,16 +59,17 @@ export default function Menu({
           />
           Create offer
         </Link>
-        <Link to="#" className={styles.menuItem}>
+        <Link to="#" className={styles.menuItem} onClick={handleSignOut}>
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/exit.png"
             alt="sign out icon"
           />
-         <SignOut onSignOut={onCloseMenu} />
+          Sign Out
+         {/* <SignOut onSignOut={onCloseMenu} /> */}
         </Link>
 
-       
+
       </div>
     </div>
   );

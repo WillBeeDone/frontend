@@ -60,7 +60,7 @@ function CreateNewOffer(): JSX.Element {
   };
   
   const validateDescription = (description: string) => {
-    if (description.length > 300) return "Max length 300 characters.";
+    if (description.length > 1500) return "Max length 1500 characters.";
     return "";
   };
   

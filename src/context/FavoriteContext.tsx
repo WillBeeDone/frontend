@@ -105,7 +105,7 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
             headers: {
               "Authorization": `Bearer ${accessToken}`,
             },});
-
+            
             const data = await response.json();
             const formattedFavoriteOffers = transformOfferCardPagination(data);
             setFavoriteOffers(formattedFavoriteOffers);
