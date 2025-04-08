@@ -1,6 +1,6 @@
 import { JSX, useState } from "react";
 import styles from "./Header.module.css";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import DropDown from "../dropDown/DropDown";
 import { useOffers } from "../../context/OffersContext";
 import MyButton from "../myButton/MyButton";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
 import { useAppSelector } from "../../app/hooks";
 import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
-import { useMyOffers } from "../../context/MyOffersContext";
+
 import Menu from "../menu/Menu";
 import { useFavorite } from "../../context/FavoriteContext";
 
@@ -25,8 +25,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { setSelectedCity: setCityForOffer } = useOffers();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const { user } = useAppSelector((state) => state.auth);
-  const { fetchMyOffers } = useMyOffers();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleBurgerClick = () => {
     setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
@@ -42,6 +42,7 @@ const {setSelectedCity: setCityForFavorite} = useFavorite();
     e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
   };
 
+  
   return (
     <header className={styles.header}>
       {links.map(({ text, path }, index) => (
@@ -81,8 +82,9 @@ const {setSelectedCity: setCityForFavorite} = useFavorite();
                 </span>
                 <span
                   data-testid="LinkMyOffersInHeader_Jjhfyfdg"
-                  onClick={fetchMyOffers}
+                  onClick={()=> navigate("/my-offers")}
                   className={styles.menuLink}
+                  
                 >
                   My Offers
                 </span>

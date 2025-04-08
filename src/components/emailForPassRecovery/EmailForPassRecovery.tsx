@@ -1,8 +1,8 @@
-import { JSX, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { emailForPassRecovery } from "../../features/auth/authActions";
+import { clearAuthError, emailForPassRecovery } from "../../features/auth/authActions";
 
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
@@ -48,6 +48,12 @@ function EmailForPassRecovery(): JSX.Element {
       });
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthError());
+    };
+  }, [dispatch]);
+  
   return (
     <div className={styles.signInContainer}>
       <div className={styles.image}></div>
