@@ -2,32 +2,26 @@ import { JSX } from "react";
 import styles from "./Menu.module.css";
 //import SignOut from "../signOut/SignOut";
 import { Link } from "react-router-dom";
-
-import { useAppDispatch } from "../../app/hooks";
-import { signOut } from '../../features/auth/authSlice';
+import CreateNewOfferLink from "../createNewOffer/CreateNewOfferLink";
+import SignOut from "../signOut/SignOut";
 
 interface IMenu {
   "data-testid"?: string;
   onCloseMenu: () => void;
 }
 
-
 export default function Menu({
   "data-testid": dataTestId = "default",
   onCloseMenu,
-}: IMenu):JSX.Element {
-
-  const dispatch = useAppDispatch();
-  
-  const handleSignOut = () => {
-    dispatch(signOut());
-    onCloseMenu();
-  }
-
+}: IMenu): JSX.Element {
   return (
-    <div className={styles.menuMain}  data-testid={dataTestId} >
+    <div className={styles.menuMain} data-testid={dataTestId}>
       <div className={styles.menuContainer}>
-        <Link to="/my-profile" className={styles.menuItem} data-testid="myProfileLinkMenu_lkfHhnmf">
+        <Link
+          to="/my-profile"
+          className={styles.menuItem}
+          data-testid="myProfileLinkMenu_lkfHhnmf"
+        >
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/user-check.png"
@@ -35,7 +29,11 @@ export default function Menu({
           />{" "}
           My Profile
         </Link>
-        <Link to="/favorite" className={styles.menuItem} data-testid="favoritesLinkMenu_HgfbGbf">
+        <Link
+          to="/favorite"
+          className={styles.menuItem}
+          data-testid="favoritesLinkMenu_HgfbGbf"
+        >
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/favourite.png"
@@ -43,7 +41,11 @@ export default function Menu({
           />{" "}
           Favourites
         </Link>
-        <Link to="/my-offers" className={styles.menuItem} data-testid="myOffersLinkMenu_JndgGbfdh">
+        <Link
+          to="/my-offers"
+          className={styles.menuItem}
+          data-testid="myOffersLinkMenu_JndgGbfdh"
+        >
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/elements.png"
@@ -51,25 +53,25 @@ export default function Menu({
           />
           My offers
         </Link>
-        <Link to="/create-new-offer" className={styles.menuItem} data-testid="createOfferLinkMenu_lkfHhnmf">
+
+        <span className={styles.createOfferLInk}>
+          {" "}
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/Plus.png"
             alt="create offer icon"
           />
-          Create offer
-        </Link>
-        <Link to="#" className={styles.menuItem} onClick={handleSignOut}>
+          <CreateNewOfferLink className="normalLink"/>
+        </span>
+
+        <Link to="#" className={styles.menuItem}>
           <img
             className={styles.burgerMenuIcon}
             src="/menuIcon/exit.png"
             alt="sign out icon"
           />
-          Sign Out
-         {/* <SignOut onSignOut={onCloseMenu} /> */}
+          <SignOut onSignOut={onCloseMenu} />
         </Link>
-
-
       </div>
     </div>
   );
