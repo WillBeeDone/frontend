@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import styles from "./CreateNewOfferLink.module.css";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function CreateNewOfferLink({ className = "" }: { className?: string }) {
   const { user } = useSelector((state: RootState) => state.auth);
   const [showTooltip, setShowTooltip] = useState(false);
-  const navigate = useNavigate();
+ 
 
   const isProfileComplete =
     user?.firstName && user?.secondName && user?.phone && user?.location;
