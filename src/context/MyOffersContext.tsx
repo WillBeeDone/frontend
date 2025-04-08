@@ -94,6 +94,9 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
 
   const removeOfferFromMyOffers = async (id: number) => {
     try {
+      console.log("id - ",id);
+      console.log("token - ",accessToken);
+
       await axios.delete(`/api/users/offers/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
