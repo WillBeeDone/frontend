@@ -14,7 +14,7 @@ function MyProfile(): JSX.Element {
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error, user } = useSelector(
+  const { isLoading, user } = useSelector(
     (state: RootState) => state.auth
   );
   const navigate = useNavigate();
