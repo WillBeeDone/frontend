@@ -1,14 +1,14 @@
 .myProfileContainer {
   width: 80vw;
-  height: 15vh;
   margin-top: 50px;
 }
 
 .formContainer {
   display: flex;
   flex-direction: column;
+  height: 50vh;
   background: #FFFDF8;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   gap: 15px;
 }
@@ -40,14 +40,17 @@ margin-left: 60px;
   flex-direction: column;
   margin-left: 50px;
   padding: 10px;
-  width: 350px;
-  height: 350px;
+  width: 250px;
+  height: 300px;
 }
 
 .imageContainer img {
   border-radius: 50%;
 }
 
+.removeButton {
+  margin-top: 5px;
+}
 
 
 

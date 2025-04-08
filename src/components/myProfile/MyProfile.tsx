@@ -192,7 +192,9 @@ function MyProfile(): JSX.Element {
           {formData.profilePicture &&
             formData.profilePicture !==
             "/no-profilePicture-default-image.jpg" && (
-              <MyButton text="Remove photo" func={handleRemovePhoto} />
+              <div className={styles.removeButton}>
+              <MyButton data-testid="removeButton_NbdgTff" text="Remove photo" func={handleRemovePhoto} variant="remove" />
+              </div>
             )}
 
           <MyInput
@@ -299,7 +301,6 @@ function MyProfile(): JSX.Element {
               text={isLoading ? "Loading…" : "Save changes"}
               disabled={isLoading}
             />
-            <MyButton type="button" text="Go Back" to="/" />
           </div>
         </div>
         </div>
