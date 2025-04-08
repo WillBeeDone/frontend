@@ -1,10 +1,10 @@
 
 import { createSlice } from '@reduxjs/toolkit';
-import { createNewOffer } from './offerActions';
-import { IOfferState, IUserOfferPage } from '../../components/types/OfferInterfaces';
+import { activateDeactivateOffer, createNewOffer, removeOffer } from './offerActions';
+import { IGuestOfferPage, IOfferState } from '../../components/types/OfferInterfaces';
 
 
-const initialOffer:IUserOfferPage ={
+const initialOffer:IGuestOfferPage ={
     email: '',
     phone: '',
     id: 0,
@@ -43,7 +43,41 @@ export const offerSlice = createSlice({
         state.error = action.payload as string
       })
 
-    
+     // обработка запроса по активации/деактивации офера
+     .addCase(activateDeactivateOffer.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(activateDeactivateOffer.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    .addCase(activateDeactivateOffer.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload as string
+    })
+
+    // обработка запроса по удалению офера
+    .addCase(removeOffer.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(removeOffer.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    .addCase(removeOffer.rejected, (state, action) => {
+      state.isLoading = false
+      state.error = action.payload as string
+    })  
+
+
+
+
+
+
+
+
+
+
+
+
   },
 });
 
