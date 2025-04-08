@@ -42,3 +42,8 @@
 .menuItem:hover {
    color: #007bff;
   }
+
+  .createOfferLInk{
+    display: flex;
+    gap: 15px
+  }
