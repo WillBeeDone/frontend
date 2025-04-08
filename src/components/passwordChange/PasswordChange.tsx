@@ -12,7 +12,7 @@ import MyButton from "../myButton/MyButton";
 function PasswordChange(): JSX.Element {
   //для регистрации
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error, user } = useSelector((state: RootState) => state.auth);
+  const { isLoading, error } = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
 
@@ -86,7 +86,6 @@ function PasswordChange(): JSX.Element {
       passwordChange({
         currentPassword: formData.currentPassword,
         newPassword: formData.password,
-        accessToken: user.accessToken,
       })
     )
       .unwrap()

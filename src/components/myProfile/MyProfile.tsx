@@ -130,11 +130,10 @@ function MyProfile(): JSX.Element {
     dispatch(myProfile({
       firstName: formData.firstName,
       secondName: formData.secondName,
-      // email:formData.email,
       phone: formData.phone,
       location: formData.location,
       profilePicture: formData.profilePicture,
-      accessToken: user.accessToken,
+      
     }))
       .unwrap()
       .then(() => navigate("/"))

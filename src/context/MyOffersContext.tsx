@@ -114,9 +114,9 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const activateDeactivateMyOffers = async (id: number): Promise<string | null> => {
+  const activateDeactivateMyOffers = async (id: number) => {
     try {
-      await axios.put(`/api/users/offers/${id}`, {
+      await axios.put(`/api/users/offers/${id}`, {}, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

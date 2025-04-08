@@ -226,20 +226,30 @@ export const myProfile = createAsyncThunk(
     phone: string; 
     location: string; 
     profilePicture: string | File; 
-    accessToken: string;
   }, thunkAPI) => {
     try {
-      const { firstName, secondName, phone, location, profilePicture, accessToken } = userData;
-
+      const { firstName, secondName, phone, location, profilePicture } = userData;
+      console.log(" inside myProfile after destruct: ", firstName);
+        
       const body = new FormData();
       body.append("firstName", firstName);
+      console.log(" inside myProfile after append firstName: ", body);
+        
       body.append("lastName", secondName);
       body.append("phoneNumber", phone);
-      body.append("locationDto", JSON.stringify({ cityName: location }));
+      body.append("locationDto.cityName", location );
 
       if (profilePicture instanceof File) {
         body.append("profilePicture", profilePicture);
       }
+      console.log(" ------------------------- inside myProfile before send to server: ", body);
+      
+
+      for (const pair of body.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+
+      const accessToken = localStorage.getItem('accessToken');
 
       const response = await axios.put('/api/users', body, {
         headers: {
@@ -259,16 +269,17 @@ export const myProfile = createAsyncThunk(
 );
 
 
-// екшн обрабатывающий форму тзменения пароля
+// екшн обрабатывающий форму изменения пароля
 export const passwordChange = createAsyncThunk(
   "auth/passwordChange",
-  async ({ currentPassword, newPassword, accessToken }: { currentPassword: string; newPassword: string; accessToken: string; }, thunkAPI) => {
+  async ({ currentPassword:oldPassword, newPassword}: { currentPassword: string; newPassword: string; }, thunkAPI) => {
     try {
-      const body = {currentPassword, newPassword};
+      const body = {oldPassword,  newPassword};
       
       console.log("data in passwordChange action before send --- ", body);
+      const accessToken = localStorage.getItem('accessToken');
       
-      const response = await axios.put('/api/users', body, {
+      const response = await axios.put('/api/auth/change', body, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
         },

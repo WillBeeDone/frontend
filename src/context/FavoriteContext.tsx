@@ -58,6 +58,8 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
     try {
 
       const accessToken = localStorage.getItem("accessToken");
+      console.log("fetchFavoriteOffers перед запросом токен - ", accessToken);
+      
 
       const response = await fetch(`/api/users/favourites?page=${page}&size=9`, 
         {method: "GET",
@@ -67,10 +69,10 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-
+      
       const data = await response.json();
+      console.log("внутри fetchFavoriteOffers - ", data);
       const formattedFavoriteOffers = transformOfferCardPagination(data);
-      console.log(data);
       setFavoriteOffers(formattedFavoriteOffers);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
