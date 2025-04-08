@@ -9,7 +9,8 @@ export const transformOfferCardPagination = (data: { content: any[] }): IOfferCa
     console.error("Expected an array in data.content, received:", data);
     return [];
   }
-
+  console.log("внутри transformOfferCardPagination - ", data.content);
+  
   return data.content.map((offer:IOfferForTransformOfferCardPagination) => ({
     id: offer.id,
     title: offer.title,
