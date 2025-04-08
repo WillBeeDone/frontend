@@ -1,8 +1,12 @@
 import { JSX } from "react";
 import styles from "./Menu.module.css";
-import SignOut from "../signOut/SignOut";
+//import SignOut from "../signOut/SignOut";
 import { Link } from "react-router-dom";
 import CreateNewOfferLink from "../createNewOffer/CreateNewOfferLink";
+
+import { useAppDispatch } from "../../app/hooks";
+import { signOut } from '../../features/auth/authSlice';
+import SignOut from "../signOut/SignOut";
 
 interface IMenu {
   "data-testid"?: string;

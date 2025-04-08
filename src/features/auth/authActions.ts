@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import apiClient from './apiClient';
 
 // данные емейл&пароль записываються в форме SignUp
 export const signUp = createAsyncThunk(
@@ -82,10 +83,13 @@ export const signInByAccessToken = createAsyncThunk(
     'auth/signInByAccessToken',
     async (accessToken:string, thunkAPI) => {
       try {
-        const response = await axios.get('api/auth/login', {headers: {
+        console.log(" токены удаляються здесь, signInByAccessToken до запроса на сервер - ", accessToken);
+        const response = await axios.post('api/auth/login', {headers: {
     'Authorization' : `Bearer ${accessToken}`
         }});
-        localStorage.setItem("refreshToken", response.data.refreshToken)
+        console.log(" ответ сервера  после запроса в signInByAccessToken - ", response.data);
+        
+        //localStorage.setItem("refreshToken", response.data.refreshToken)
         console.log("reterned from server inside signInByAccessToken, must be user ? + tokens ? -", response.data);
 
         return response.data; // здесь должны быть все данные о юзере
@@ -100,11 +104,12 @@ export const signInByRefreshToken = createAsyncThunk(
   'auth/signInByRefreshToken',
   async (refreshToken:string, thunkAPI) => {
     try {
-      const response = await axios.get('api/auth/refresh', {headers: {
+      const response = await axios.post('api/auth/refresh', {headers: {
   'Authorization' : `Bearer ${refreshToken}`
       }});
-      localStorage.setItem("accessToken", response.data.refreshToken)
-      return response.data; // здесь должны быть все данные о юзере
+      localStorage.setItem("accessToken", response.data.accessToken)
+      localStorage.setItem("isAuthenticated", "true")
+      return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -116,7 +121,7 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
   'auth/getMyProfileDataByAccessToken',
   async (accessToken:string, thunkAPI) => {
     try {
-      const response = await axios.get('/api/users', {headers: {
+      const response = await apiClient.get('/api/users', {headers: {
   'Authorization' : `Bearer ${accessToken}`
       }});
         console.log("receive from server in getMyProfileDataByAccessToken, user: ", response.data);
@@ -281,3 +286,59 @@ export const passwordChange = createAsyncThunk(
 );
 
 export const clearAuthError = createAction('auth/clearError');
+
+
+// import { signOut} from "./authSlice"
+
+// const apiClient = axios.create();
+
+// // Интерсептор для запросов – добавляет Bearer токен
+// apiClient.interceptors.request.use(
+//   config => {
+//     const token = localStorage.getItem("accessToken");
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   error => Promise.reject(error)
+// );
+
+// // Интерсептор для ответов – обрабатывает случаи ошибочного ответа, например, когда токен просрочен или недействителен
+// apiClient.interceptors.response.use(
+//   response => response,
+//   async error => {
+//     const originalRequest = error.config;
+//     if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
+//       originalRequest._retry = true;
+//       const refreshToken = localStorage.getItem("refreshToken");
+//       if (refreshToken) {
+//         try {
+//           // Предположим, что у вас есть эндпоинт для обновления токена
+//           signInByRefreshToken(refreshToken)
+//           // Переподставляем новый токен в оригинальный запрос
+//           originalRequest.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
+//           return axios(originalRequest);
+//         } catch (refreshError) {
+//           // Если обновление токена не удалось – выходим из системы
+//           signOut();
+//           return Promise.reject(refreshError);
+//         }
+//       } else {
+//         signOut();
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+// export default apiClient;
+
+
+
+
+
+
+
+
+
