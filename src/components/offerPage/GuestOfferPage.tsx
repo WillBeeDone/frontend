@@ -22,9 +22,10 @@ const GuestOfferPage = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch offer");
         }
-
+        
         //состыковка ключей бек => фронт
         const data: IGuestOfferPage = await response.json();
+        console.log("inside - fetchOffer", data);
         const formattedGuestOfferPage = transformGuestOfferPage(data);
         setOffer(formattedGuestOfferPage);
       } catch (error) {
