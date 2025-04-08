@@ -12,3 +12,14 @@
     white-space: nowrap;
   }
 
+  .menuLinkCreateOffer{
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.linkButton{
+ color: #000;
+}

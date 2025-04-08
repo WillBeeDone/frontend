@@ -11,6 +11,7 @@ import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 
 import Menu from "../menu/Menu";
 import { useFavorite } from "../../context/FavoriteContext";
+import CreateNewOfferLink from "../createNewOffer/CreateNewOfferLink";
 
 interface ILink {
   text: React.ReactNode;
@@ -31,18 +32,17 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const handleBurgerClick = () => {
     setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
   };
-const {setSelectedCity: setCityForFavorite} = useFavorite();
+  const { setSelectedCity: setCityForFavorite } = useFavorite();
 
   const location = useLocation();
   const handleCloseMenu = () => {
     setIsMenuOpen(false); // закрытие меню
   };
- 
+
   const handleModalContentClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
   };
 
-  
   return (
     <header className={styles.header}>
       {links.map(({ text, path }, index) => (
@@ -61,7 +61,11 @@ const {setSelectedCity: setCityForFavorite} = useFavorite();
         <DropDown
           url="/api/locations"
           text="Choose city"
-          onChange={location.pathname === "/favorite" ? setCityForFavorite : setCityForOffer}
+          onChange={
+            location.pathname === "/favorite"
+              ? setCityForFavorite
+              : setCityForOffer
+          }
           data-testid="DropDownLocationHeader_HfZydgG"
         />
       </div>
@@ -82,19 +86,15 @@ const {setSelectedCity: setCityForFavorite} = useFavorite();
                 </span>
                 <span
                   data-testid="LinkMyOffersInHeader_Jjhfyfdg"
-                  onClick={()=> navigate("/my-offers")}
+                  onClick={() => navigate("/my-offers")}
                   className={styles.menuLink}
-                  
                 >
                   My Offers
                 </span>
-                <Link
-                  data-testid="LinkCreateOfferInHeader_KhjfdghHkd"
-                  to="/create-new-offer"
-                  className={styles.menuLinkCreateOffer}
-                >
-                  Create Offer
-                </Link>
+                <span className={styles.menuLinkCreateOffer}>
+                  {" "}
+                  <CreateNewOfferLink />
+                </span>
               </div>
             </div>
             <div className={styles.authUserProfilePictureBox}>
@@ -138,7 +138,10 @@ const {setSelectedCity: setCityForFavorite} = useFavorite();
             className={styles.modalContent}
             onClick={handleModalContentClick} // останавливаем всплытие события
           >
-            <Menu onCloseMenu={handleCloseMenu} data-testid="burgerMenu_hfgYgf" />
+            <Menu
+              onCloseMenu={handleCloseMenu}
+              data-testid="burgerMenu_hfgYgf"
+            />
           </div>
         </div>
       )}
