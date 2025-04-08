@@ -50,7 +50,12 @@ input {
 }
 
 .input.upload {
-
-background-color: #cbdcfa;
-border: 0px solid #020202;
+margin-top: 15px;
+background-color: #d6e5fd;
+border: 0px solid ;
+border-radius: 5px;
+width: 15vw;
+font-size: small !important;
 }
+
+
