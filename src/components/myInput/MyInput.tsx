@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import styles from "./MyInput.module.css";
 import classNames from "classnames";
@@ -13,7 +12,7 @@ interface IMyInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string | number;
   error?: boolean; // Добавляем пропс для ошибок
-  variant?: "default" | "signInUp" ;
+  variant?: "default" | "signInUp" | "upload";
   "data-testid"?: string;
   autoComplete?: string;
   isReadOnly?: boolean;
@@ -31,10 +30,10 @@ function MyInput({
   onChange,
   value,
   error,
-  variant = "default", 
+  variant = "default",
   "data-testid": dataTestId = "default",
   autoComplete = "off",
-  isReadOnly =  false,
+  isReadOnly = false,
   isPhoto = false,
   isGallery = false,
 }: IMyInputProps) {
@@ -68,9 +67,9 @@ function MyInput({
           value={value}
           data-testid={dataTestId}
           autoComplete={autoComplete}
-          readOnly = {isReadOnly}
+          readOnly={isReadOnly}
           accept={isPhoto ? "image/*" : undefined}
-          {...(isGallery ? { multiple: true} : {})}
+          {...(isGallery ? { multiple: true } : {})}
         />
         {type === "password" && (
           <span className={styles.eyeIcon} onClick={togglePasswordVisibility}>

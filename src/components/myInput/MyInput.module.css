@@ -48,3 +48,14 @@ input {
   cursor: not-allowed; 
   border: 1px solid #d3d3d3; 
 }
+
+.input.upload {
+margin-top: 15px;
+background-color: #d6e5fd;
+border: 0px solid ;
+border-radius: 5px;
+width: 15vw;
+font-size: small !important;
+}
+
+

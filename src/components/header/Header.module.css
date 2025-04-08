@@ -47,12 +47,12 @@
 }
 .authUserProfilePicture {
   position: absolute;
-  width: 85x;
-  height: 85px;
-  right: 125px;
-  bottom: 18px;
+  width: 75x;
+  height: 75px;
+  right: 110px;
+  bottom: 23px;
   border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   
 }
 

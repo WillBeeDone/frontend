@@ -1,0 +1,6 @@
+.confirmEmailContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    color: black;
+}
