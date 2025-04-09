@@ -420,6 +420,7 @@ function CreateNewOffer(): JSX.Element {
                     type="submit"
                     text={isLoading ? "Loading…" : "Publish"}
                     disabled={isLoading}
+                    func={kaka}
                   />
                   <MyButton
                     type="button"
