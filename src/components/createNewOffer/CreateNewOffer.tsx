@@ -11,9 +11,7 @@ import { clearAuthError } from "../../features/auth/authActions";
 
 function CreateNewOffer(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector(
-    (state: RootState) => state.offer
-  );
+  const { isLoading, error } = useSelector((state: RootState) => state.offer);
   const { user } = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
@@ -61,7 +59,7 @@ function CreateNewOffer(): JSX.Element {
   }, [formData]);
 
   const validateTitle = (title: string) => {
-    if (!/^[A-Z][a-zA-Z ]{1,39}$/.test(title))
+    if (!/^[A-Z][a-zA-Z0-9 ]{1,39}$/.test(title))
       return "Start with upper case, letters & spaces only, max length 40 characters.";
     return "";
   };
@@ -84,7 +82,6 @@ function CreateNewOffer(): JSX.Element {
   //   return "";
   // };
 
-
   const validateDescription = (description: string) => {
     if (description.length > 1500) return "Max length 1500 characters.";
     return "";
@@ -106,18 +103,16 @@ function CreateNewOffer(): JSX.Element {
     return "";
   };
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
 
-
     if (name === "gallery" && files) {
-      if (formData.gallery.length >= 7) {
-        setErrors((prev) => ({ ...prev, gallery: "Maximum 7 files allowed." }));
+      if (formData.gallery.length >= 8) {
+        setErrors((prev) => ({ ...prev, gallery: "Maximum 8 files allowed." }));
         return;
       }
 
-      const newFiles = Array.from(files).slice(0, 7 - formData.gallery.length); // обмеження 7
+      const newFiles = Array.from(files).slice(0, 8 - formData.gallery.length); // обмеження 7
       const newGallery = [...formData.gallery, ...newFiles]; // просто додаємо файли
 
       setFormData((prev) => ({
@@ -139,9 +134,9 @@ function CreateNewOffer(): JSX.Element {
             ? validateTitle(value)
             : name === "price"
             ? validatePrice(Number(value) || 0)
-            // : name === "category"
+            : // : name === "category"
             // ? validateCategory(value)
-            : name === "description"
+            name === "description"
             ? validateDescription(value)
             : "",
       }));
@@ -171,16 +166,20 @@ function CreateNewOffer(): JSX.Element {
       description: validateDescription(formData.description),
       gallery: validateGallery(formData.gallery),
     };
-    
-    if (Object.values(validationErrors).some((err) => {console.log("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ - ", err);
-     err })) {
+
+    if (
+      Object.values(validationErrors).some((err) => {
+        console.log("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ - ", err);
+        err;
+      })
+    ) {
       setErrors(validationErrors);
       return;
     }
-    
+
     console.log("щас БУДЕТ ФЕТЧ - КАТЕГОРИЯ");
     console.log("КАТЕГОРИЯ - ", selectedCategory);
-    
+
     dispatch(
       createNewOffer({
         title: formData.title,
@@ -222,7 +221,6 @@ function CreateNewOffer(): JSX.Element {
 
     setErrors({
       title: "",
-      category: "",
       price: "",
       description: "",
       gallery: "",
@@ -235,10 +233,11 @@ function CreateNewOffer(): JSX.Element {
     };
   }, [dispatch]);
 
-  const kaka = ()=> {
-    console.log("---------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    
-  }
+  const kaka = () => {
+    console.log(
+      "---------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
+  };
 
   return (
     <div className={styles.createOfferContainer}>
@@ -289,9 +288,12 @@ function CreateNewOffer(): JSX.Element {
               </div>
 
               <div className={styles.renderGallery}>
-                {formData.gallery.map((picture, index) => (
+                {formData.gallery.map((picture: File, index: number) => (
                   <div key={index} className={styles.galleryItemContainer}>
-                    <img src={picture} alt="User uploaded" />
+                    <img
+                      src={URL.createObjectURL(picture)}
+                      alt={`preview-${index}`}
+                    />
                     <p
                       onClick={() => handleRemovePhoto(picture)}
                       className={styles.removePhoto}
@@ -311,6 +313,7 @@ function CreateNewOffer(): JSX.Element {
                   url="/api/categories"
                   switcher={3}
                   text="Choose category"
+                  onChange={(category) => setSelectedCategory(category)}
                 />
               </div>
 
@@ -319,6 +322,7 @@ function CreateNewOffer(): JSX.Element {
                   url="/api/locations"
                   text="Choose city"
                   isReadOnly={true}
+                  forMyProfile = {true}
                 />
               </div>
             </div>
