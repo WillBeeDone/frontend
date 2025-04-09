@@ -218,6 +218,7 @@ function MyProfile(): JSX.Element {
                 key={fileInputKey}
                 variant="upload"
                 isPhoto={true}
+                data-testid="myInputMyProfilePic_Hgfnc"
               />
               {errors.profilePicture && (
                 <p className={styles.error}>{errors.profilePicture}</p>
@@ -234,6 +235,7 @@ function MyProfile(): JSX.Element {
               {" "}
               <p>Choose your city</p>
               <DropDown
+                data-testid="dropdownMyProfileLoc_nchGfg"
                 url="/api/locations"
                 text="Choose city"
                 onChange={(city) => {
@@ -246,6 +248,7 @@ function MyProfile(): JSX.Element {
               <div className={styles.nameInput}>
                 <div className={styles.inputContainer}>
                   <MyInput
+                    data-testid="myInputMyProfilefirstName_jdghgfnc"
                     name="firstName"
                     type="text"
                     placeholder="Enter your first name"
@@ -261,6 +264,7 @@ function MyProfile(): JSX.Element {
 
                 <div className={styles.inputContainer}>
                   <MyInput
+                   data-testid="myInputMyProfileSecondName_Jnhfgvd"
                     name="secondName"
                     type="text"
                     placeholder="Enter your second name"
@@ -278,6 +282,7 @@ function MyProfile(): JSX.Element {
               <div className={styles.contactsInput}>
                 <div className={styles.inputContainer}>
                   <MyInput
+                   data-testid="myInputMyProfileemail_JhfJnhfgvd"
                     name="email"
                     type="email"
                     placeholder="Enter your email"
@@ -290,6 +295,7 @@ function MyProfile(): JSX.Element {
 
                 <div className={styles.inputContainer}>
                   <MyInput
+                   data-testid="myInputMyProfilePhone_HJgdhjgjJj"
                     name="phone"
                     type="text"
                     placeholder="Enter your phone number"
@@ -307,13 +313,14 @@ function MyProfile(): JSX.Element {
 
             <div className={styles.btnGroup}>
               <MyButton
+               data-testid="myButtonMyProfileSave_HghbdhHd"
                 type="submit"
                 text={isLoading ? "Loading…" : "Save"}
                 disabled={isLoading}
               />
             </div>
             <div className={styles.changePasswordLink}>
-              <Link to="/password-change-form">Change password</Link>
+              <Link  data-testid="chahgPasswordMyProfile_NJnjdJnhfgvd" to="/password-change-form">Change password</Link>
             </div>
           </div>
         </div>
