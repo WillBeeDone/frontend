@@ -28,6 +28,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { user } = useAppSelector((state) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const {fetchFavoriteOffers} = useFavorite();
 
   const handleBurgerClick = () => {
     setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
@@ -42,6 +43,11 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const handleModalContentClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
   };
+
+
+  const handleFetch = () =>{
+    fetchFavoriteOffers();
+  }
 
   return (
     <header className={styles.header}>
@@ -79,6 +85,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                   <Link
                     data-testid="LinkFavoritesInHeader_Jhfyghdg"
                     to="/favorite"
+                    onClick={handleFetch}
                     className={styles.menuLink}
                   >
                     Favorites

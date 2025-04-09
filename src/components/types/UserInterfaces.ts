@@ -20,5 +20,6 @@ export interface IAuthState  {
     isLoading: boolean,
     error: string,
     isAuthenticated?: string,
+    userSelectedCity: string;
   };
 

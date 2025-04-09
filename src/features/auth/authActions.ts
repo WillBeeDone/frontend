@@ -69,7 +69,11 @@ export const signInByEmailAndPass = createAsyncThunk(
       // какая будет вложенность респонса?
         localStorage.setItem("accessToken", response.data.accessToken)
         localStorage.setItem("refreshToken", response.data.refreshToken)
+        localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
         console.log("reterned from server inside signInByEmailAndPass, must be user + tokens -", response.data);
+        // localStorage.setItem("userSelectedCity", state.user.location);
+        // localStorage.removeItem("userSelectedCity");
+
 
       return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
@@ -125,6 +129,9 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
   'Authorization' : `Bearer ${accessToken}`
       }});
         console.log("receive from server in getMyProfileDataByAccessToken, user: ", response.data);
+
+        localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
+       
         
         // const fakeUser = {
         //     "id": 35,
