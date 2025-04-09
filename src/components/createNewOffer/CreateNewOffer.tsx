@@ -187,96 +187,117 @@ function CreateNewOffer(): JSX.Element {
                 }
                 alt="User photo"
               />
-            </div>
-            <div>
-            <h3 className={styles.imageTitle}>
-                <div className={styles.name}>
-                  <p> {user.firstName}</p>
-                  <p>{user.secondName}</p>
-                  <p>{user.email}</p>
-                </div>
-                {formData.email}
-              </h3>
-              </div>
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="gallery"
-                type="file"
-                placeholder=""
-                label="Upload image for gallery"
-                onChange={handleChange}
-                isPhoto={true}
-                isGallery={true}
-              />
-              {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
-              {errors.gallery && <p className="error">{errors.gallery}</p>}
-            </div>
 
-            <div className={styles.inputGroup}>
-              <div className={styles.galleryContainer}>
-                {formData.gallery.map((picture, index) => (
-                  <div key={index} className={styles.galleryItemContainer}>
-                    <img src={picture} alt="User uploaded" />
-                    <MyButton
-                      text="Remove photo"
-                      func={() => handleRemovePhoto(picture)}
-                    />
+              <div>
+                <h3 className={styles.imageTitle}>
+                  <div className={styles.name}>
+                    <p> {user.firstName}</p>
+                    <p>{user.secondName}</p>
                   </div>
-                ))}
+                  <p>{user.email}</p>
+                  {formData.email}
+                </h3>
               </div>
             </div>
+          </div>
+          
+          
+          <div className={styles.rightPart}>
+            <div className={styles.dropDownContainer}>
+              <div className={styles.inputGroup}>
+                <DropDown
+                  url="/api/categories"
+                  switcher={3}
+                  text="Choose category"
+                />
+              </div>
 
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="firstName"
-                type="text"
-                placeholder="Enter your first name"
-                label="First name"
-                required
-                value={user.firstName}
-                isReadOnly={true}
-              />
+              <div className={styles.inputGroup}>
+                <DropDown
+                  url="/api/locations"
+                  text="Choose city"
+                  isReadOnly={true}
+                />
+              </div>
             </div>
+            <div className={styles.inputBlock}>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="firstName"
+                  type="text"
+                  placeholder="Enter your first name"
+                  label="First name"
+                  required
+                  value={user.firstName}
+                  isReadOnly={true}
+                />
+              </div>
 
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="secondName"
-                type="text"
-                placeholder="Enter your second name"
-                label="Second name"
-                required
-                value={user.secondName}
-                isReadOnly={true}
-              />
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="secondName"
+                  type="text"
+                  placeholder="Enter your second name"
+                  label="Second name"
+                  required
+                  value={user.secondName}
+                  isReadOnly={true}
+                />
+              </div>
             </div>
+            <div className={styles.inputBlock}>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  label="Email"
+                  required
+                  value={user.email}
+                  isReadOnly={true}
+                />
+              </div>
 
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="title"
-                type="text"
-                placeholder="Offer title"
-                label="Title"
-                required
-                onChange={handleChange}
-                value={formData.title}
-              />
-              {errors.title && <p className={styles.error}>{errors.title}</p>}
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="phone"
+                  type="text"
+                  placeholder="Enter your phone number"
+                  label="Phone"
+                  required
+                  value={user.phone}
+                  isReadOnly={true}
+                />
+              </div>
             </div>
+            <div className={styles.inputBlock}>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="title"
+                  type="text"
+                  placeholder="Offer title"
+                  label="Title"
+                  required
+                  onChange={handleChange}
+                  value={formData.title}
+                />
+                {errors.title && <p className={styles.error}>{errors.title}</p>}
+              </div>
 
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="price"
-                type="number"
-                placeholder="Price per hour"
-                label="Price per hour"
-                required
-                onChange={handleChange}
-                value={formData.price}
-              />
-              {errors.price && <p className={styles.error}>{errors.price}</p>}
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="price"
+                  type="number"
+                  placeholder="Price per hour"
+                  label="Price per hour"
+                  required
+                  onChange={handleChange}
+                  value={formData.price}
+                />
+                {errors.price && <p className={styles.error}>{errors.price}</p>}
+              </div>
             </div>
-
-            <div className={styles.inputGroup}>
+            <div className={styles.inputDescription}>
               <MyInput
                 name="description"
                 type="text"
@@ -290,55 +311,43 @@ function CreateNewOffer(): JSX.Element {
                 <p className={styles.error}>{errors.description}</p>
               )}
             </div>
+          <div className={styles.downPart}>
+            <div className={styles.inputGallery}>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="gallery"
+                  type="file"
+                  placeholder=""
+                  label=""
+                  variant="upload"
+                  onChange={handleChange}
+                  isPhoto={true}
+                  isGallery={true}
+                />
+                {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
+                {errors.gallery && <p className="error">{errors.gallery}</p>}
+              </div>
 
-            <div className={styles.inputGroup}>
-              <DropDown
-                url="/api/categories"
-                switcher={3}
-                text="Choose category"
-              />
+              <div className={styles.inputGroup}>
+                {formData.gallery.map((picture, index) => (
+                  <div key={index} className={styles.galleryItemContainer}>
+                    <img src={picture} alt="User uploaded" />
+                    <MyButton
+                      text="Remove photo"
+                      func={() => handleRemovePhoto(picture)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="email"
-                type="email"
-                placeholder="Enter your email"
-                label="Email"
-                required
-                value={user.email}
-                isReadOnly={true}
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <MyInput
-                name="phone"
-                type="text"
-                placeholder="Enter your phone number"
-                label="Phone"
-                required
-                value={user.phone}
-                isReadOnly={true}
-              />
-            </div>
-
-            <div className={styles.inputGroup}>
-              <DropDown
-                url="/api/locations"
-                text="Choose city"
-                isReadOnly={true}
-              />
-            </div>
-
             <div className={styles.btnGroup}>
               <MyButton
                 type="submit"
                 text={isLoading ? "Loading…" : "Publish"}
                 disabled={isLoading}
               />
-              <MyButton type="button" text="Go Back" to="/" />
             </div>
+          </div>
           </div>
         </div>
       </form>
