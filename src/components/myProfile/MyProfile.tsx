@@ -14,7 +14,7 @@ function MyProfile(): JSX.Element {
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, user } = useSelector(
+  const { isLoading, error, user } = useSelector(
     (state: RootState) => state.auth
   );
   const navigate = useNavigate();
@@ -172,6 +172,7 @@ function MyProfile(): JSX.Element {
             {formData.firstName ? `Welcome, ${formData.firstName}.` : "Welcome"}
           </h2>
         </div>
+        {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.mainPart}>
           <div className={styles.leftPart}>

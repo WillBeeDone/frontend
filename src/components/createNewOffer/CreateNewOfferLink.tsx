@@ -24,13 +24,13 @@ export default function CreateNewOfferLink({ className = "" }: { className?: str
     <div className={`${styles[className]}`}>
       <Link
         to="/create-new-offer"
-        onClick={handleClick}
+        // onClick={handleClick}
         className={styles.linkButton}
       >
         Create Offer
       </Link>
 
-      {showTooltip && (
+      {/* {showTooltip && (
         <div className={styles.tooltip}>
           <p>Fill out </p>
           <Link to="/my-profile" className={styles.menuItem}>
@@ -38,7 +38,7 @@ export default function CreateNewOfferLink({ className = "" }: { className?: str
           </Link>
           <p> first.</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
