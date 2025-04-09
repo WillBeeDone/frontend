@@ -194,91 +194,6 @@ function MyProfile(): JSX.Element {
                 {formData.email}
               </h3>
             </div>
-          </div>
-
-          {/* цей варіант добре працює якщо в юзера НЕМАЄ фото */}
-          {/* {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
-          <MyButton text="Remove photo" func={handleRemovePhoto} />
-          ) : null} */}
-          <div className={styles.rightPart}>
-            <div className={styles.dropDownCity}>
-              {" "}
-              <p>Choose your city</p>
-              <DropDown
-                data-testid="dropdawnMyProfile_Hhgff"
-                url="/api/locations"
-                text="Choose city"
-                onChange={(city) => {
-                  setSelectedCity(city);
-                  localStorage.setItem("selectedCity", city);
-                }}
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <div className={styles.nameInput}>
-                <div className={styles.inputContainer}>
-                  <MyInput
-                  data-testid="MyInputFirstName_NbfhGvf"
-                    name="firstName"
-                    type="text"
-                    placeholder="Enter your first name"
-                    label="First name"
-                    required
-                    onChange={handleChange}
-                    value={formData.firstName}
-                  />
-                  {errors.firstName && (
-                    <p className={styles.error}>{errors.firstName}</p>
-                  )}
-                </div>
-
-                <div className={styles.inputContainer}>
-                  <MyInput
-                  data-testid="MyInputSecondName_JghfghHhf"
-                    name="secondName"
-                    type="text"
-                    placeholder="Enter your second name"
-                    label="Second name"
-                    required
-                    onChange={handleChange}
-                    value={formData.secondName}
-                  />
-                  {errors.secondName && (
-                    <p className={styles.error}>{errors.secondName}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.contactsInput}>
-                <div className={styles.inputContainer}>
-                  <MyInput
-                  data-testid="MyInputEmail_Nbfhd"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    label="Email"
-                    value={formData.email}
-                    isReadOnly={true}
-                  />
-                  {/* {errors.email && <p className={styles.error}>{errors.email}</p>} */}
-                </div>
-
-                <div className={styles.inputContainer}>
-                  <MyInput
-                  data-testid="MyInputPhone_Nbvhfgd"
-                    name="phone"
-                    type="text"
-                    placeholder="Enter your phone number"
-                    label="Phone"
-                    required
-                    onChange={handleChange}
-                    value={formData.phone}
-                  />
-                  {errors.phone && (
-                    <p className={styles.error}>{errors.phone}</p>
-                  )}
-                </div>
-              </div>
             <div className={styles.uploadInputContainer}>
               {/* цей варіант добре працює якщо в юзера є фото */}
               {formData.profilePicture &&
@@ -302,25 +217,103 @@ function MyProfile(): JSX.Element {
                 onChange={handleChange}
                 key={fileInputKey}
                 variant="upload"
-                data-testid="MyInputProfileImg_JhfyHhf"
                 isPhoto={true}
               />
               {errors.profilePicture && (
                 <p className={styles.error}>{errors.profilePicture}</p>
               )}
             </div>
+          </div>
+
+          {/* цей варіант добре працює якщо в юзера НЕМАЄ фото */}
+          {/* {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
+          <MyButton text="Remove photo" func={handleRemovePhoto} />
+          ) : null} */}
+          <div className={styles.rightPart}>
+            <div className={styles.dropDownCity}>
+              {" "}
+              <p>Choose your city</p>
+              <DropDown
+                url="/api/locations"
+                text="Choose city"
+                onChange={(city) => {
+                  setSelectedCity(city);
+                  localStorage.setItem("selectedCity", city);
+                }}
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <div className={styles.nameInput}>
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="firstName"
+                    type="text"
+                    placeholder="Enter your first name"
+                    label="First name"
+                    required
+                    onChange={handleChange}
+                    value={formData.firstName}
+                  />
+                  {errors.firstName && (
+                    <p className={styles.error}>{errors.firstName}</p>
+                  )}
+                </div>
+
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="secondName"
+                    type="text"
+                    placeholder="Enter your second name"
+                    label="Second name"
+                    required
+                    onChange={handleChange}
+                    value={formData.secondName}
+                  />
+                  {errors.secondName && (
+                    <p className={styles.error}>{errors.secondName}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.contactsInput}>
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    label="Email"
+                    value={formData.email}
+                    isReadOnly={true}
+                  />
+                  {/* {errors.email && <p className={styles.error}>{errors.email}</p>} */}
+                </div>
+
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="phone"
+                    type="text"
+                    placeholder="Enter your phone number"
+                    label="Phone"
+                    required
+                    onChange={handleChange}
+                    value={formData.phone}
+                  />
+                  {errors.phone && (
+                    <p className={styles.error}>{errors.phone}</p>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className={styles.btnGroup}>
               <MyButton
-              data-testid="MyButtonPSave_MnfhJhfyHhf"
                 type="submit"
                 text={isLoading ? "Loading…" : "Save"}
                 disabled={isLoading}
               />
             </div>
             <div className={styles.changePasswordLink}>
-              <Link data-testid="MyInputLink_Nbfh" to="/password-change-form">Change password</Link>
+              <Link to="/password-change-form">Change password</Link>
             </div>
           </div>
         </div>
