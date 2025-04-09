@@ -69,7 +69,9 @@ export const signInByEmailAndPass = createAsyncThunk(
       // какая будет вложенность респонса?
         localStorage.setItem("accessToken", response.data.accessToken)
         localStorage.setItem("refreshToken", response.data.refreshToken)
-        localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
+        if (response.data.locationDto?.cityName) {
+          localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
+        }
         console.log("reterned from server inside signInByEmailAndPass, must be user + tokens -", response.data);
         // localStorage.setItem("userSelectedCity", state.user.location);
         // localStorage.removeItem("userSelectedCity");
