@@ -127,7 +127,7 @@ function PasswordChange(): JSX.Element {
                 label="Current password"
                 required
                 onChange={handleChange}
-                data-testid="" 
+                 data-testid="myInputpassword_khjfdbhbHBhjbfd"
                 autoComplete="off"            
               />
               {errors.currentPassword && <p className={styles.error}>{errors.currentPassword}</p>}
@@ -141,7 +141,7 @@ function PasswordChange(): JSX.Element {
                 label="Password"
                 required
                 onChange={handleChange}
-                data-testid="" 
+                 data-testid="myInputPassword_Mmnbchvbvbv"
                 autoComplete="off"   
               />
               {errors.password && (
@@ -157,7 +157,7 @@ function PasswordChange(): JSX.Element {
                 label="Confirm password"
                 required
                 onChange={handleChange}
-                data-testid="" 
+                data-testid="myInputConfirmPassword_HJgfgJnhfgvd" 
                 autoComplete="off"   
               />
               {errors.confirmPassword && (
@@ -167,8 +167,8 @@ function PasswordChange(): JSX.Element {
           </div>
          
           <div className={styles.btnGroup}>
-        <MyButton type="submit" text={isLoading ? "Loading…" : "Save changes"} disabled={isLoading} data-testid="" />
-        <MyButton type="button" text="Go Back" to="/" data-testid="" />
+        <MyButton  data-testid="myButtonChangePassword_Hghdhvgvd" type="submit" text={isLoading ? "Loading…" : "Save changes"} disabled={isLoading} variant="easy" />
+        
         </div>
         </form>
       </div>
