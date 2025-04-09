@@ -20,17 +20,11 @@ function MyProfile(): JSX.Element {
   const navigate = useNavigate();
 
   const storedCity =
-    localStorage.getItem("selectedCity") || user.location || "all";
-  const [selectedCity, setSelectedCity] = useState(storedCity);
+  localStorage.getItem("userSelectedCity") || "all";
+const [selectedCity, setSelectedCity] = useState(storedCity);
   console.log(selectedCity);
 
-  useEffect(() => {
-    if (user.location) {
-      setSelectedCity(user.location);
-      localStorage.setItem("selectedCity", user.location);
-    }
-  }, [user.location]);
-
+ 
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -135,17 +129,21 @@ function MyProfile(): JSX.Element {
       setErrors(validationErrors);
       return;
     }
+    
+
     dispatch(
       myProfile({
         firstName: formData.firstName,
         secondName: formData.secondName,
         phone: formData.phone,
-        location: formData.location,
+        location: selectedCity,
         profilePicture: formData.profilePicture,
       })
     )
       .unwrap()
-      .then(() => navigate("/"))
+      .then(() => {
+        localStorage.setItem("userSelectedCity", selectedCity);
+       navigate("/")})
       .catch(() => {});
   };
 
@@ -236,10 +234,8 @@ function MyProfile(): JSX.Element {
               <DropDown
                 url="/api/locations"
                 text="Choose city"
-                onChange={(city) => {
-                  setSelectedCity(city);
-                  localStorage.setItem("selectedCity", city);
-                }}
+                onChange={(city) => setSelectedCity(city)}
+                forMyProfile = {true}
               />
             </div>
             <div className={styles.inputGroup}>

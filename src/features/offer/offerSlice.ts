@@ -81,4 +81,4 @@ export const offerSlice = createSlice({
   },
 });
 
-export default offerSlice.reducer;
+export default offerSlice.reducer; 
