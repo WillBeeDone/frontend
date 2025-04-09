@@ -67,7 +67,7 @@ function CreateNewOffer(): JSX.Element {
 
   const validateGallery = (files: FileList | null) => {
     if (!files || files.length < 1) return "At least one file is required.";
-    if (files.length > 7) return "You can upload a maximum of 7 files.";
+    if (files.length > 8) return "You can upload a maximum of 8 files.";
 
     const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
     for (let i = 0; i < files.length; i++) {
@@ -88,7 +88,7 @@ function CreateNewOffer(): JSX.Element {
         return;
       }
 
-      const newFiles = Array.from(files).slice(0, 7 - formData.gallery.length); // Обмеження 7 файлів
+      const newFiles = Array.from(files).slice(0, 8 - formData.gallery.length); // Обмеження 7 файлів
       const newGallery = [
         ...formData.gallery,
         ...newFiles.map((file) => URL.createObjectURL(file)),
@@ -175,6 +175,30 @@ function CreateNewOffer(): JSX.Element {
     }));
   };
 
+  const handleCancel = () => {
+    setFormData({
+      email: "",
+      firstName: "",
+      secondName: "",
+      location: "",
+      phone: "",
+      profilePicture: "",
+      title: "",
+      category: "",
+      price: 0,
+      description: "",
+      gallery: [],
+    });
+
+    setErrors({
+      title: "",
+      category: "",
+      price: "",
+      description: "",
+      gallery: "",
+    });
+  };
+
   useEffect(() => {
     return () => {
       dispatch(clearAuthError());
@@ -233,10 +257,12 @@ function CreateNewOffer(): JSX.Element {
                 {formData.gallery.map((picture, index) => (
                   <div key={index} className={styles.galleryItemContainer}>
                     <img src={picture} alt="User uploaded" />
-                    <MyButton
-                      text="Remove photo"
-                      func={() => handleRemovePhoto(picture)}
-                    />
+                    <p
+                      onClick={() => handleRemovePhoto(picture)}
+                      className={styles.removePhoto}
+                    >
+                      X
+                    </p>
                   </div>
                 ))}
               </div>
@@ -245,7 +271,7 @@ function CreateNewOffer(): JSX.Element {
 
           <div className={styles.rightPart}>
             <div className={styles.dropDownContainer}>
-              <div className={styles.inputGroup}>
+              <div>
                 <DropDown
                   url="/api/categories"
                   switcher={3}
@@ -253,7 +279,7 @@ function CreateNewOffer(): JSX.Element {
                 />
               </div>
 
-              <div className={styles.inputGroup}>
+              <div>
                 <DropDown
                   url="/api/locations"
                   text="Choose city"
@@ -312,7 +338,7 @@ function CreateNewOffer(): JSX.Element {
               </div>
             </div>
             <div className={styles.inputBlock}>
-              <div className={styles.inputGroup}>
+              <div className={styles.inputGroupProblem}>
                 <MyInput
                   name="title"
                   type="text"
@@ -325,7 +351,7 @@ function CreateNewOffer(): JSX.Element {
                 {errors.title && <p className={styles.error}>{errors.title}</p>}
               </div>
 
-              <div className={styles.inputGroup}>
+              <div className={styles.inputGroupProblem}>
                 <MyInput
                   name="price"
                   type="number"
@@ -339,7 +365,9 @@ function CreateNewOffer(): JSX.Element {
               </div>
             </div>
             <div className={styles.inputDescription}>
+              <label htmlFor="description">Describe your offer</label>
               <textarea
+                id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleTextAreaChange}
@@ -347,15 +375,21 @@ function CreateNewOffer(): JSX.Element {
               {errors.description && (
                 <p className={styles.error}>{errors.description}</p>
               )}
-            </div>
-          </div>
-          <div className={styles.downPart}>
-            <div className={styles.btnGroup}>
-              <MyButton
-                type="submit"
-                text={isLoading ? "Loading…" : "Publish"}
-                disabled={isLoading}
-              />
+              <div className={styles.downPart}>
+                <div className={styles.btnGroup}>
+                  <MyButton
+                    type="submit"
+                    text={isLoading ? "Loading…" : "Publish"}
+                    disabled={isLoading}
+                  />
+                  <MyButton
+                    type="button"
+                    text="Cancel"
+                    func={handleCancel}
+                    variant="danger"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

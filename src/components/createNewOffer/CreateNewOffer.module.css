@@ -31,25 +31,25 @@
 }
 
 .mainPart {
-  display: flex; 
-  
+  display: flex;
 }
 
 .leftPart {
   display: flex;
   flex-direction: column;
-  margin-left: 50px;
-  
-  
+  margin-left: 70px;
 }
- 
 
+.renderGallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 
 .imageContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   padding: 10px;
   width: 350px;
   height: 400px;
@@ -83,10 +83,9 @@
 }
 
 .rightPart {
-  margin: 15px 30px;
+  margin: 15px 15px 15px 120px;
   display: flex;
   flex-direction: column;
-  
 }
 
 .uploadInputContainer {
@@ -102,7 +101,28 @@
   display: flex;
   align-items: center;
   justify-items: center;
-  gap: 8px;
+  gap: 50px;
+  color: black;
+}
+.inputGroupProblem {
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+  margin-top: 10px;
+  min-width: 100px;
+  height: 50px;
+  font-size: 18px !important;
+  border-color: #d6cfcf;
+  border-width: 2px;
+}
+
+.inputGroupProblem input {
+  height: 50px;
+  font-size: 18px !important;
+  padding: 10px;
+  border-color: #d6cfcf;
+  border-width: 2px;
+  background-color: #fff8e8;
   color: black;
 }
 .inputGroup {
@@ -111,19 +131,24 @@
   width: 25vw;
   margin-top: 10px;
   min-width: 100px;
+ 
+}
+
+.inputGroup input {
+  height: 50px;
+  font-size: 18px !important;
+  padding: 10px;
+ 
 }
 
 .inputGallery {
   width: 100%;
- 
 }
 
 .inputGroupGallery {
   display: flex;
   flex-direction: column;
   justify-items: center;
- 
-
 }
 .inputFirst {
   margin-bottom: 5px;
@@ -132,33 +157,36 @@
   gap: 8px;
   color: black;
 }
-
+.inputDescription {
+  margin-top: 60px;
+}
 .inputDescription textarea {
- background-color: #F0EEEB;
- border-radius: 12px;
- width: 100%;
-  
-  margin-top: 10px;
+  background-color: #f0eeeb;
+  border-radius: 12px;
+  width: 100%;
+  color: black;
+  font-size: 18px;
+  margin-top: 15px;
   min-width: 600px;
   min-height: 400px;
 }
 
-
-
-
-
-
-
-
-
+.inputDescription label {
+  color: #948d8d;
+  font-size: 18px;
+}
 
 .inputGroupCategory {
   display: flex;
-
   align-items: center;
   justify-items: center;
 }
 
+.downPart {
+  display: flex;
+  justify-content: end;
+  margin-top: 8px;
+}
 .title {
   text-align: center;
   font-size: 24px;
@@ -169,7 +197,6 @@
 .error {
   color: red;
   font-size: 12px;
-  margin-top: -5px;
 }
 
 .checkbox {
@@ -228,18 +255,29 @@
   height: 300px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .galleryItemContainer {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
 }
 .galleryItemContainer img {
-  width: 60%;
-  height: 60%;
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 15px;
 }
 
+.removePhoto {
+  position: relative;
+  bottom: 80px;
+  left: 80px;
+  color: red;
+  font-weight: 700;
+  cursor: pointer;
+}
 
-
-
+.dropDownContainer {
+  display: flex;
+  gap: 10px;
+}
