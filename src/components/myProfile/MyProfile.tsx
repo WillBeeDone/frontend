@@ -1,6 +1,5 @@
-
-import {  JSX, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { JSX, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { clearAuthError, myProfile } from "../../features/auth/authActions";
@@ -10,29 +9,22 @@ import MyButton from "../myButton/MyButton";
 //import validator from "validator";
 import DropDown from "../dropDown/DropDown";
 
-
 function MyProfile(): JSX.Element {
-
-   // для удаления фото из инпута
+  // для удаления фото из инпута
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error, user } = useSelector((state: RootState) => state.auth);
+  const { isLoading, user } = useSelector(
+    (state: RootState) => state.auth
+  );
   const navigate = useNavigate();
 
-  const storedCity = localStorage.getItem("selectedCity") || user.location || "all";
-  const [selectedCity, setSelectedCity] = useState(storedCity);
+  const storedCity =
+  localStorage.getItem("userSelectedCity") || "all";
+const [selectedCity, setSelectedCity] = useState(storedCity);
   console.log(selectedCity);
-  
-  useEffect(() => {
-    if (user.location) {
-      setSelectedCity(user.location);
-      localStorage.setItem("selectedCity", user.location);
-    }
-  }, [user.location]);
-  
-  
 
+ 
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -50,7 +42,7 @@ function MyProfile(): JSX.Element {
     profilePicture: "",
   });
 
-  useEffect(() => { 
+  useEffect(() => {
     console.log("In MyProfile Form -  User from Redux:", user); // Додано для перевірки
     if (user) {
       setFormData({
@@ -59,7 +51,8 @@ function MyProfile(): JSX.Element {
         secondName: user.secondName || "",
         location: user.location || "",
         phone: user.phone || "",
-        profilePicture: user.profilePicture || "/no-profilePicture-default-image.jpg",
+        profilePicture:
+          user.profilePicture || "/no-profilePicture-default-image.jpg",
       });
     }
   }, [user]);
@@ -71,12 +64,14 @@ function MyProfile(): JSX.Element {
 
   //const validateEmail = (email: string) => validator.isEmail(email) ? "" : "Incorrect email";
   const validateFirstName = (firstName: string) => {
-    if (!/^[A-Z][a-zA-Z]*$/.test(firstName)) return "Start with upper case, letters only.";
+    if (!/^[A-Z][a-zA-Z]*$/.test(firstName))
+      return "Start with upper case, letters only.";
     if (firstName.length > 30) return "Max length 30 characters.";
     return "";
   };
   const validateSecondName = (secondName: string) => {
-    if (!/^[A-Z][a-zA-Z]*$/.test(secondName)) return "Start with upper case, letters only.";
+    if (!/^[A-Z][a-zA-Z]*$/.test(secondName))
+      return "Start with upper case, letters only.";
     if (secondName.length > 40) return "Max length 40 characters.";
     return "";
   };
@@ -89,7 +84,8 @@ function MyProfile(): JSX.Element {
   const validateProfilePicture = (picture: string | File): string => {
     if (typeof picture === "string") return ""; // старе фото, не валідовуємо
     const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
-    if (!allowedTypes.includes(picture.type)) return "Only JPG, PNG, and GIF are allowed.";
+    if (!allowedTypes.includes(picture.type))
+      return "Only JPG, PNG, and GIF are allowed.";
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (picture.size > maxSize) return "File size must be under 5MB.";
     return "";
@@ -98,19 +94,25 @@ function MyProfile(): JSX.Element {
     const { name, value, files } = e.target;
     let newValue = name === "profilePicture" && files ? files[0] : value;
     //setFormData((prev) => ({ ...prev, [name]: newValue }));
-    
+
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: files ? files[0] : value,  // Для файлів беремо перший обраний файл, для інших інпутів — значення
+      [name]: files ? files[0] : value, // Для файлів беремо перший обраний файл, для інших інпутів — значення
     }));
-    
+
     setErrors((prev) => ({
       ...prev,
-      [name]: //name === "email" ? validateEmail(value) :
-              name === "firstName" ? validateFirstName(value) :
-              name === "secondName" ? validateSecondName(value) :
-              name === "phone" ? validatePhone(value) :
-              name === "profilePicture" ? validateProfilePicture(newValue) : "",
+      //name === "email" ? validateEmail(value) :
+      [name]:
+        name === "firstName"
+          ? validateFirstName(value)
+          : name === "secondName"
+          ? validateSecondName(value)
+          : name === "phone"
+          ? validatePhone(value)
+          : name === "profilePicture"
+          ? validateProfilePicture(newValue)
+          : "",
     }));
   };
 
@@ -127,19 +129,23 @@ function MyProfile(): JSX.Element {
       setErrors(validationErrors);
       return;
     }
-    dispatch(myProfile({
-      firstName: formData.firstName,
-      secondName: formData.secondName,
-      phone: formData.phone,
-      location: formData.location,
-      profilePicture: formData.profilePicture,
-      
-    }))
+    
+
+    dispatch(
+      myProfile({
+        firstName: formData.firstName,
+        secondName: formData.secondName,
+        phone: formData.phone,
+        location: selectedCity,
+        profilePicture: formData.profilePicture,
+      })
+    )
       .unwrap()
-      .then(() => navigate("/"))
+      .then(() => {
+        localStorage.setItem("userSelectedCity", selectedCity);
+       navigate("/")})
       .catch(() => {});
   };
-
 
   const handleRemovePhoto = () => {
     setFormData((prev) => ({
@@ -157,78 +163,158 @@ function MyProfile(): JSX.Element {
   }, [dispatch]);
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <h2 className={styles.title}>My Profile</h2>
-      {error && <p className={styles.error}>{error}</p>}
-      
-      <div className={styles.inputGroup}>
-        <div className={styles.imageContainer}>
-        <img src={formData.profilePicture ? (typeof formData.profilePicture === "string" 
-        ? formData.profilePicture 
-        : URL.createObjectURL(formData.profilePicture)) : "/no-profilePicture-default-image.jpg"} 
-        alt="User photo" />
+    <div className={styles.myProfileContainer}>
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
+        <div className={styles.bannerProfile}>
+          <h2 className={styles.firstName}>
+            {formData.firstName ? `Welcome, ${formData.firstName}.` : "Welcome"}
+          </h2>
         </div>
-       
-       {/* цей варіант добре працює якщо в юзера є фото */}
-        {formData.profilePicture && formData.profilePicture !== "/no-profilePicture-default-image.jpg" && (
-        <MyButton text="Remove photo" func={handleRemovePhoto} />
-          )}
 
-           {/* цей варіант добре працює якщо в юзера НЕМАЄ фото */}
-        {/* {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
-       <MyButton text="Remove photo" func={handleRemovePhoto} />
-       ) : null} */}
+        <div className={styles.mainPart}>
+          <div className={styles.leftPart}>
+            <div className={styles.imageContainer}>
+              <img
+                src={
+                  formData.profilePicture
+                    ? typeof formData.profilePicture === "string"
+                      ? formData.profilePicture
+                      : URL.createObjectURL(formData.profilePicture)
+                    : "/no-profilePicture-default-image.jpg"
+                }
+                alt="User photo"
+              />
+              <h3 className={styles.imageTitle}>
+                <div className={styles.name}>
+                  <p> {formData.firstName}</p>
+                  <p>{formData.secondName}</p>
+                </div>
+                {formData.email}
+              </h3>
+            </div>
+            <div className={styles.uploadInputContainer}>
+              {/* цей варіант добре працює якщо в юзера є фото */}
+              {formData.profilePicture &&
+                formData.profilePicture !==
+                  "/no-profilePicture-default-image.jpg" && (
+                  <div className={styles.removeButton}>
+                    <MyButton
+                      data-testid="removeButton_NbdgTff"
+                      text="Remove photo"
+                      func={handleRemovePhoto}
+                      variant="remove"
+                    />
+                  </div>
+                )}
 
-    
-       
-        
-        <MyInput name="profilePicture" type="file" placeholder="" label="Upload photo" onChange={handleChange} key={fileInputKey} isPhoto={true}/>
-        {errors.profilePicture && <p className={styles.error}>{errors.profilePicture}</p>}
+              <MyInput
+                name="profilePicture"
+                type="file"
+                placeholder=""
+                label=""
+                onChange={handleChange}
+                key={fileInputKey}
+                variant="upload"
+                isPhoto={true}
+              />
+              {errors.profilePicture && (
+                <p className={styles.error}>{errors.profilePicture}</p>
+              )}
+            </div>
+          </div>
 
-      </div>
+          {/* цей варіант добре працює якщо в юзера НЕМАЄ фото */}
+          {/* {formData.profilePicture && typeof formData.profilePicture !== "string" ? (
+          <MyButton text="Remove photo" func={handleRemovePhoto} />
+          ) : null} */}
+          <div className={styles.rightPart}>
+            <div className={styles.dropDownCity}>
+              {" "}
+              <p>Choose your city</p>
+              <DropDown
+                url="/api/locations"
+                text="Choose city"
+                onChange={(city) => setSelectedCity(city)}
+                forMyProfile = {true}
+              />
+            </div>
+            <div className={styles.inputGroup}>
+              <div className={styles.nameInput}>
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="firstName"
+                    type="text"
+                    placeholder="Enter your first name"
+                    label="First name"
+                    required
+                    onChange={handleChange}
+                    value={formData.firstName}
+                  />
+                  {errors.firstName && (
+                    <p className={styles.error}>{errors.firstName}</p>
+                  )}
+                </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput name="firstName" type="text" placeholder="Enter your first name" label="First name" required onChange={handleChange} value={formData.firstName}/>
-        {errors.firstName && <p className={styles.error}>{errors.firstName}</p>}
-      </div>
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="secondName"
+                    type="text"
+                    placeholder="Enter your second name"
+                    label="Second name"
+                    required
+                    onChange={handleChange}
+                    value={formData.secondName}
+                  />
+                  {errors.secondName && (
+                    <p className={styles.error}>{errors.secondName}</p>
+                  )}
+                </div>
+              </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput name="secondName" type="text" placeholder="Enter your second name" label="Second name" required onChange={handleChange} value={formData.secondName}/>
-        {errors.secondName && <p className={styles.error}>{errors.secondName}</p>}
-      </div>
+              <div className={styles.contactsInput}>
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="email"
+                    type="email"
+                    placeholder="Enter your email"
+                    label="Email"
+                    value={formData.email}
+                    isReadOnly={true}
+                  />
+                  {/* {errors.email && <p className={styles.error}>{errors.email}</p>} */}
+                </div>
 
-     
+                <div className={styles.inputContainer}>
+                  <MyInput
+                    name="phone"
+                    type="text"
+                    placeholder="Enter your phone number"
+                    label="Phone"
+                    required
+                    onChange={handleChange}
+                    value={formData.phone}
+                  />
+                  {errors.phone && (
+                    <p className={styles.error}>{errors.phone}</p>
+                  )}
+                </div>
+              </div>
+            </div>
 
-      <div className={styles.inputGroup}>
-      <MyInput name="email" type="email" placeholder="Enter your email"  label="Email" value={formData.email} isReadOnly={true}/>
-      {/* {errors.email && <p className={styles.error}>{errors.email}</p>} */}
-      </div>
-
-      <div className={styles.inputGroup}>
-        <MyInput name="phone" type="text" placeholder="Enter your phone number" label="Phone" required onChange={handleChange} value={formData.phone}/>
-        {errors.phone && <p className={styles.error}>{errors.phone}</p>}
-      </div>
-
-      <div className={styles.inputGroup}>
-      <DropDown
-        url="/api/locations"
-        text="Choose city"
-        onChange={(city) => {
-        setSelectedCity(city);
-        localStorage.setItem("selectedCity", city);
-        }}
-      />
-      </div>
-
-      <div className={styles.link}>
-        <MyButton type="button" text="Change password" func={() => navigate("/password-change-form")} variant="easy" />
-      </div>
-
-      <div className={styles.btnGroup}>
-        <MyButton type="submit" text={isLoading ? "Loading…" : "Save changes"} disabled={isLoading} />
-        <MyButton type="button" text="Go Back" to="/" />
-      </div>
-    </form>
+            <div className={styles.btnGroup}>
+              <MyButton
+                type="submit"
+                text={isLoading ? "Loading…" : "Save"}
+                disabled={isLoading}
+              />
+            </div>
+            <div className={styles.changePasswordLink}>
+              <Link to="/password-change-form">Change password</Link>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 

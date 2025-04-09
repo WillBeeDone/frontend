@@ -10,11 +10,11 @@ import sortDescIcon from "/sort-from-high.png";
 import { IOfferCard } from "../types/OfferInterfaces";
 
 interface IMyButtonProps {
-  type?: "button" | "submit" | "reset";
+  type?: "button" | "submit" | "reset" ;
   text?: string;
   func?: () => void;
   disabled?: boolean;
-  variant?: "primary" | "danger" | "easy";
+  variant?: "primary" | "danger" | "easy" | "remove" ;
   to?: string;
   isSortButton?: boolean;
   "data-testid"?: string;
@@ -92,6 +92,7 @@ function MyButton({
         [styles.primary]: variant === "primary",
         [styles.danger]: variant === "danger",
         [styles.easy]: variant === "easy",
+        [styles.remove]: variant === "remove",
         [styles.disabled]: disabled,
       })}
       disabled={disabled}

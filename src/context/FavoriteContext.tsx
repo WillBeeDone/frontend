@@ -60,8 +60,8 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
       const accessToken = localStorage.getItem("accessToken");
       console.log("fetchFavoriteOffers перед запросом токен - ", accessToken);
       
-
-      const response = await fetch(`/api/users/favourites?page=${page}&size=9`, 
+      console.log(" Має бути числом Page value before request: ", page); // Має бути числом
+      const response = await fetch(`/api/users/favourites?page=${page}&size=12`, 
         {method: "GET",
         headers: {
           "Authorization": `Bearer ${accessToken}`,
@@ -102,7 +102,7 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
         console.log("inside fetchFilteredFavoriteOffers selected key word - ", keyWord);
         const accessToken = localStorage.getItem("accessToken");
         const response = await fetch(
-          `/api/users/favourites?page=${page}&size=9&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
+          `/api/users/favourites?page=${page}&size=12&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
           {method: "GET",
             headers: {
               "Authorization": `Bearer ${accessToken}`,

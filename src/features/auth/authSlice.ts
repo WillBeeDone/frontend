@@ -33,6 +33,7 @@ const initialState: IAuthState = {
   isLoading: false,
   error: "",
   isAuthenticated: localStorage.getItem("isAuthenticated") || undefined,
+  userSelectedCity: localStorage.getItem("userSelectedCity") || "all",
 };
 
 export const authSlice = createSlice({
@@ -45,6 +46,7 @@ export const authSlice = createSlice({
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("userSelectedCity");
     },
   },
   extraReducers: (builder) => {
@@ -111,8 +113,11 @@ export const authSlice = createSlice({
           "user in slice signInByEmailAndPass after transform ---- ",
           state.user
         );
-        localStorage.setItem("selectedCity", state.user.location);
-
+        if (state.user.location && state.user.location !== "all") {
+          localStorage.setItem("selectedCity", state.user.location);
+        }
+       
+        localStorage.setItem("userSelectedCity", state.user.location);
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
       })
@@ -121,6 +126,7 @@ export const authSlice = createSlice({
         state.user = initialUser;
         state.isAuthenticated = undefined;
         localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
 
@@ -133,12 +139,15 @@ export const authSlice = createSlice({
         //state.user = action.payload;
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userSelectedCity", state.user.location);
+        
       })
       .addCase(signInByAccessToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
       localStorage.removeItem("isAuthenticated")
+      localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
 
@@ -151,12 +160,15 @@ export const authSlice = createSlice({
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
         //state.user = action.payload;
+        localStorage.setItem("userSelectedCity", state.user.location);
+        
       })
       .addCase(signInByRefreshToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
         localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
 
@@ -171,16 +183,20 @@ export const authSlice = createSlice({
           "user in slice getMyProfileDataByAccessToken ---- ",
           state.user
         );
-        localStorage.setItem("selectedCity", state.user.location);
-
+        if (state.user.location && state.user.location !== "all") {
+          localStorage.setItem("selectedCity", state.user.location);
+        } 
+        
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
+        localStorage.setItem("userSelectedCity", state.user.location);
       })
       .addCase(getMyProfileDataByAccessToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
         localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
 

@@ -13,6 +13,7 @@ interface IDropDown {
   switcher?: number;
   isReadOnly?: boolean;
   "data-testid"?: string;
+  forMyProfile?:boolean;
 }
 
 
@@ -23,9 +24,17 @@ export default function DropDown({
   switcher = 1,
   "data-testid": dataTestId = "default",
   isReadOnly = false,
+  forMyProfile = false,
 }: IDropDown): JSX.Element {
   const isCitySelector = switcher === 1; // Якщо switcher = 1 – це вибір міст
-  const storageKey = "selectedCity"; // Ключ для LocalStorage
+  
+  // тернарный оператор, который обьяснит дропДауну на какой ключ из браузерного хранилища ориентироваться
+  // это нужно чтоб отображаемое значение в дропДаун в Хедере было синхронизированно со списком оферов
+  let storageKey;
+  forMyProfile ? ( storageKey = "userSelectedCity" // Ключ для LocalStorage
+  ) : (storageKey = "selectedCity" // Ключ для LocalStorage
+  );
+  //const storageKey = "userSelectedCity"; // Ключ для LocalStorage
 
   const initialValue = isCitySelector
     ? localStorage.getItem(storageKey) || "all"
@@ -58,7 +67,7 @@ export default function DropDown({
 
     // Якщо це вибір міста, зберігаємо в localStorage
     if (isCitySelector) {
-      localStorage.setItem(storageKey, newElement);
+      //localStorage.setItem(storageKey, newElement);
     }
 
     if (onChange) {
