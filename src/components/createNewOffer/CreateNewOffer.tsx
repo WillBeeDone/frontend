@@ -6,17 +6,34 @@ import styles from "./CreateNewOffer.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import DropDown from "../dropDown/DropDown";
-import { createNewOffer } from "../../features/offer/offerActions";
+import { createNewOffer } from "../../features/offer//offerActions";
 import { clearAuthError } from "../../features/auth/authActions";
 
 function CreateNewOffer(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error, user } = useSelector(
-    (state: RootState) => state.auth
+  const { isLoading, error } = useSelector(
+    (state: RootState) => state.offer
   );
-  const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
 
-  const [formData, setFormData] = useState({
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+
+  type IFormDataType = {
+    email: string;
+    firstName: string;
+    secondName: string;
+    location: string;
+    phone: string;
+    profilePicture: string;
+    title: string;
+    category: string;
+    price: number;
+    description: string;
+    gallery: File[];
+  };
+
+  const [formData, setFormData] = useState<IFormDataType>({
     email: "",
     firstName: "",
     secondName: "",
@@ -27,12 +44,12 @@ function CreateNewOffer(): JSX.Element {
     category: "",
     price: 0,
     description: "",
-    gallery: [] as string[],
+    gallery: [],
   });
 
   const [errors, setErrors] = useState({
     title: "",
-    category: "",
+    //category: "",
     price: "",
     description: "",
     gallery: "",
@@ -44,8 +61,8 @@ function CreateNewOffer(): JSX.Element {
   }, [formData]);
 
   const validateTitle = (title: string) => {
-    if (!/^[A-Z][a-zA-Z]{1,39}$/.test(title))
-      return "Start with upper case, letters only, max length 40 characters.";
+    if (!/^[A-Z][a-zA-Z ]{1,39}$/.test(title))
+      return "Start with upper case, letters & spaces only, max length 40 characters.";
     return "";
   };
 
@@ -55,17 +72,25 @@ function CreateNewOffer(): JSX.Element {
     return "";
   };
 
-  const validateCategory = (category: string) => {
-    if (!category) return "Category is required.";
-    return "";
-  };
+  // const validateCategory = (category: string) => {
+  //   if (category === "all") return "Category is required.";
+  //   return "";
+  // };
+
+  // const validateCategory = (category: string) => {
+  //   if (!category || category.trim() === "") {
+  //     return "Category is required."; // Перевіряємо, чи не порожній рядок
+  //   }
+  //   return "";
+  // };
+
 
   const validateDescription = (description: string) => {
     if (description.length > 1500) return "Max length 1500 characters.";
     return "";
   };
 
-  const validateGallery = (files: FileList | null) => {
+  const validateGallery = (files: File[]) => {
     if (!files || files.length < 1) return "At least one file is required.";
     if (files.length > 8) return "You can upload a maximum of 8 files.";
 
@@ -74,13 +99,17 @@ function CreateNewOffer(): JSX.Element {
       const file = files[i];
       if (!allowedTypes.includes(file.type))
         return "Only JPG, PNG, and GIF are allowed.";
+      if (!allowedTypes.includes(file.type))
+        return "Only JPG, PNG, and GIF are allowed.";
       if (file.size > 5 * 1024 * 1024) return "File size must be under 5MB.";
     }
     return "";
   };
 
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
+
 
     if (name === "gallery" && files) {
       if (formData.gallery.length >= 7) {
@@ -88,22 +117,19 @@ function CreateNewOffer(): JSX.Element {
         return;
       }
 
-      const newFiles = Array.from(files).slice(0, 8 - formData.gallery.length); // Обмеження 7 файлів
-      const newGallery = [
-        ...formData.gallery,
-        ...newFiles.map((file) => URL.createObjectURL(file)),
-      ];
+      const newFiles = Array.from(files).slice(0, 7 - formData.gallery.length); // обмеження 7
+      const newGallery = [...formData.gallery, ...newFiles]; // просто додаємо файли
 
       setFormData((prev) => ({
         ...prev,
-        gallery: newGallery,
+        gallery: newGallery, // <-- тепер це масив File[]
       }));
 
-      setErrors((prev) => ({ ...prev, gallery: validateGallery(files) }));
+      setErrors((prev) => ({ ...prev, gallery: validateGallery(newGallery) }));
     } else {
       setFormData((prev) => ({
         ...prev,
-        [name]: name === "price" ? value.replace(/[^0-9]/g, "") : value, // Зберігаємо price як рядок
+        [name]: name === "price" ? value.replace(/[^0-9]/g, "") : value,
       }));
 
       setErrors((prev) => ({
@@ -113,8 +139,8 @@ function CreateNewOffer(): JSX.Element {
             ? validateTitle(value)
             : name === "price"
             ? validatePrice(Number(value) || 0)
-            : name === "category"
-            ? validateCategory(value)
+            // : name === "category"
+            // ? validateCategory(value)
             : name === "description"
             ? validateDescription(value)
             : "",
@@ -141,23 +167,24 @@ function CreateNewOffer(): JSX.Element {
     const validationErrors = {
       title: validateTitle(formData.title),
       price: validatePrice(formData.price),
-      category: validateCategory(formData.category),
+      //category: validateCategory(formData.category),
       description: validateDescription(formData.description),
-      gallery: validateGallery(
-        formData.gallery.length ? new DataTransfer().files : null
-      ),
+      gallery: validateGallery(formData.gallery),
     };
-
-    if (Object.values(validationErrors).some((err) => err)) {
+    
+    if (Object.values(validationErrors).some((err) => {console.log("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ - ", err);
+     err })) {
       setErrors(validationErrors);
       return;
     }
-
+    
+    console.log("щас БУДЕТ ФЕТЧ - КАТЕГОРИЯ");
+    console.log("КАТЕГОРИЯ - ", selectedCategory);
+    
     dispatch(
       createNewOffer({
-        accessToken: user.accessToken,
         title: formData.title,
-        category: formData.category,
+        category: String(selectedCategory),
         price: formData.price,
         description: formData.description,
         gallery: formData.gallery,
@@ -168,10 +195,13 @@ function CreateNewOffer(): JSX.Element {
       .catch(() => {});
   };
 
-  const handleRemovePhoto = (picture: string) => {
+  const handleRemovePhoto = (picture: File) => {
+    URL.revokeObjectURL(URL.createObjectURL(picture)); // звільняємо попередній URL
     setFormData((prev) => ({
       ...prev,
-      gallery: prev.gallery.filter((img) => img !== picture),
+      gallery: prev.gallery.filter(
+        (img: File) => !(img.name === picture.name && img.size === picture.size)
+      ),
     }));
   };
 
@@ -204,6 +234,11 @@ function CreateNewOffer(): JSX.Element {
       dispatch(clearAuthError());
     };
   }, [dispatch]);
+
+  const kaka = ()=> {
+    console.log("---------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    
+  }
 
   return (
     <div className={styles.createOfferContainer}>

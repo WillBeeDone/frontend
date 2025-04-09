@@ -4,13 +4,47 @@ import axios from 'axios';
 // все данные записываються в форме CreateNewOffer
 export const createNewOffer = createAsyncThunk(
   'auth/createNewOffer',
-  async (offerData: { accessToken: string, title: string, price: number, category: string, description: string, gallery: string[]}, thunkAPI) => {
+  async (userData: { 
+    title: string,
+    price: number, 
+    category: string,
+    description: string
+    gallery: File[]; 
+  }, thunkAPI) => {
     try {
-      console.log("data in signUp slice --- ", offerData);
+      const {  title, price, category, description, gallery} = userData;
+      console.log(" inside createNewOffer after destruct: ", category);
+        
+
+      const body = new FormData();
+      body.append("title", title); 
+      body.append("pricePerHour", String(price).concat(".00"));
+      body.append("categoryName", category);
+      body.append("description", description );
+      gallery.forEach((file) => {
+        body.append("images", file);
+      });
       
-      const responce = await axios.post('/api/create-new-offer', offerData);
+      console.log(" ------------------------- inside createNewOffer before send to server: ", body);
       
-      return responce.data;
+
+      for (const pair of body.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+
+      const accessToken = localStorage.getItem('accessToken');
+
+      const response = await axios.post('/api/users/offers', body, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to create new offer.");
+      }
+
+      return response.status;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -18,12 +52,13 @@ export const createNewOffer = createAsyncThunk(
 );
 
 
+
 // екшн для кнопки активации/деактивации офера
 export const activateDeactivateOffer = createAsyncThunk(
   "auth/activateDeactivateOffer",
-  async ({ id, accessToken }: { id: number; accessToken: string; }, thunkAPI) => {
+  async ({ id }: { id: number }, thunkAPI) => {
     try {
-    
+      const accessToken = localStorage.getItem('accessToken');
       const response = await axios.put(`api/users/offers/${id}`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
