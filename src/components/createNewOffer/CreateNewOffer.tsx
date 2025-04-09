@@ -122,6 +122,20 @@ function CreateNewOffer(): JSX.Element {
     }
   };
 
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: name === "description" ? validateDescription(value) : "",
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = {
@@ -199,9 +213,36 @@ function CreateNewOffer(): JSX.Element {
                 </h3>
               </div>
             </div>
+            <div className={styles.inputGallery}>
+              <div className={styles.inputGroupGallery}>
+                <MyInput
+                  name="gallery"
+                  type="file"
+                  placeholder=""
+                  label=""
+                  variant="upload"
+                  onChange={handleChange}
+                  isPhoto={true}
+                  isGallery={true}
+                />
+                {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
+                {errors.gallery && <p className="error">{errors.gallery}</p>}
+              </div>
+
+              <div className={styles.renderGallery}>
+                {formData.gallery.map((picture, index) => (
+                  <div key={index} className={styles.galleryItemContainer}>
+                    <img src={picture} alt="User uploaded" />
+                    <MyButton
+                      text="Remove photo"
+                      func={() => handleRemovePhoto(picture)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          
-          
+
           <div className={styles.rightPart}>
             <div className={styles.dropDownContainer}>
               <div className={styles.inputGroup}>
@@ -298,48 +339,17 @@ function CreateNewOffer(): JSX.Element {
               </div>
             </div>
             <div className={styles.inputDescription}>
-              <MyInput
+              <textarea
                 name="description"
-                type="text"
-                placeholder="Tell us about your abilities"
-                label="Offer description"
-                required
-                onChange={handleChange}
                 value={formData.description}
+                onChange={handleTextAreaChange}
               />
               {errors.description && (
                 <p className={styles.error}>{errors.description}</p>
               )}
             </div>
+          </div>
           <div className={styles.downPart}>
-            <div className={styles.inputGallery}>
-              <div className={styles.inputGroup}>
-                <MyInput
-                  name="gallery"
-                  type="file"
-                  placeholder=""
-                  label=""
-                  variant="upload"
-                  onChange={handleChange}
-                  isPhoto={true}
-                  isGallery={true}
-                />
-                {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
-                {errors.gallery && <p className="error">{errors.gallery}</p>}
-              </div>
-
-              <div className={styles.inputGroup}>
-                {formData.gallery.map((picture, index) => (
-                  <div key={index} className={styles.galleryItemContainer}>
-                    <img src={picture} alt="User uploaded" />
-                    <MyButton
-                      text="Remove photo"
-                      func={() => handleRemovePhoto(picture)}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
             <div className={styles.btnGroup}>
               <MyButton
                 type="submit"
@@ -347,7 +357,6 @@ function CreateNewOffer(): JSX.Element {
                 disabled={isLoading}
               />
             </div>
-          </div>
           </div>
         </div>
       </form>
