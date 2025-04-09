@@ -11,9 +11,7 @@ import { clearAuthError } from "../../features/auth/authActions";
 
 function CreateNewOffer(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, error } = useSelector(
-    (state: RootState) => state.offer
-  );
+  const { isLoading, error } = useSelector((state: RootState) => state.offer);
   const { user } = useSelector((state: RootState) => state.auth);
 
   const navigate = useNavigate();
@@ -61,7 +59,7 @@ function CreateNewOffer(): JSX.Element {
   }, [formData]);
 
   const validateTitle = (title: string) => {
-    if (!/^[A-Z][a-zA-Z ]{1,39}$/.test(title))
+    if (!/^[A-Z][a-zA-Z0-9 ]{1,39}$/.test(title))
       return "Start with upper case, letters & spaces only, max length 40 characters.";
     return "";
   };
@@ -84,7 +82,6 @@ function CreateNewOffer(): JSX.Element {
   //   return "";
   // };
 
-
   const validateDescription = (description: string) => {
     if (description.length > 1500) return "Max length 1500 characters.";
     return "";
@@ -92,11 +89,13 @@ function CreateNewOffer(): JSX.Element {
 
   const validateGallery = (files: File[]) => {
     if (!files || files.length < 1) return "At least one file is required.";
-    if (files.length > 7) return "You can upload a maximum of 7 files.";
-  
+    if (files.length > 8) return "You can upload a maximum of 8 files.";
+
     const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+      if (!allowedTypes.includes(file.type))
+        return "Only JPG, PNG, and GIF are allowed.";
       if (!allowedTypes.includes(file.type))
         return "Only JPG, PNG, and GIF are allowed.";
       if (file.size > 5 * 1024 * 1024) return "File size must be under 5MB.";
@@ -108,12 +107,12 @@ function CreateNewOffer(): JSX.Element {
     const { name, value, files } = e.target;
 
     if (name === "gallery" && files) {
-      if (formData.gallery.length >= 7) {
-        setErrors((prev) => ({ ...prev, gallery: "Maximum 7 files allowed." }));
+      if (formData.gallery.length >= 8) {
+        setErrors((prev) => ({ ...prev, gallery: "Maximum 8 files allowed." }));
         return;
       }
 
-      const newFiles = Array.from(files).slice(0, 7 - formData.gallery.length); // обмеження 7
+      const newFiles = Array.from(files).slice(0, 8 - formData.gallery.length); // обмеження 7
       const newGallery = [...formData.gallery, ...newFiles]; // просто додаємо файли
 
       setFormData((prev) => ({
@@ -135,13 +134,27 @@ function CreateNewOffer(): JSX.Element {
             ? validateTitle(value)
             : name === "price"
             ? validatePrice(Number(value) || 0)
-            // : name === "category"
+            : // : name === "category"
             // ? validateCategory(value)
-            : name === "description"
+            name === "description"
             ? validateDescription(value)
             : "",
       }));
     }
+  };
+
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: name === "description" ? validateDescription(value) : "",
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -153,16 +166,20 @@ function CreateNewOffer(): JSX.Element {
       description: validateDescription(formData.description),
       gallery: validateGallery(formData.gallery),
     };
-    
-    if (Object.values(validationErrors).some((err) => {console.log("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ - ", err);
-     err })) {
+
+    if (
+      Object.values(validationErrors).some((err) => {
+        console.log("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ - ", err);
+        err;
+      })
+    ) {
       setErrors(validationErrors);
       return;
     }
-    
+
     console.log("щас БУДЕТ ФЕТЧ - КАТЕГОРИЯ");
     console.log("КАТЕГОРИЯ - ", selectedCategory);
-    
+
     dispatch(
       createNewOffer({
         title: formData.title,
@@ -187,171 +204,237 @@ function CreateNewOffer(): JSX.Element {
     }));
   };
 
+  const handleCancel = () => {
+    setFormData({
+      email: "",
+      firstName: "",
+      secondName: "",
+      location: "",
+      phone: "",
+      profilePicture: "",
+      title: "",
+      category: "",
+      price: 0,
+      description: "",
+      gallery: [],
+    });
+
+    setErrors({
+      title: "",
+      price: "",
+      description: "",
+      gallery: "",
+    });
+  };
+
   useEffect(() => {
     return () => {
       dispatch(clearAuthError());
     };
   }, [dispatch]);
 
-  const kaka = ()=> {
-    console.log("---------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    
-  }
+  const kaka = () => {
+    console.log(
+      "---------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
+    );
+  };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <h2 className={styles.title}>My Profile</h2>
-      {error && <p className={styles.error}>{error}</p>}
-
-      <div className={styles.imageContainer}>
-        <img
-          src={
-            user.profilePicture !== ""
-              ? user.profilePicture
-              : "/no-profilePicture-default-image.jpg"
-          }
-          alt="User photo"
-        />
-      </div>
-
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="gallery"
-          type="file"
-          placeholder=""
-          label="Upload image for gallery"
-          onChange={handleChange}
-          isPhoto={true}
-          isGallery={true}
-        />
-        {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
-        {errors.gallery && <p className="error">{errors.gallery}</p>}
-      </div>
-
-      <div className={styles.inputGroup}>
-        <div className={styles.galleryContainer}>
-          {formData.gallery.map((picture: File, index: number) => (
-            <div key={index} className={styles.galleryItemContainer}>
-              <img
-                src={URL.createObjectURL(picture)}
-                alt={`preview-${index}`}
-              />
-              <MyButton
-                text="Remove photo"
-                func={() => handleRemovePhoto(picture)}
-              />
-            </div>
-          ))}
+    <div className={styles.createOfferContainer}>
+      <form onSubmit={handleSubmit} className={styles.formContainer}>
+        <div className={styles.bannerProfile}>
+          <h2>My new offer</h2>
         </div>
-      </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="firstName"
-          type="text"
-          placeholder="Enter your first name"
-          label="First name"
-          required
-          value={user.firstName}
-          isReadOnly={true}
-        />
-      </div>
+        {error && <p className={styles.error}>{error}</p>}
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="secondName"
-          type="text"
-          placeholder="Enter your second name"
-          label="Second name"
-          required
-          value={user.secondName}
-          isReadOnly={true}
-        />
-      </div>
+        <div className={styles.mainPart}>
+          <div className={styles.leftPart}>
+            <div className={styles.imageContainer}>
+              <img
+                src={
+                  user.profilePicture !== ""
+                    ? user.profilePicture
+                    : "/no-profilePicture-default-image.jpg"
+                }
+                alt="User photo"
+              />
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="title"
-          type="text"
-          placeholder="Offer title"
-          label="Title"
-          required
-          onChange={handleChange}
-          value={formData.title}
-        />
-        {errors.title && <p className={styles.error}>{errors.title}</p>}
-      </div>
+              <div>
+                <h3 className={styles.imageTitle}>
+                  <div className={styles.name}>
+                    <p> {user.firstName}</p>
+                    <p>{user.secondName}</p>
+                  </div>
+                  <p>{user.email}</p>
+                  {formData.email}
+                </h3>
+              </div>
+            </div>
+            <div className={styles.inputGallery}>
+              <div className={styles.inputGroupGallery}>
+                <MyInput
+                  name="gallery"
+                  type="file"
+                  placeholder=""
+                  label=""
+                  variant="upload"
+                  onChange={handleChange}
+                  isPhoto={true}
+                  isGallery={true}
+                />
+                {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
+                {errors.gallery && <p className="error">{errors.gallery}</p>}
+              </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="price"
-          type="number"
-          placeholder="Price per hour"
-          label="Price per hour"
-          required
-          onChange={handleChange}
-          value={formData.price}
-        />
-        {errors.price && <p className={styles.error}>{errors.price}</p>}
-      </div>
+              <div className={styles.renderGallery}>
+                {formData.gallery.map((picture: File, index: number) => (
+                  <div key={index} className={styles.galleryItemContainer}>
+                    <img
+                      src={URL.createObjectURL(picture)}
+                      alt={`preview-${index}`}
+                    />
+                    <p
+                      onClick={() => handleRemovePhoto(picture)}
+                      className={styles.removePhoto}
+                    >
+                      X
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="description"
-          type="text"
-          placeholder="Tell us about your abilities"
-          label="Offer description"
-          required
-          onChange={handleChange}
-          value={formData.description}
-        />
-        {errors.description && (
-          <p className={styles.error}>{errors.description}</p>
-        )}
-      </div>
+          <div className={styles.rightPart}>
+            <div className={styles.dropDownContainer}>
+              <div>
+                <DropDown
+                  url="/api/categories"
+                  switcher={3}
+                  text="Choose category"
+                  onChange={(category) => setSelectedCategory(category)}
+                />
+              </div>
 
-      <div className={styles.inputGroup}>
-        <DropDown url="/api/categories" switcher={3} text="Choose category" onChange={(category) => setSelectedCategory(category)}/>
-      </div>
+              <div>
+                <DropDown
+                  url="/api/locations"
+                  text="Choose city"
+                  isReadOnly={true}
+                  forMyProfile = {true}
+                />
+              </div>
+            </div>
+            <div className={styles.inputBlock}>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="firstName"
+                  type="text"
+                  placeholder="Enter your first name"
+                  label="First name"
+                  required
+                  value={user.firstName}
+                  isReadOnly={true}
+                />
+              </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="email"
-          type="email"
-          placeholder="Enter your email"
-          label="Email"
-          required
-          value={user.email}
-          isReadOnly={true}
-        />
-      </div>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="secondName"
+                  type="text"
+                  placeholder="Enter your second name"
+                  label="Second name"
+                  required
+                  value={user.secondName}
+                  isReadOnly={true}
+                />
+              </div>
+            </div>
+            <div className={styles.inputBlock}>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  label="Email"
+                  required
+                  value={user.email}
+                  isReadOnly={true}
+                />
+              </div>
 
-      <div className={styles.inputGroup}>
-        <MyInput
-          name="phone"
-          type="text"
-          placeholder="Enter your phone number"
-          label="Phone"
-          required
-          value={user.phone}
-          isReadOnly={true}
-        />
-      </div>
+              <div className={styles.inputGroup}>
+                <MyInput
+                  name="phone"
+                  type="text"
+                  placeholder="Enter your phone number"
+                  label="Phone"
+                  required
+                  value={user.phone}
+                  isReadOnly={true}
+                />
+              </div>
+            </div>
+            <div className={styles.inputBlock}>
+              <div className={styles.inputGroupProblem}>
+                <MyInput
+                  name="title"
+                  type="text"
+                  placeholder="Offer title"
+                  label="Title"
+                  required
+                  onChange={handleChange}
+                  value={formData.title}
+                />
+                {errors.title && <p className={styles.error}>{errors.title}</p>}
+              </div>
 
-      <div className={styles.inputGroup}>
-        <DropDown url="/api/locations" text="Choose city" isReadOnly={true} forMyProfile = {true}/>
-      </div>
-
-      <div className={styles.btnGroup}>
-        <MyButton
-          type="submit"
-          text={isLoading ? "Loading…" : "Publish"}
-          disabled={isLoading}
-          func={kaka}
-        />
-        <MyButton type="button" text="Go Back" to="/" />
-      </div>
-    </form>
+              <div className={styles.inputGroupProblem}>
+                <MyInput
+                  name="price"
+                  type="number"
+                  placeholder="Price per hour"
+                  label="Price per hour"
+                  required
+                  onChange={handleChange}
+                  value={formData.price}
+                />
+                {errors.price && <p className={styles.error}>{errors.price}</p>}
+              </div>
+            </div>
+            <div className={styles.inputDescription}>
+              <label htmlFor="description">Describe your offer</label>
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleTextAreaChange}
+              />
+              {errors.description && (
+                <p className={styles.error}>{errors.description}</p>
+              )}
+              <div className={styles.downPart}>
+                <div className={styles.btnGroup}>
+                  <MyButton
+                    type="submit"
+                    text={isLoading ? "Loading…" : "Publish"}
+                    disabled={isLoading}
+                    func={kaka}
+                  />
+                  <MyButton
+                    type="button"
+                    text="Cancel"
+                    func={handleCancel}
+                    variant="danger"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }
 
