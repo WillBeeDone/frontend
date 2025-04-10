@@ -19,7 +19,10 @@ const GuestOfferPage = () => {
     const fetchOffer = async () => {
       if (!id) return;
       try {
-        const response = await fetch(`/api/offers/${id}`);
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await fetch(`/api/offers/${id}`,  {headers: {
+          'Authorization' : `Bearer ${accessToken}`
+              }});
         if (!response.ok) {
           throw new Error("Failed to fetch offer");
         }
