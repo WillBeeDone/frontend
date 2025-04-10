@@ -14,7 +14,7 @@
   gap: 15px;
   max-height: 90vh; /* Ограничение по максимуму */
   min-width: 1590px;
-  min-height: 1050px;
+  min-height: 1220px;
 }
 
 .bannerProfile {
@@ -160,16 +160,7 @@
 .inputDescription {
   margin-top: 60px;
 }
-.inputDescription textarea {
-  background-color: #f0eeeb;
-  border-radius: 12px;
-  width: 100%;
-  color: black;
-  font-size: 18px;
-  margin-top: 15px;
-  min-width: 600px;
-  min-height: 400px;
-}
+
 
 .inputDescription label {
   color: #948d8d;
