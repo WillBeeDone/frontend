@@ -59,13 +59,6 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  useEffect(() => {
-    if (accessToken) {
-      fetchMyOffers();
-    }
-  }, [accessToken]);
-
-
 
   const addNewOfferToMyOffers = async (newOffer: IOfferCard) => {
     try {

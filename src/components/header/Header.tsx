@@ -12,6 +12,7 @@ import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import Menu from "../menu/Menu";
 import { useFavorite } from "../../context/FavoriteContext";
 import CreateNewOfferLink from "../createNewOffer/CreateNewOfferLink";
+import { useMyOffers } from "../../context/MyOffersContext";
 
 interface ILink {
   text: React.ReactNode;
@@ -29,6 +30,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const {fetchFavoriteOffers} = useFavorite();
+  const {fetchMyOffers} = useMyOffers();
 
   const handleBurgerClick = () => {
     setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
@@ -45,8 +47,12 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   };
 
 
-  const handleFetch = () =>{
+  const handleFetchFavoriteOffers = () =>{
     fetchFavoriteOffers();
+  }
+  const handleFetchMyOffers = () =>{
+    fetchMyOffers();
+    navigate("/my-offers")
   }
 
   return (
@@ -85,7 +91,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                   <Link
                     data-testid="LinkFavoritesInHeader_Jhfyghdg"
                     to="/favorite"
-                    onClick={handleFetch}
+                    onClick={handleFetchFavoriteOffers}
                     className={styles.menuLink}
                   >
                     Favorites
@@ -93,7 +99,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                 </span>
                 <span
                   data-testid="LinkMyOffersInHeader_Jjhfyfdg"
-                  onClick={() => navigate("/my-offers")}
+                  onClick={handleFetchMyOffers}
                   className={styles.menuLink}
                 >
                   My Offers

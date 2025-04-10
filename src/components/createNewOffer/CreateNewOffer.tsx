@@ -47,16 +47,11 @@ function CreateNewOffer(): JSX.Element {
 
   const [errors, setErrors] = useState({
     title: "",
-    //category: "",
     price: "",
     description: "",
     gallery: "",
   });
 
-  //юз ефект нужен только для поиска проблемы, в логике приложения - не принимает участия
-  useEffect(() => {
-    console.log("In MyProfile Form - Updated formData:", formData);
-  }, [formData]);
 
   const validateTitle = (title: string) => {
     if (!/^[A-Z][a-zA-Z0-9 ]{1,39}$/.test(title))
@@ -70,20 +65,8 @@ function CreateNewOffer(): JSX.Element {
     return "";
   };
 
-  // const validateCategory = (category: string) => {
-  //   if (category === "all") return "Category is required.";
-  //   return "";
-  // };
-
-  // const validateCategory = (category: string) => {
-  //   if (!category || category.trim() === "") {
-  //     return "Category is required."; // Перевіряємо, чи не порожній рядок
-  //   }
-  //   return "";
-  // };
-
   const validateDescription = (description: string) => {
-    if (description.length > 1500) return "Max length 1500 characters.";
+    if (description.length > 4000) return "Max length 4000 characters.";
     return "";
   };
 
@@ -112,7 +95,7 @@ function CreateNewOffer(): JSX.Element {
         return;
       }
 
-      const newFiles = Array.from(files).slice(0, 8 - formData.gallery.length); // обмеження 7
+      const newFiles = Array.from(files).slice(0, 8 - formData.gallery.length); // обмеження 8
       const newGallery = [...formData.gallery, ...newFiles]; // просто додаємо файли
 
       setFormData((prev) => ({
@@ -134,9 +117,7 @@ function CreateNewOffer(): JSX.Element {
             ? validateTitle(value)
             : name === "price"
             ? validatePrice(Number(value) || 0)
-            : // : name === "category"
-            // ? validateCategory(value)
-            name === "description"
+            : name === "description"
             ? validateDescription(value)
             : "",
       }));
@@ -162,16 +143,12 @@ function CreateNewOffer(): JSX.Element {
     const validationErrors = {
       title: validateTitle(formData.title),
       price: validatePrice(formData.price),
-      //category: validateCategory(formData.category),
       description: validateDescription(formData.description),
       gallery: validateGallery(formData.gallery),
     };
 
     if (
-      Object.values(validationErrors).some((err) => {
-        console.log("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ - ", err);
-        err;
-      })
+      Object.values(validationErrors).some((err) =>  err)
     ) {
       setErrors(validationErrors);
       return;
@@ -233,11 +210,7 @@ function CreateNewOffer(): JSX.Element {
     };
   }, [dispatch]);
 
-  const kaka = () => {
-    console.log(
-      "---------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    );
-  };
+ 
 
   return (
     <div className={styles.createOfferContainer}>
@@ -420,7 +393,6 @@ function CreateNewOffer(): JSX.Element {
                     type="submit"
                     text={isLoading ? "Loading…" : "Publish"}
                     disabled={isLoading}
-                    func={kaka}
                   />
                   <MyButton
                     type="button"

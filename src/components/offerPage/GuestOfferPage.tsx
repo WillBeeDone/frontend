@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ShowAll from "../showAll/ShowAll";
 import { IGuestOfferPage } from "../types/OfferInterfaces";
 import { transformGuestOfferPage } from "../backToFrontTransformData/BackToFrontTransformData";
+import styles from "./GuestOfferPage.module.css"
 
 const GuestOfferPage = () => {
   const { id } = useParams<{ id?: string }>();
@@ -29,7 +30,7 @@ const GuestOfferPage = () => {
         const formattedGuestOfferPage = transformGuestOfferPage(data);
         setOffer(formattedGuestOfferPage);
       } catch (error) {
-        setError("Mistake while receiving offer");
+        setError("Only Active Offers are shown.");
         console.error(error);
       } finally {
         setLoading(false);
@@ -40,7 +41,7 @@ const GuestOfferPage = () => {
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p className={styles.errorText}>{error}</p>;
   if (!offer) return <p>Offer not found</p>;
 
   return <ShowAll source={offer} switcher="guestOfferPage"/>;

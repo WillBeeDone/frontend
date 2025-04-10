@@ -71,7 +71,10 @@ export const signInByEmailAndPass = createAsyncThunk(
         localStorage.setItem("refreshToken", response.data.refreshToken)
         if (response.data.locationDto?.cityName) {
           localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
+        }else {
+          localStorage.setItem("userSelectedCity", "all");
         }
+        
         console.log("reterned from server inside signInByEmailAndPass, must be user + tokens -", response.data);
         // localStorage.setItem("userSelectedCity", state.user.location);
         // localStorage.removeItem("userSelectedCity");
@@ -125,71 +128,16 @@ export const signInByRefreshToken = createAsyncThunk(
 //  запрос данных юзера через аксес токен
 export const getMyProfileDataByAccessToken = createAsyncThunk(
   'auth/getMyProfileDataByAccessToken',
-  async (accessToken:string, thunkAPI) => {
+  async () => {
     try {
-      const response = await apiClient.get('/api/users', {headers: {
-  'Authorization' : `Bearer ${accessToken}`
-      }});
+      const response = await apiClient.get('/api/users');
         console.log("receive from server in getMyProfileDataByAccessToken, user: ", response.data);
 
-        localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
-       
-        
-        // const fakeUser = {
-        //     "id": 35,
-        //     "firstName": "FakeName",
-        //     "lastName": "FakeLastName",
-        //     "email": "priestvolodya+21@gmail.com",
-        //     "phoneNumber": "111111",
-        //     "locationDto": {
-        //         "cityName": "Berlin"
-        //     },
-        //     //"profilePicture": "https://imgur.com/diLaoNW",
-        //     "profilePicture": "",
-        //     "roles": [
-        //         {
-        //             "id": 1,
-        //             "title": "ROLE_USER",
-        //             "authority": "ROLE_USER"
-        //         }
-        //     ],
-        //     "active": true,
-        //     "blocked": false,
-        //     "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0NDEzMjI2MSwicm9sZXMiOlt7ImlkIjoxLCJ0aXRsZSI6IlJPTEVfVVNFUiIsImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwibmFtZSI6InByaWVzdHZvbG9keWErMjFAZ21haWwuY29tIn0.nMpq5ljjygDccK6RKePABa8zMOjp3n_5q7nP6eiVQtjpPm9TBpEZ9G85CQDhxDRZ",
-        //     "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0Nzc2MTA2MX0.4aer_tGF5jBF_dTNa4AL3t3dyHT9DlX3_I8dhzzd_tWL4cCDx8xdjP0klfok4ivx"
-        // }
-
-      //   const fakeUserWithoutData = {
-      //     "id": 35,
-      //     "firstName": "",
-      //     "lastName": "",
-      //     "email": "priestvolodya+21@gmail.com",
-      //     "phoneNumber": "",
-      //     "locationDto": {
-      //         "cityName": "Berlin"
-      //     },
-      //     //"profilePicture": "https://imgur.com/diLaoNW",
-      //     "profilePicture": "",
-      //     "roles": [
-      //         {
-      //             "id": 1,
-      //             "title": "ROLE_USER",
-      //             "authority": "ROLE_USER"
-      //         }
-      //     ],
-      //     "active": true,
-      //     "blocked": false,
-      //     "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0NDEzMjI2MSwicm9sZXMiOlt7ImlkIjoxLCJ0aXRsZSI6IlJPTEVfVVNFUiIsImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XSwibmFtZSI6InByaWVzdHZvbG9keWErMjFAZ21haWwuY29tIn0.nMpq5ljjygDccK6RKePABa8zMOjp3n_5q7nP6eiVQtjpPm9TBpEZ9G85CQDhxDRZ",
-      //     "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJwcmllc3R2b2xvZHlhKzIxQGdtYWlsLmNvbSIsImV4cCI6MTc0Nzc2MTA2MX0.4aer_tGF5jBF_dTNa4AL3t3dyHT9DlX3_I8dhzzd_tWL4cCDx8xdjP0klfok4ivx"
-      // }
-
-        // console.log(fakeUserWithoutData);
-        // console.log(fakeUser);
-
-
-
-
-        //return fakeUser;
+        if (response.data.locationDto?.cityName) {
+          localStorage.setItem("userSelectedCity", response.data.locationDto.cityName);
+        }else {
+          localStorage.setItem("userSelectedCity", "all");
+        }
       return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -198,34 +146,6 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
 );
 
 
-// все данные записываються в форме MyProfile
-// export const myProfile = createAsyncThunk(
-//   'auth/myProfile',
-//   async (userData: { firstName:string, secondName:string, phone:string, location:string, profilePicture: string, accessToken: string}, thunkAPI) => {
-//     try {
-//       const {firstName, secondName:lastName, phone: phoneNumber, location, profilePicture, accessToken} = userData;
-//       const locationDto = {
-//         cityName: location
-//       }
-    
-//       const body = {firstName, lastName, phoneNumber, locationDto, profilePicture};
-      
-//       console.log("data in myProfile action before send --- ", body);
-
-//       const responce = await axios.put('/api/users', body, {headers: {
-//         'Authorization' : `Bearer ${accessToken}`
-//             }});
-
-          // if (response.status !== 200) {
-          // throw new Error("Failed to update user data.");
-          // }
-      
-//       return responce.status;
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const myProfile = createAsyncThunk(
   'auth/myProfile',
