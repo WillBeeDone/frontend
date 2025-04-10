@@ -11,6 +11,7 @@ import { useFavorite } from "../../context/FavoriteContext";
 import { useMyOffers } from "../../context/MyOffersContext";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
+import Loader from "../loader/Loader";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
@@ -55,6 +56,8 @@ export default function ShowAll({
     await activateDeactivateMyOffers(id);
   };
   const handleRemove = async (id: number) => {
+    const confirmed = window.confirm("Do you confirm offer removing?");
+    if (!confirmed) return;
     await removeOfferFromMyOffers(id);
   };
 
@@ -120,6 +123,8 @@ export default function ShowAll({
     const offers = source as IOfferCard[];
 
     return (
+      <>
+      {offers ? (
       <div className={styles.offerCardMain}>
         <div className={styles.sortButton}>
           <MyButton data-testid="MyButtonHomePageSort_JnHb" text="Price" isSortButton={true} offerCards={offerCardsFinal} setOfferCards={setOfferCardsFinal} />
@@ -187,7 +192,8 @@ export default function ShowAll({
         })}
       </div>
       </div>
-
+      ) : (<Loader/>)}
+      </>
     );
   }
 
@@ -196,14 +202,17 @@ export default function ShowAll({
     const offers = source as IMyOfferCard[];
 
     return (
-      <div className={styles.offerCardMain}>
+      <>
+      {offers ? (
+      <div className={styles.offerCardMainMyOffer}>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
           const imgSource =
             offer.profilePicture || "/no-profilePicture-default-image.jpg";
 
           return (
-            <div key={offer.id} className={styles.offerCard}>
+            <div className={styles.wrapperOfferCard}>
+            <div key={offer.id} className={offer.active ? styles.offerCard : styles.offerCardDeactivation}>
               <div className={styles.firstPartOfferCard}>
                 <div className={styles.offerCardleftPart}>
                   <div className={styles.offerCardImageContainer}>
@@ -246,31 +255,37 @@ export default function ShowAll({
                 />
               </div>
               <div className={styles.heartAndView}>
-                <div>
-                <MyButton
-                type="submit"
-                text={offer.active ? "Deactivate" : "Activate"}
-                func={() => handleActivate(offer.id)}
-                />
-                </div>
                 <div className={styles.view}>
                   <Link to={`/offer/${offer.id}`} state={{ from: location.pathname }}>
                     <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
               </div>
+            </div>
+            <div className={styles.downButtonContainer}>
+                <div className={styles.deactivateButton}>
+                <MyButton
+                type="submit"
+                text={offer.active ? "Deactivate" : "Activate"}
+                variant={offer.active ? "danger"  : "easy"  }
+                func={() => handleActivate(offer.id)}
+                />
+                </div>
               <MyButton
                type="submit"
-               text={isLoading ? "Loading…" : "Remove offer"}
+               text={isLoading ? "Loading…" : "Delete"}
               disabled={isLoading}
               func={() => handleRemove(offer.id)}
+              variant="danger"
               />
-            </div>
+              </div>
+        </div>
           );
         })}
       </div>
       </div>
-
+      ) : (<Loader/>)}
+      </>
     );
   }
 
@@ -279,6 +294,8 @@ export default function ShowAll({
     const offer = source as IGuestOfferPage;
 
     return (
+      <>
+      {offer ? (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
           <div className={styles.leftPartOfferPage}>
@@ -400,6 +417,8 @@ export default function ShowAll({
           🔙 Go back
         </Link>
       </div>
+       ) : (<Loader/>)}
+      </>
     );
   }
 

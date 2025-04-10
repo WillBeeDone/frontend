@@ -22,6 +22,7 @@ import CreateNewOffer from "./components/createNewOffer/CreateNewOffer";
 import UserAgreement from "./components/userAgreement/UserAgreement";
 import PasswordChange from "./components/passwordChange/PasswordChange";
 import ShowMyOffers from "./components/showMyOffers/ShowMyOffers";
+import Loader from "./components/loader/Loader";
 
 function App() {
   const guestRoutes = [
@@ -80,6 +81,10 @@ function App() {
     {
       path: "/my-offers",
       element: <ShowMyOffers />,
+    },
+    {
+      path: "/loader",
+      element: <Loader />,
     },
   ];
 

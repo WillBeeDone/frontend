@@ -8,6 +8,12 @@ p {
   flex-direction: column;
 }
 
+.offerCardMainMyOffer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 200px;
+}
+
 .offerContainer {
   display: grid;
   grid-template-columns: repeat(4, 418px);
@@ -35,6 +41,43 @@ p {
   opacity: 0;
 }
 
+.offerCardDeactivation {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  border-radius: 15%;
+  padding: 15px;
+  border: 2px solid black;
+  color: black;
+  width: 100%;
+  min-height: 420px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(15px);
+  animation: slideIn 0.6s forwards;
+  opacity: 0;
+}
+
+
+.offerCardDeactivation::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+
+  background-color: rgba(209, 203, 203, 0.5); /* прозрачный фон */
+  background-image: url('/deactivate.png');
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 170px 250px;
+
+  z-index: 1;
+  pointer-events: none; /* важно: кнопки под слоем кликабельны */
+}
+
 @keyframes slideIn {
   to {
     transform: translateY(0);
@@ -43,6 +86,13 @@ p {
 }
 
 .offerCard img {
+  border-radius: 30%;
+  margin-right: 180px;
+  object-fit: cover;
+  width: 150px;
+  height: 150px;
+}
+.offerCardDeactivation img {
   border-radius: 30%;
   margin-right: 180px;
   object-fit: cover;
@@ -374,4 +424,14 @@ p {
   display: flex;
   justify-content: end;
   
+}
+
+.deactivateButton {
+  width: 130px;
+}
+
+.downButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 60px;
 }
