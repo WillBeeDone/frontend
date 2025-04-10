@@ -202,6 +202,7 @@ function CreateNewOffer(): JSX.Element {
       description: "",
       gallery: "",
     });
+    navigate("/");
   };
 
   useEffect(() => {
