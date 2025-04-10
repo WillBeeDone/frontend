@@ -2,7 +2,7 @@ import { JSX, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { clearAuthError, getMyProfileDataByAccessToken, myProfile, signInByAccessToken, signInByEmailAndPass } from "../../features/auth/authActions";
+import { clearAuthError, getMyProfileDataByAccessToken, myProfile} from "../../features/auth/authActions";
 import styles from "./MyProfile.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";

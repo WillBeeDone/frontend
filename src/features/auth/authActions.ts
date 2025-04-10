@@ -140,7 +140,7 @@ export const getMyProfileDataByAccessToken = createAsyncThunk(
         }
       return response.data; // здесь должны быть все данные о юзере
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return Promise.reject(error);
     }
   }
 );
