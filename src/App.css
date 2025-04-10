@@ -10,6 +10,24 @@
   text-align: center;
 
 }
+/* Делает весь текст в CKEditor черным */
+.ck-content, .ck-content * {
+  color: #000000 !important;
+}
+
+/* .ck-editor__main {
+  width: 50vw;
+} */
+
+
+.ck-editor__editable {
+ 
+  max-height: 30em;       /* максимум примерно 25 строк */
+  overflow-y: auto;       /* вертикальный скролл, если много текста */
+  min-height: 25em;        /* минимальная высота — около 5 строк */
+  resize: vertical;       /* если хочешь, чтобы пользователь мог сам растягивать */
+}
+  
 
 /* 
 .logo {

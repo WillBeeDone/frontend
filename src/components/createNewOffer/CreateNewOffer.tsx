@@ -125,10 +125,9 @@ function CreateNewOffer(): JSX.Element {
     }
   };
 
-  const handleTextAreaChange = (event: any, editor: any) => {
+  const handleTextAreaChange = (_: any, editor: any) => {
     const description = editor.getData();
-    console.log(event);
-    
+        
     setFormData((prev) => ({
       ...prev,
       description,
@@ -381,6 +380,7 @@ function CreateNewOffer(): JSX.Element {
                 editor={ClassicEditor}
                 data={formData.description}
                 onChange={handleTextAreaChange}
+              
               />
 
               {errors.description && (
