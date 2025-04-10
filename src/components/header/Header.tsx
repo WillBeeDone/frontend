@@ -87,27 +87,29 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           <>
             <div className={styles.menuLinkContainer}>
               <div className={styles.linkBlock}>
-                <span>
+                <div className={location.pathname === "/favorite" ? styles.selectMenu : ""}>
                   <Link
                     data-testid="LinkFavoritesInHeader_Jhfyghdg"
                     to="/favorite"
                     onClick={handleFetchFavoriteOffers}
                     className={styles.menuLink}
                   >
-                    Favorites
+                    Favourites
                   </Link>
-                </span>
-                <span
+                </div>
+                <div className={location.pathname === "/my-offers" ? styles.selectMenu : ""}>
+                <span 
                   data-testid="LinkMyOffersInHeader_Jjhfyfdg"
                   onClick={handleFetchMyOffers}
                   className={styles.menuLink}
                 >
                   My Offers
                 </span >
-                <span className={styles.menuLinkCreateOffer}>
+                </div>
+                <div className={styles.menuLinkCreateOffer}>
                   {" "}
                   <CreateNewOfferLink className="menuLinkCreateOffer"/>
-                </span>
+                </div>
               </div>
             </div>
             <div className={styles.authUserProfilePictureBox}>

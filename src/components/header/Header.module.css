@@ -106,9 +106,9 @@ span.menuLink:hover {
   height: 100%;
   
   display: flex;
-  justify-content: center; /* Центрируем содержимое по горизонтали */
-  align-items: center; /* Центрируем содержимое по вертикали */
-  z-index: 1000; /* Делаем модальное окно поверх всех элементов */
+  justify-content: center; 
+  align-items: center; 
+  z-index: 1000; 
 }
 
 .modalContent {
@@ -116,3 +116,9 @@ span.menuLink:hover {
   top: 118px;
   right: 3px;
 }
+
+.selectMenu .menuLink {
+color: #fccc00;
+}
+
+
