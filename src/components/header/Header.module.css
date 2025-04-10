@@ -47,7 +47,8 @@
 }
 .authUserProfilePicture {
   position: absolute;
-  width: 75x;
+  object-fit: cover;
+  width: 75px;
   height: 75px;
   right: 110px;
   bottom: 23px;
@@ -56,6 +57,11 @@
   
 }
 
+.authUserProfilePictureBox {
+  object-fit: cover;
+  width: 75px;
+  height: 75px;
+}
 .menuLinkContainer {
   position: absolute;
   right: 150px;
