@@ -8,6 +8,8 @@ import MyButton from "../myButton/MyButton";
 import DropDown from "../dropDown/DropDown";
 import { createNewOffer } from "../../features/offer//offerActions";
 import { clearAuthError } from "../../features/auth/authActions";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 
 function CreateNewOffer(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
@@ -51,7 +53,6 @@ function CreateNewOffer(): JSX.Element {
     description: "",
     gallery: "",
   });
-
 
   const validateTitle = (title: string) => {
     if (!/^[A-Z][a-zA-Z0-9 ]{1,39}$/.test(title))
@@ -124,17 +125,18 @@ function CreateNewOffer(): JSX.Element {
     }
   };
 
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-
+  const handleTextAreaChange = (event: any, editor: any) => {
+    const description = editor.getData();
+    console.log(event);
+    
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      description,
     }));
 
     setErrors((prev) => ({
       ...prev,
-      [name]: name === "description" ? validateDescription(value) : "",
+      description: validateDescription(description),
     }));
   };
 
@@ -147,9 +149,7 @@ function CreateNewOffer(): JSX.Element {
       gallery: validateGallery(formData.gallery),
     };
 
-    if (
-      Object.values(validationErrors).some((err) =>  err)
-    ) {
+    if (Object.values(validationErrors).some((err) => err)) {
       setErrors(validationErrors);
       return;
     }
@@ -209,8 +209,6 @@ function CreateNewOffer(): JSX.Element {
       dispatch(clearAuthError());
     };
   }, [dispatch]);
-
- 
 
   return (
     <div className={styles.createOfferContainer}>
@@ -295,7 +293,7 @@ function CreateNewOffer(): JSX.Element {
                   url="/api/locations"
                   text="Choose city"
                   isReadOnly={true}
-                  forMyProfile = {true}
+                  forMyProfile={true}
                 />
               </div>
             </div>
@@ -378,12 +376,13 @@ function CreateNewOffer(): JSX.Element {
             </div>
             <div className={styles.inputDescription}>
               <label htmlFor="description">Describe your offer</label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
+              <CKEditor
+                // @ts-ignore
+                editor={ClassicEditor}
+                data={formData.description}
                 onChange={handleTextAreaChange}
               />
+
               {errors.description && (
                 <p className={styles.error}>{errors.description}</p>
               )}
