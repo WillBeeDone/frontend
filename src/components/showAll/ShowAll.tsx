@@ -11,6 +11,7 @@ import { useFavorite } from "../../context/FavoriteContext";
 import { useMyOffers } from "../../context/MyOffersContext";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
+import Loader from "../loader/Loader";
 
 interface ShowAllProps {
   source: IOfferCard[] | IGuestOfferPage | null;
@@ -55,6 +56,8 @@ export default function ShowAll({
     await activateDeactivateMyOffers(id);
   };
   const handleRemove = async (id: number) => {
+    const confirmed = window.confirm("Do you confirm offer removing?");
+    if (!confirmed) return;
     await removeOfferFromMyOffers(id);
   };
 
@@ -120,6 +123,8 @@ export default function ShowAll({
     const offers = source as IOfferCard[];
 
     return (
+      <>
+      {offers ? (
       <div className={styles.offerCardMain}>
         <div className={styles.sortButton}>
           <MyButton data-testid="MyButtonHomePageSort_JnHb" text="Price" isSortButton={true} offerCards={offerCardsFinal} setOfferCards={setOfferCardsFinal} />
@@ -187,7 +192,8 @@ export default function ShowAll({
         })}
       </div>
       </div>
-
+      ) : (<Loader/>)}
+      </>
     );
   }
 
@@ -196,6 +202,8 @@ export default function ShowAll({
     const offers = source as IMyOfferCard[];
 
     return (
+      <>
+      {offers ? (
       <div className={styles.offerCardMainMyOffer}>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
@@ -276,6 +284,8 @@ export default function ShowAll({
         })}
       </div>
       </div>
+      ) : (<Loader/>)}
+      </>
     );
   }
 
@@ -284,6 +294,8 @@ export default function ShowAll({
     const offer = source as IGuestOfferPage;
 
     return (
+      <>
+      {offer ? (
       <div className={styles.mainContainerOfferPage}>
         <div className={styles.mainPartOfferPage}>
           <div className={styles.leftPartOfferPage}>
@@ -405,6 +417,8 @@ export default function ShowAll({
           🔙 Go back
         </Link>
       </div>
+       ) : (<Loader/>)}
+      </>
     );
   }
 
