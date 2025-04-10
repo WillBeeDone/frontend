@@ -196,14 +196,15 @@ export default function ShowAll({
     const offers = source as IMyOfferCard[];
 
     return (
-      <div className={styles.offerCardMain}>
+      <div className={styles.offerCardMainMyOffer}>
       <div className={styles.offerContainer}>
         {offers.map((offer) => {
           const imgSource =
             offer.profilePicture || "/no-profilePicture-default-image.jpg";
 
           return (
-            <div key={offer.id} className={styles.offerCard}>
+            <div className={styles.wrapperOfferCard}>
+            <div key={offer.id} className={offer.active ? styles.offerCard : styles.offerCardDeactivation}>
               <div className={styles.firstPartOfferCard}>
                 <div className={styles.offerCardleftPart}>
                   <div className={styles.offerCardImageContainer}>
@@ -246,31 +247,35 @@ export default function ShowAll({
                 />
               </div>
               <div className={styles.heartAndView}>
-                <div>
-                <MyButton
-                type="submit"
-                text={offer.active ? "Deactivate" : "Activate"}
-                func={() => handleActivate(offer.id)}
-                />
-                </div>
                 <div className={styles.view}>
                   <Link to={`/offer/${offer.id}`} state={{ from: location.pathname }}>
                     <MyButton data-testid="ViewBtnHomePage_Hydgr" variant="primary" text="View" />
                   </Link>
                 </div>
               </div>
+            </div>
+            <div className={styles.downButtonContainer}>
+                <div className={styles.deactivateButton}>
+                <MyButton
+                type="submit"
+                text={offer.active ? "Deactivate" : "Activate"}
+                variant={offer.active ? "danger"  : "easy"  }
+                func={() => handleActivate(offer.id)}
+                />
+                </div>
               <MyButton
                type="submit"
-               text={isLoading ? "Loading…" : "Remove offer"}
+               text={isLoading ? "Loading…" : "Delete"}
               disabled={isLoading}
               func={() => handleRemove(offer.id)}
+              variant="danger"
               />
-            </div>
+              </div>
+        </div>
           );
         })}
       </div>
       </div>
-
     );
   }
 

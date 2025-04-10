@@ -94,7 +94,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                     onClick={handleFetchFavoriteOffers}
                     className={styles.menuLink}
                   >
-                    Favorites
+                    Favourites
                   </Link>
                 </span>
                 <span
