@@ -44,7 +44,7 @@ function MyButton({
   const handleClick = async () => {
     if ((text === "My Profile" || text === "Create Offer") && accessToken) {
       try {
-        await dispatch(getMyProfileDataByAccessToken(accessToken)).unwrap();
+        await dispatch(getMyProfileDataByAccessToken()).unwrap();
         
         if (text === "My Profile") {
           navigate("/my-profile");

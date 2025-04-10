@@ -1,7 +1,6 @@
 import {
   createContext,
   useContext,
-  useEffect,
   useState,
   ReactNode,
 } from "react";
@@ -58,13 +57,6 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
       console.error("Mistake while my offers receive:", error);
     }
   };
-
-  useEffect(() => {
-    if (accessToken) {
-      fetchMyOffers();
-    }
-  }, [accessToken]);
-
 
 
   const addNewOfferToMyOffers = async (newOffer: IOfferCard) => {
