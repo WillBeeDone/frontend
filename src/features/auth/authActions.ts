@@ -170,9 +170,7 @@ export const myProfile = createAsyncThunk(
 
       if (profilePicture instanceof File) {
         body.append("profilePicture", profilePicture);
-      }
-      console.log(" ------------------------- inside myProfile before send to server: ", body);
-      
+      }  
 
       for (const pair of body.entries()) {
         console.log(`${pair[0]}:`, pair[1]);
