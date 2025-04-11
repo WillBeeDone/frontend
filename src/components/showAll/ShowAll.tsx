@@ -115,12 +115,32 @@ export default function ShowAll({
 
   if (
     !source ||
-    ((switcher === "list" || "my-offer") &&
-      (source as IOfferCard[]).length === 0)
+    ((switcher === "my-offer" )  && (source as IOfferCard[]).length === 0)
   ) {
     return (
-      <div className="no-data">
-        <p>There is no offers... ;)</p>
+      <div className={styles.noFavourites}>
+         <img
+            className={styles.Logo}
+            src="/logoWillBeeDone1.png"
+            alt="logo icon"
+          />{" "}
+        <h2>Your offers will appear here.</h2>
+      </div>
+    );
+  }
+
+  if (
+    !source ||
+    ((switcher === "list")  && (source as IOfferCard[]).length === 0)
+  ) {
+    return (
+      <div className={styles.noFavourites}>
+         <img
+            className={styles.Logo}
+            src="/logoWillBeeDone1.png"
+            alt="logo icon"
+          />{" "}
+        <h2>Your Favourites will appear here.</h2>
       </div>
     );
   }

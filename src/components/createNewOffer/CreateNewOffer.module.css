@@ -159,8 +159,13 @@
 }
 .inputDescription {
   margin-top: 60px;
+  max-width: 100%;
 }
 
+.inputDescriptionWrapper {
+width:100%;
+max-width: 1335px;
+}
 
 .inputDescription label {
   color: #948d8d;

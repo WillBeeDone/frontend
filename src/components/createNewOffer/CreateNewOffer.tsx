@@ -370,6 +370,7 @@ function CreateNewOffer(): JSX.Element {
                 {errors.price && <p className={styles.error}>{errors.price}</p>}
               </div>
             </div>
+            <div className={styles.inputDescriptionWrapper}>
             <div className={styles.inputDescription}>
               <label htmlFor="description">Describe your offer</label>
               <CKEditor
@@ -382,6 +383,7 @@ function CreateNewOffer(): JSX.Element {
               {errors.description && (
                 <p className={styles.error}>{errors.description}</p>
               )}
+              </div>
               <div className={styles.downPart}>
                 <div className={styles.btnGroup}>
                   <MyButton
