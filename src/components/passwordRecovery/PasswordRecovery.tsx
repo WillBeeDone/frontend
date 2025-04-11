@@ -26,7 +26,7 @@ function PasswordRecovery(): JSX.Element {
   const validatePassword = (password: string) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
-      : "Must contain upper & lower case, number, special character. Length 8 or more.";
+      : "Must contain upper & lower case, number, special character. No white spaces. Length 8 or more.";
 
   const validateConfirmPassword = (password: string, confirmPassword: string) =>
     password === confirmPassword ? "" : "The passwords do not match";
