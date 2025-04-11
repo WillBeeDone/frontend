@@ -10,17 +10,20 @@ import { Pagination } from "../pagination/Pagination";
 export default function Main(): JSX.Element {
   const { currentPage, totalPages, setCurrentPage, setSelectedCategory } =
     useContext(OffersContext)!;
-   
-    const {selectedKeyWord, setSelectedKeyWord} = useOffers();
-    
+
+  const { selectedKeyWord, setSelectedKeyWord } = useOffers();
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.banner}>
-        <Banner selectedKeyWord={selectedKeyWord} setSelectedKeyWord={setSelectedKeyWord}/>
+        <Banner
+          selectedKeyWord={selectedKeyWord}
+          setSelectedKeyWord={setSelectedKeyWord}
+        />
       </div>
 
       <div className={styles.category}>
-        <CategorySelector  setSelectedCategory={setSelectedCategory}/>
+        <CategorySelector setSelectedCategory={setSelectedCategory} />
       </div>
 
       <div className={styles.offerCard}>

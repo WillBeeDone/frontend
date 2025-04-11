@@ -1,6 +1,5 @@
 import { JSX } from "react";
 import styles from "./Menu.module.css";
-//import SignOut from "../signOut/SignOut";
 import { Link } from "react-router-dom";
 import CreateNewOfferLink from "../createNewOffer/CreateNewOfferLink";
 import SignOut from "../signOut/SignOut";
@@ -61,7 +60,7 @@ export default function Menu({
             src="/menuIcon/Plus.png"
             alt="create offer icon"
           />
-          <CreateNewOfferLink className="normalLink"/>
+          <CreateNewOfferLink className="normalLink" />
         </span>
 
         <Link to="#" className={styles.menuItem}>

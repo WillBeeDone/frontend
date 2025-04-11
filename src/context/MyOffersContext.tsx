@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { IMyOfferCard, IOfferCard } from "../components/types/OfferInterfaces";
 import { transformMyOfferCard } from "../components/backToFrontTransformData/BackToFrontTransformData";
 import axios from "axios";
@@ -15,8 +10,8 @@ interface MyOffersContextType {
   addNewOfferToMyOffers: (newOffer: IMyOfferCard) => void;
   removeOfferFromMyOffers: (offerId: number) => void;
   clearAllMyOffers: () => void;
-  isLoading:boolean;
-  error:string;
+  isLoading: boolean;
+  error: string;
   activateDeactivateMyOffers: (offerId: number) => void;
 }
 
@@ -29,7 +24,7 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
- 
+
   const fetchMyOffers = async () => {
     setIsLoading(true);
     try {
@@ -38,43 +33,33 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      
-      console.log("пришло от сервера в fetchMyOffers - response - : ", response);
-      console.log("пришло от сервера в fetchMyOffers - response.data - : ", response.data);
-  
+
       if (response.status !== 200) {
         throw new Error(`Server error: ${response.status}`);
       }
-      
+
       const data = response.data;
       const formattedMyOffers = transformMyOfferCard(data);
-      console.log("форматированные оферы- : ", formattedMyOffers);
-      console.log(data);
       setMyOfferCards(formattedMyOffers);
       setIsLoading(false);
     } catch (error) {
-      setError(error as string)
+      setError(error as string);
       console.error("Mistake while my offers receive:", error);
     }
   };
 
-
   const addNewOfferToMyOffers = async (newOffer: IOfferCard) => {
     try {
-      const response = await fetch('/api/add-new-offer-to-my-offers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/add-new-offer-to-my-offers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newOffer),
       });
 
-
-
-      
-  
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-  
+
       const savedOffer = await response.json();
       setMyOfferCards((prevMyOfferCards) => [...prevMyOfferCards, savedOffer]);
       fetchMyOffers();
@@ -83,43 +68,42 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
   const removeOfferFromMyOffers = async (id: number) => {
     try {
-      console.log("id - ",id);
-      console.log("token - ",accessToken);
-
       await axios.delete(`/api/users/offers/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
+
       setMyOfferCards((prevMyOfferCards) =>
         prevMyOfferCards.filter((offer) => offer.id !== id)
       );
-  
-      alert("Offer is removed !")
+
+      alert("Offer is removed !");
     } catch (error: any) {
       console.error("Error while removing offer:", error);
-      
     }
   };
 
   const activateDeactivateMyOffers = async (id: number) => {
     try {
-      await axios.put(`/api/users/offers/${id}`, {}, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-  
+      await axios.put(
+        `/api/users/offers/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
       setMyOfferCards((prevMyOfferCards) =>
         prevMyOfferCards.map((offer) =>
           offer.id === id ? { ...offer, active: !offer.active } : offer
         )
       );
-  
+
       return null;
     } catch (error: any) {
       console.error("Error while changing offer status:", error);
@@ -127,23 +111,21 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-
   const clearAllMyOffers = async () => {
     try {
       const response = await fetch(`/api/clearAllMyOffers`, {
         method: "DELETE",
       });
-  
+
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-  
+
       setMyOfferCards([]);
     } catch (error) {
       console.error("Error while removing all offers from my offers:", error);
     }
   };
-
 
   return (
     <MyOffersContext.Provider

@@ -1,4 +1,3 @@
-
 import styles from "./Gallery.module.css";
 
 interface GalleryProps {
@@ -18,7 +17,6 @@ export default function Gallery({
   handleNext,
   className,
 }: GalleryProps) {
-  
   return (
     <div className={`${styles.galleryContainer} ${className || ""}`}>
       <img
@@ -29,15 +27,17 @@ export default function Gallery({
       />
 
       {gallery.length > 0 ? (
-        gallery.slice(currentIndex, currentIndex + 4).map((image, index) => (
-          <img
-            key={image.id}
-            src={image.imageUrl}
-            alt="Gallery item picture"
-            className={styles.galleryItem}
-            onClick={() => openModal(image.imageUrl, index)}
-          />
-        ))
+        gallery
+          .slice(currentIndex, currentIndex + 4)
+          .map((image, index) => (
+            <img
+              key={image.id}
+              src={image.imageUrl}
+              alt="Gallery item picture"
+              className={styles.galleryItem}
+              onClick={() => openModal(image.imageUrl, index)}
+            />
+          ))
       ) : (
         <img
           src={`/no-gallery-default-image.avif`}

@@ -24,28 +24,29 @@ function KeyWordInput({
   imageSrc,
   onKeyDown,
 }: IKeyWordInputProps): JSX.Element {
-  
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value.slice(0, 100);
     onChange(newValue);
   };
 
   return (
-      <div className={styles.inputContainer}>
-        <div className={styles.inputWrapper}>
-          {imageSrc && <img src={imageSrc} alt="search icon" className={styles.icon} />}
-          <input
-            className={className}
-            name={name}
-            type={type}
-            placeholder={placeholder}
-            required={require}
-            value={value}
-            onChange={handleChange}
-            onKeyDown={onKeyDown}
-          />
-        </div>
+    <div className={styles.inputContainer}>
+      <div className={styles.inputWrapper}>
+        {imageSrc && (
+          <img src={imageSrc} alt="search icon" className={styles.icon} />
+        )}
+        <input
+          className={className}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          required={require}
+          value={value}
+          onChange={handleChange}
+          onKeyDown={onKeyDown}
+        />
       </div>
+    </div>
   );
 }
 

@@ -2,11 +2,14 @@ import { JSX, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { clearAuthError, getMyProfileDataByAccessToken, myProfile} from "../../features/auth/authActions";
+import {
+  clearAuthError,
+  getMyProfileDataByAccessToken,
+  myProfile,
+} from "../../features/auth/authActions";
 import styles from "./MyProfile.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
-//import validator from "validator";
 import DropDown from "../dropDown/DropDown";
 
 function MyProfile(): JSX.Element {
@@ -14,17 +17,12 @@ function MyProfile(): JSX.Element {
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoading, user } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { isLoading, user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
-  const storedCity =
-  localStorage.getItem("userSelectedCity") || "all";
-const [selectedCity, setSelectedCity] = useState(storedCity);
-  console.log(selectedCity);
+  const storedCity = localStorage.getItem("userSelectedCity") || "all";
+  const [selectedCity, setSelectedCity] = useState(storedCity);
 
- 
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -35,7 +33,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
   });
 
   const [errors, setErrors] = useState({
-    //email: "",
     firstName: "",
     secondName: "",
     phone: "",
@@ -43,7 +40,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
   });
 
   useEffect(() => {
-    console.log("In MyProfile Form -  User from Redux:", user); // Додано для перевірки
     if (user) {
       setFormData({
         email: user.email || "",
@@ -57,12 +53,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
     }
   }, [user]);
 
-  //юз ефект нужен только для поиска проблемы, в логике приложения - не принимает участия
-  useEffect(() => {
-    console.log("In MyProfile Form - Updated formData:", formData);
-  }, [formData]);
-
-  //const validateEmail = (email: string) => validator.isEmail(email) ? "" : "Incorrect email";
   const validateFirstName = (firstName: string) => {
     if (!/^[A-Z][a-zA-Z]*$/.test(firstName))
       return "Start with upper case, letters only.";
@@ -93,7 +83,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     let newValue = name === "profilePicture" && files ? files[0] : value;
-    //setFormData((prev) => ({ ...prev, [name]: newValue }));
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -102,7 +91,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
 
     setErrors((prev) => ({
       ...prev,
-      //name === "email" ? validateEmail(value) :
       [name]:
         name === "firstName"
           ? validateFirstName(value)
@@ -119,7 +107,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = {
-      // email: validateEmail(formData.email),
       firstName: validateFirstName(formData.firstName),
       secondName: validateSecondName(formData.secondName),
       phone: validatePhone(formData.phone),
@@ -129,7 +116,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
       setErrors(validationErrors);
       return;
     }
-    
 
     dispatch(
       myProfile({
@@ -143,8 +129,9 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
       .unwrap()
       .then(() => {
         localStorage.setItem("userSelectedCity", selectedCity);
-        dispatch(getMyProfileDataByAccessToken())
-       navigate("/")})
+        dispatch(getMyProfileDataByAccessToken());
+        navigate("/");
+      })
       .catch(() => {});
   };
 
@@ -236,7 +223,7 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
                 url="/api/locations"
                 text="Choose city"
                 onChange={(city) => setSelectedCity(city)}
-                forMyProfile = {true}
+                forMyProfile={true}
               />
             </div>
             <div className={styles.inputGroup}>
@@ -282,7 +269,6 @@ const [selectedCity, setSelectedCity] = useState(storedCity);
                     value={formData.email}
                     isReadOnly={true}
                   />
-                  {/* {errors.email && <p className={styles.error}>{errors.email}</p>} */}
                 </div>
 
                 <div className={styles.inputContainer}>

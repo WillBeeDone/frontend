@@ -106,7 +106,6 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
                     text="Loader"
                     to="/loader"
                     variant="primary"/>*/}
-                    
                 </div>
 
                 <div

@@ -2,14 +2,16 @@ import { JSX, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { clearAuthError, passwordRecovery } from "../../features/auth/authActions";
-
+import {
+  clearAuthError,
+  passwordRecovery,
+} from "../../features/auth/authActions";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import styles from "./PasswordRecovery.module.css";
 
 function PasswordRecovery(): JSX.Element {
-  const { isLoading} = useSelector((state: RootState) => state.auth);
+  const { isLoading } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { confirmationCode } = useParams<{ confirmationCode: string }>(); // Отримуємо код підтвердження з URL
@@ -24,9 +26,9 @@ function PasswordRecovery(): JSX.Element {
   });
 
   const validatePassword = (password: string) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
+    /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
-      : "Must contain upper & lower case, number, special character. No white spaces. Length 8 or more.";
+      : "Must be 8 characters long or more. No white spaces. Must contain at least one: uppercase and lowercase letter, a number, a special character.";
 
   const validateConfirmPassword = (password: string, confirmPassword: string) =>
     password === confirmPassword ? "" : "The passwords do not match";
@@ -131,7 +133,8 @@ function PasswordRecovery(): JSX.Element {
             <MyButton
               type="submit"
               variant="easy"
-              text={isLoading ? "Loading…" : "Save new password"} disabled={isLoading}
+              text={isLoading ? "Loading…" : "Save new password"}
+              disabled={isLoading}
               data-testid="MyButtonPasswordRecovery_HgftFdgtd"
             />
             <MyButton

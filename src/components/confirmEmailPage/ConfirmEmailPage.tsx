@@ -19,7 +19,9 @@ export default function ConfirmEmailPage() {
           }
         })
         .catch(() =>
-          setMessage("❌ Invalid or expired confirmation code. Please, try again.")
+          setMessage(
+            "❌ Invalid or expired confirmation code. Please, try again."
+          )
         );
     }
   }, [confirmationCode]);
@@ -28,23 +30,24 @@ export default function ConfirmEmailPage() {
     <div className={styles.confirmEmailContainer}>
       {userId ? (
         <>
-       <img
+          <img
             className={styles.Logo}
             src="/logoWillBeeDone1.png"
             alt="logo icon"
           />{" "}
           <h2>Welcome!</h2>
           <p>{message}</p>
-          <p>Please,<Link to="/sign-in-form"> Sign In.</Link> </p>
+          <p>
+            Please,<Link to="/sign-in-form"> Sign In.</Link>{" "}
+          </p>
         </>
       ) : (
         <>
-         <img
+          <img
             className={styles.Logo}
             src="/logoWillBeeDone1.png"
             alt="logo icon"
           />{" "}
-         
           <h2>Oops!</h2>
           <p>{message}</p>
         </>
