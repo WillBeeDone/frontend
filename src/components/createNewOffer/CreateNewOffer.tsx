@@ -127,7 +127,7 @@ function CreateNewOffer(): JSX.Element {
 
   const handleTextAreaChange = (_: any, editor: any) => {
     const description = editor.getData();
-        
+
     setFormData((prev) => ({
       ...prev,
       description,
@@ -152,9 +152,6 @@ function CreateNewOffer(): JSX.Element {
       setErrors(validationErrors);
       return;
     }
-
-    console.log("щас БУДЕТ ФЕТЧ - КАТЕГОРИЯ");
-    console.log("КАТЕГОРИЯ - ", selectedCategory);
 
     dispatch(
       createNewOffer({
@@ -254,7 +251,6 @@ function CreateNewOffer(): JSX.Element {
                   isPhoto={true}
                   isGallery={true}
                 />
-                {/* <input type="file" name="gallery" accept="image/*" multiple onChange={handleChange} /> */}
                 {errors.gallery && <p className="error">{errors.gallery}</p>}
               </div>
 
@@ -382,7 +378,6 @@ function CreateNewOffer(): JSX.Element {
                 editor={ClassicEditor}
                 data={formData.description}
                 onChange={handleTextAreaChange}
-              
               />
 
               {errors.description && (

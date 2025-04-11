@@ -3,17 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { clearAuthError, signUp } from "../../features/auth/authActions";
-
 import styles from "./SignUp.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import validator from "validator";
 
 function SignUp(): JSX.Element {
-  //для регистрации
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -32,14 +29,24 @@ function SignUp(): JSX.Element {
 
   // валидация email
   const validateEmail = (email: string) => {
-    return validator.isEmail(email) ? "" : "Incorrect email";
+    const hasCyrillic = /[а-яА-ЯёЁ]/;
+
+    if (!validator.isEmail(email)) {
+      return "Incorrect email";
+    }
+
+    if (hasCyrillic.test(email)) {
+      return "Only Latin characters allowed";
+    }
+
+    return "";
   };
 
   // валидация password
   const validatePassword = (password: string) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
+    /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
-      : "Must contains upper&lower case, number, special character. Length 8 or more. ";
+      : "Must be 8 characters long or more. No white spaces. Must contain at least one: uppercase and lowercase letter, a number, a special character.";
 
   const validateConfirmPassword = (password: string, confirmPassword: string) =>
     password === confirmPassword ? "" : "The passwords do not match";
@@ -97,7 +104,7 @@ function SignUp(): JSX.Element {
       })
       .catch(() => {});
   };
-  
+
   useEffect(() => {
     return () => {
       dispatch(clearAuthError());
@@ -108,11 +115,17 @@ function SignUp(): JSX.Element {
     <div className={styles.signUpContainer}>
       <div className={styles.image}></div>
       <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+        <form
+          onSubmit={handleSubmit}
+          className={styles.form}
+          autoComplete="off"
+        >
           <h2 className={styles.title}>Sign Up</h2>
           <div className={styles.signInLinkContainer}>
             <p>Already have an account?</p>
-            <Link data-testid="LinkToSignIn_Jhfy" to="/sign-in-form">Sign In</Link>
+            <Link data-testid="LinkToSignIn_Jhfy" to="/sign-in-form">
+              Sign In
+            </Link>
           </div>
 
           {error && <p className={styles.error}>{error}</p>}
@@ -126,13 +139,13 @@ function SignUp(): JSX.Element {
                 label="Email address"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Hgvsl" 
-                autoComplete="off"            
+                data-testid="MyInputSignUp_Hgvsl"
+                autoComplete="off"
               />
               {errors.email && <p className={styles.error}>{errors.email}</p>}
             </div>
 
-            <div className={styles.inputContainer }>
+            <div className={styles.inputContainer}>
               <MyInput
                 name="password"
                 type="password"
@@ -140,8 +153,8 @@ function SignUp(): JSX.Element {
                 label="Password"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Pgdts" 
-                autoComplete="off"   
+                data-testid="MyInputSignUp_Pgdts"
+                autoComplete="off"
               />
               {errors.password && (
                 <p className={styles.error}>{errors.password}</p>
@@ -156,8 +169,8 @@ function SignUp(): JSX.Element {
                 label="Confirm password"
                 required
                 onChange={handleChange}
-                data-testid="MyInputSignUp_Ytdr" 
-                autoComplete="off"   
+                data-testid="MyInputSignUp_Ytdr"
+                autoComplete="off"
               />
               {errors.confirmPassword && (
                 <p className={styles.error}>{errors.confirmPassword}</p>
@@ -173,12 +186,15 @@ function SignUp(): JSX.Element {
               data-testid="SignUpCheckBox_Nhgy"
             />
             <label>
-              I agree with <a data-testid="IAgreeWith" href="#/user-agreement">user agreement</a>
+              I agree with{" "}
+              <a data-testid="IAgreeWith" href="#/user-agreement">
+                user agreement
+              </a>
             </label>
           </div>
           {errors.agree && <p className={styles.error}>{errors.agree}</p>}
 
-          <div className={styles.signBtn}>            
+          <div className={styles.signBtn}>
             <MyButton
               type="submit"
               text={isLoading ? "Loading…" : "Sign up"}

@@ -2,18 +2,17 @@ import { JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { clearAuthError, passwordChange } from "../../features/auth/authActions";
-
+import {
+  clearAuthError,
+  passwordChange,
+} from "../../features/auth/authActions";
 import styles from "./PasswordChange.module.css";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 
-
 function PasswordChange(): JSX.Element {
-  //для регистрации
   const dispatch = useDispatch<AppDispatch>();
   const { isLoading, error } = useSelector((state: RootState) => state.auth);
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -29,17 +28,16 @@ function PasswordChange(): JSX.Element {
   });
 
   // валидация currentPassword
-  const validateCurrentPassword = (currentPassword: string) => 
+  const validateCurrentPassword = (currentPassword: string) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(currentPassword)
-    ? ""
-    : "Must contains upper&lower case, number, special character. Length 8 or more. ";
-  
+      ? ""
+      : "Must contains upper&lower case, number, special character. Length 8 or more. ";
 
   // валидация password
   const validatePassword = (password: string) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
+    /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
-      : "Must contains upper&lower case, number, special character. Length 8 or more. ";
+      : "Must be 8 characters long or more. No white spaces. Must contain at least one: uppercase and lowercase letter, a number, a special character.";
 
   const validateConfirmPassword = (password: string, confirmPassword: string) =>
     password === confirmPassword ? "" : "The passwords do not match";
@@ -52,7 +50,10 @@ function PasswordChange(): JSX.Element {
     }));
 
     if (name === "currentPassword")
-      setErrors((prev) => ({ ...prev, currentPassword: validateCurrentPassword(value) }));
+      setErrors((prev) => ({
+        ...prev,
+        currentPassword: validateCurrentPassword(value),
+      }));
     if (name === "password")
       setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
     if (name === "confirmPassword")
@@ -65,13 +66,14 @@ function PasswordChange(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const currentPasswordError = validateCurrentPassword(formData.currentPassword);
+    const currentPasswordError = validateCurrentPassword(
+      formData.currentPassword
+    );
     const passwordError = validatePassword(formData.password);
     const confirmPasswordError = validateConfirmPassword(
       formData.password,
       formData.confirmPassword
     );
-   
 
     if (currentPasswordError || passwordError || confirmPasswordError) {
       setErrors({
@@ -82,7 +84,7 @@ function PasswordChange(): JSX.Element {
       return;
     }
 
- dispatch(
+    dispatch(
       passwordChange({
         currentPassword: formData.currentPassword,
         newPassword: formData.password,
@@ -92,30 +94,34 @@ function PasswordChange(): JSX.Element {
       .then(() => {
         alert("Password successfully changed!");
         setFormData({
-            currentPassword: "",
-            password: "",
-            confirmPassword: "",
-          });
+          currentPassword: "",
+          password: "",
+          confirmPassword: "",
+        });
         navigate("/");
       })
       .catch(() => {
         alert("Something went wrong... Password not changed.");
       });
-    }
-    
-      useEffect(() => {
-        return () => {
-          dispatch(clearAuthError());
-        };
-      }, [dispatch]);
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthError());
+    };
+  }, [dispatch]);
 
   return (
     <div className={styles.signUpContainer}>
       <div className={styles.image}></div>
       <div className={styles.formContainer}>
-        <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+        <form
+          onSubmit={handleSubmit}
+          className={styles.form}
+          autoComplete="off"
+        >
           <h2 className={styles.title}>Change password</h2>
-          
+
           {error && <p className={styles.error}>{error}</p>}
 
           <div className={styles.inputGroup}>
@@ -127,13 +133,15 @@ function PasswordChange(): JSX.Element {
                 label="Current password"
                 required
                 onChange={handleChange}
-                 data-testid="myInputpassword_khjfdbhbHBhjbfd"
-                autoComplete="off"            
+                data-testid="myInputpassword_khjfdbhbHBhjbfd"
+                autoComplete="off"
               />
-              {errors.currentPassword && <p className={styles.error}>{errors.currentPassword}</p>}
+              {errors.currentPassword && (
+                <p className={styles.error}>{errors.currentPassword}</p>
+              )}
             </div>
 
-            <div className={styles.inputContainer }>
+            <div className={styles.inputContainer}>
               <MyInput
                 name="password"
                 type="password"
@@ -141,8 +149,8 @@ function PasswordChange(): JSX.Element {
                 label="Password"
                 required
                 onChange={handleChange}
-                 data-testid="myInputPassword_Mmnbchvbvbv"
-                autoComplete="off"   
+                data-testid="myInputPassword_Mmnbchvbvbv"
+                autoComplete="off"
               />
               {errors.password && (
                 <p className={styles.error}>{errors.password}</p>
@@ -157,24 +165,28 @@ function PasswordChange(): JSX.Element {
                 label="Confirm password"
                 required
                 onChange={handleChange}
-                data-testid="myInputConfirmPassword_HJgfgJnhfgvd" 
-                autoComplete="off"   
+                data-testid="myInputConfirmPassword_HJgfgJnhfgvd"
+                autoComplete="off"
               />
               {errors.confirmPassword && (
                 <p className={styles.error}>{errors.confirmPassword}</p>
               )}
             </div>
           </div>
-         
+
           <div className={styles.btnGroup}>
-        <MyButton  data-testid="myButtonChangePassword_Hghdhvgvd" type="submit" text={isLoading ? "Loading…" : "Save changes"} disabled={isLoading} variant="easy" />
-        
-        </div>
+            <MyButton
+              data-testid="myButtonChangePassword_Hghdhvgvd"
+              type="submit"
+              text={isLoading ? "Loading…" : "Save changes"}
+              disabled={isLoading}
+              variant="easy"
+            />
+          </div>
         </form>
       </div>
     </div>
   );
 }
-
 
 export default PasswordChange;

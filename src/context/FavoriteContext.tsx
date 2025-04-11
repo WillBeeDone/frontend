@@ -47,31 +47,28 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   const [selectedKeyWord, setSelectedKeyWord] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+
   // чтоб fetchFilteredFavoriteOffers не отрабатывал после fetchFavoriteOffers
   const firstRender = useRef(true);
 
-
-  //localStorage.setItem("selectedCity", selectedCity) //проверить нужно ли здесь это
-
-
   const fetchFavoriteOffers = async (page: number = 0) => {
     try {
-
       const accessToken = localStorage.getItem("accessToken");
-      console.log("fetchFavoriteOffers перед запросом токен - ", accessToken);
       
-      console.log(" Має бути числом Page value before request: ", page); // Має бути числом
-      const response = await fetch(`/api/users/favourites?page=${page}&size=12`, 
-        {method: "GET",
-        headers: {
-          "Authorization": `Bearer ${accessToken}`,
-        },});
+      const response = await fetch(
+        `/api/users/favourites?page=${page}&size=12`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      console.log("внутри fetchFavoriteOffers - ", data);
       const formattedFavoriteOffers = transformOfferCardPagination(data);
       setFavoriteOffers(formattedFavoriteOffers);
       setTotalPages(data.totalPages);
@@ -81,79 +78,72 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  
   useEffect(() => {
     if (!firstRender.current) {
       fetchFavoriteOffers(currentPage);
     }
   }, [currentPage]);
 
-
   //получение от сервера списка любимых с учетом параметров
-    const fetchFilteredFavoriteOffers = async (
-      city: string = selectedCity,
-      category: string = selectedCategory,
-      keyWord: string = selectedKeyWord || "all",
-      page: number = 0
-    ) => {
-      try {
-        console.log("inside fetchFilteredFavoriteOffers selected category - ", category);
-        console.log("inside fetchFilteredFavoriteOffers selected city - ", city);
-        console.log("inside fetchFilteredFavoriteOffers selected key word - ", keyWord);
-        const accessToken = localStorage.getItem("accessToken");
-        const response = await fetch(
-          `/api/users/favourites?page=${page}&size=12&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
-          {method: "GET",
-            headers: {
-              "Authorization": `Bearer ${accessToken}`,
-            },});
-            
-            const data = await response.json();
-            const formattedFavoriteOffers = transformOfferCardPagination(data);
-            setFavoriteOffers(formattedFavoriteOffers);
-            setTotalPages(data.totalPages);
-            setCurrentPage(page);  
+  const fetchFilteredFavoriteOffers = async (
+    city: string = selectedCity,
+    category: string = selectedCategory,
+    keyWord: string = selectedKeyWord || "all",
+    page: number = 0
+  ) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      
+      const response = await fetch(
+        `/api/users/favourites?page=${page}&size=12&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-      } catch (error) {
-        console.error("Error while receiving filtered favorite offers:", error);
-      }
-    };
+      const data = await response.json();
+      const formattedFavoriteOffers = transformOfferCardPagination(data);
+      setFavoriteOffers(formattedFavoriteOffers);
+      setTotalPages(data.totalPages);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error("Error while receiving filtered favorite offers:", error);
+    }
+  };
 
-    useEffect(() => {
-      //не делать fetchFilteredFavoriteOffers() при первой загрузке страницы, а только после изменения значения city, category или keyWord
-      if (firstRender.current) {
-        firstRender.current = false;
-        return;
-      }
-      fetchFilteredFavoriteOffers();
-    }, [selectedCity, selectedCategory, selectedKeyWord]);
-  
+  useEffect(() => {
+    //не делать fetchFilteredFavoriteOffers() при первой загрузке страницы, а только после изменения значения city, category или keyWord
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    fetchFilteredFavoriteOffers();
+  }, [selectedCity, selectedCategory, selectedKeyWord]);
 
-
-    // запрос на сервер для добавления в любимые
+  // запрос на сервер для добавления в любимые
   const addFavorite = async (offerId: string) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-  
+
       await fetch(`/api/users/favourites/${offerId}`, {
         method: "PUT",
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
       // находим добавляемый офер в списке чужих оферов (дополнительная проверка)
-      const newOffer = offerCards.find(o => o.id === Number(offerId));
+      const newOffer = offerCards.find((o) => o.id === Number(offerId));
       if (!newOffer) return;
 
       setFavoriteOffers((prev) => [...prev, newOffer]);
-
-
     } catch (error) {
       console.error("Error adding favorite:", error);
     }
   };
-
 
   // удаление офера из любимых
   const removeFavorite = async (offerId: string) => {
@@ -162,17 +152,17 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
       await fetch(`/api/users/favourites/${offerId}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      setFavoriteOffers((prev) => prev.filter((offer) => offer.id !== Number(offerId)));
-
+      setFavoriteOffers((prev) =>
+        prev.filter((offer) => offer.id !== Number(offerId))
+      );
     } catch (error) {
       console.error("Error while removing from favorites:", error);
     }
   };
-
 
   // удаление всех любимых
   const clearFavorite = async () => {
@@ -181,12 +171,11 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
       await fetch(`/api/users/favourites`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
       setFavoriteOffers([]);
-
     } catch (error) {
       console.error("Error while removing all favorites:", error);
     }
@@ -194,7 +183,25 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <FavoriteContext.Provider
-      value={{offerCards, favoriteOffers, setFavoriteOffers, addFavorite, removeFavorite, clearFavorite, fetchFavoriteOffers, fetchFilteredFavoriteOffers,selectedCity, selectedCategory, selectedKeyWord, setSelectedCity, setSelectedCategory, setSelectedKeyWord, currentPage, setCurrentPage, totalPages}}
+      value={{
+        offerCards,
+        favoriteOffers,
+        setFavoriteOffers,
+        addFavorite,
+        removeFavorite,
+        clearFavorite,
+        fetchFavoriteOffers,
+        fetchFilteredFavoriteOffers,
+        selectedCity,
+        selectedCategory,
+        selectedKeyWord,
+        setSelectedCity,
+        setSelectedCategory,
+        setSelectedKeyWord,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+      }}
     >
       {children}
     </FavoriteContext.Provider>
