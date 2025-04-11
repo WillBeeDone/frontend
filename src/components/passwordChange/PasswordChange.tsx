@@ -29,9 +29,9 @@ function PasswordChange(): JSX.Element {
 
   // валидация currentPassword
   const validateCurrentPassword = (currentPassword: string) =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(currentPassword)
+    /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(currentPassword)
       ? ""
-      : "Must contains upper&lower case, number, special character. Length 8 or more. ";
+      : "Must be 8 characters long or more. No white spaces. Must contain at least one: uppercase and lowercase letter, a number, a special character.";
 
   // валидация password
   const validatePassword = (password: string) =>

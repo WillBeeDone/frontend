@@ -24,7 +24,7 @@ function PasswordRecovery(): JSX.Element {
     newPassword: "",
     confirmNewPassword: "",
   });
-
+ 
   const validatePassword = (password: string) =>
     /^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password)
       ? ""
