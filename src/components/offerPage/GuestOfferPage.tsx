@@ -5,24 +5,32 @@ import ShowAll from "../showAll/ShowAll";
 import { IGuestOfferPage } from "../types/OfferInterfaces";
 import { transformGuestOfferPage } from "../backToFrontTransformData/BackToFrontTransformData";
 import styles from "./GuestOfferPage.module.css"
+import { useAppSelector } from "../../app/hooks";
 
 const GuestOfferPage = () => {
   const { id } = useParams<{ id?: string }>();
   const [offer, setOffer] = useState<IGuestOfferPage | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
   //const offer = guestOfferPageList.find((offer) => offer.id === Number(id));
   //временно использую тест-данные test data - Offer - offerCards
 
   useEffect(() => {
     const fetchOffer = async () => {
+      console.log("внутри fetchOffer перед запросом, айди офера - ", id);
+      let response;
       if (!id) return;
       try {
         const accessToken = localStorage.getItem("accessToken");
-        const response = await fetch(`/api/offers/${id}`,  {headers: {
-          'Authorization' : `Bearer ${accessToken}`
-              }});
+        if(isAuthenticated){
+          response = await fetch(`/api/offers/${id}`,  {headers: {
+            'Authorization' : `Bearer ${accessToken}`
+                }});
+        }else{
+          response = await fetch(`/api/offers/${id}`);
+        }
         if (!response.ok) {
           throw new Error("Failed to fetch offer");
         }
