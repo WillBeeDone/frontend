@@ -41,12 +41,11 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
   const [selectedKeyWord, setSelectedKeyWord] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+
   // чтоб fetchOffers не отрабатывал после fetchOffersFirstRender
   const firstRender = useRef(true);
 
-  
-  localStorage.setItem("selectedCity", selectedCity)
-  
+  localStorage.setItem("selectedCity", selectedCity);
 
   const fetchOffersFirstRender = async (page: number = 0) => {
     try {
@@ -57,7 +56,6 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await response.json();
       const formattedOffers = transformOfferCardPagination(data);
-      console.log(data);
       setOfferCards(formattedOffers);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
@@ -77,10 +75,6 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
     page: number = 0
   ) => {
     try {
-      console.log("Обране місто - ", city);
-      console.log("Обрана категорія - ", category);
-      console.log("Обране ключове слово - ", keyWord);
-
       const response = await fetch(
         `/api/offers?page=${page}&cityName=${city}&category=${category}&keyPhrase=${keyWord}`
       );
@@ -88,11 +82,9 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
         throw new Error(`Server error: ${response.status}`);
       }
 
-      //состыковка ключей бек => фронт
       const data = await response.json();
 
-      console.log("отримав ", data);
-
+      //состыковка ключей бек => фронт
       const formattedOffers = transformOfferCardPagination(data);
       setOfferCards(formattedOffers);
       setTotalPages(data.totalPages);

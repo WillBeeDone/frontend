@@ -4,7 +4,6 @@ import { useFavorite } from "../../context/FavoriteContext";
 import { IOfferCard } from "../types/OfferInterfaces";
 import offerInFavorites from "/offerInFavorites.png";
 import offerIsUsual from "/offerIsUsual.png";
-
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../features/auth/authSlice";
@@ -21,7 +20,6 @@ export default function AddToFavorites({
   const { favoriteOffers, addFavorite, removeFavorite } = useFavorite();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [showTooltip, setShowTooltip] = useState(false);
-
 
   const isOfferFavoriteAlready = favoriteOffers.some(
     (favOffer) => favOffer.id === offer.id
@@ -48,7 +46,11 @@ export default function AddToFavorites({
         data-testid={dataTestId}
       >
         <img
-          src={isOfferFavoriteAlready && isAuthenticated? offerInFavorites : offerIsUsual}
+          src={
+            isOfferFavoriteAlready && isAuthenticated
+              ? offerInFavorites
+              : offerIsUsual
+          }
           alt="heart"
         />
       </button>

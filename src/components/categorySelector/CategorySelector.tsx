@@ -2,14 +2,13 @@ import { JSX } from "react";
 import styles from "./CategorySelector.module.css";
 import DropDown from "../dropDown/DropDown";
 
-
 interface ICategorySelectorProps {
   setSelectedCategory: (category: string) => void;
 }
 
-export default function CategorySelector({setSelectedCategory}: ICategorySelectorProps): JSX.Element {
- 
-
+export default function CategorySelector({
+  setSelectedCategory,
+}: ICategorySelectorProps): JSX.Element {
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
   };
@@ -24,7 +23,7 @@ export default function CategorySelector({setSelectedCategory}: ICategorySelecto
           "Auto Mechanic",
           "Pet Care",
           "Moving",
-          "Computer Technician"
+          "Computer Technician",
         ].map((category) => (
           <button key={category} onClick={() => handleCategorySelect(category)}>
             <img
@@ -37,14 +36,13 @@ export default function CategorySelector({setSelectedCategory}: ICategorySelecto
         ))}
       </div>
       <div className={styles.dropdown}>
-        <DropDown 
+        <DropDown
           url="/api/categories"
           onChange={setSelectedCategory}
           switcher={2}
           data-testid="DropDownCategoriesHomePage_yHfgzdgG"
         />
       </div>
-      
     </div>
   );
 }

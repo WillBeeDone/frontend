@@ -2,8 +2,10 @@ import { JSX, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { clearAuthError, signInByEmailAndPass } from "../../features/auth/authActions";
-
+import {
+  clearAuthError,
+  signInByEmailAndPass,
+} from "../../features/auth/authActions";
 import MyInput from "../myInput/MyInput";
 import MyButton from "../myButton/MyButton";
 import styles from "./SignIn.module.css";
@@ -22,8 +24,19 @@ function SignIn(): JSX.Element {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // валидация email
-  const validateEmail = (email: string) =>
-    validator.isEmail(email) ? "" : "Invalid login or password.";
+  const validateEmail = (email: string) => {
+    const hasCyrillic = /[а-яА-ЯёЁ]/;
+
+    if (!validator.isEmail(email)) {
+      return "Incorrect email";
+    }
+
+    if (hasCyrillic.test(email)) {
+      return "Only Latin characters allowed";
+    }
+
+    return "";
+  };
 
   // валидация password
   const validatePassword = (password: string) =>
@@ -94,9 +107,6 @@ function SignIn(): JSX.Element {
             </Link>
           </div>
 
-          {/* визуализация ошибки об протухании рефреш токена или аксес токена */}
-          {/* {error && <p className={styles.error}>{error}</p>} */}
-
           <div className={styles.inputGroup}>
             <div className={styles.inputContainer}>
               <MyInput
@@ -132,13 +142,12 @@ function SignIn(): JSX.Element {
             </div>
           </div>
           <div className={styles.signBtn}>
-
             <div className={styles.forgotPassword}>
               <Link
                 data-testid="LinkToPasswordRecovery_HgFtg"
                 to="/email-for-password-recovery-form"
               >
-                Forget Password?
+                Forgot Password?
               </Link>
             </div>
             <MyButton

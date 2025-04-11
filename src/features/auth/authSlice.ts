@@ -109,14 +109,10 @@ export const authSlice = createSlice({
       .addCase(signInByEmailAndPass.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = transformUser(action.payload);
-        console.log(
-          "user in slice signInByEmailAndPass after transform ---- ",
-          state.user
-        );
         if (state.user.location && state.user.location !== "all") {
           localStorage.setItem("selectedCity", state.user.location);
         }
-       
+
         localStorage.setItem("userSelectedCity", state.user.location);
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
@@ -125,7 +121,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
-        localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
@@ -136,18 +132,16 @@ export const authSlice = createSlice({
       })
       .addCase(signInByAccessToken.fulfilled, (state) => {
         state.isLoading = false;
-        //state.user = action.payload;
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userSelectedCity", state.user.location);
-        
       })
       .addCase(signInByAccessToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
-      localStorage.removeItem("isAuthenticated")
-      localStorage.removeItem("userSelectedCity");
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
 
@@ -159,15 +153,13 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
-        //state.user = action.payload;
         localStorage.setItem("userSelectedCity", state.user.location);
-        
       })
       .addCase(signInByRefreshToken.rejected, (state, action) => {
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
-        localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })
@@ -179,14 +171,11 @@ export const authSlice = createSlice({
       .addCase(getMyProfileDataByAccessToken.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = transformUser(action.payload);
-        console.log(
-          "user in slice getMyProfileDataByAccessToken ---- ",
-          state.user
-        );
+       
         if (state.user.location && state.user.location !== "all") {
           localStorage.setItem("selectedCity", state.user.location);
-        } 
-        
+        }
+
         state.isAuthenticated = "true";
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userSelectedCity", state.user.location);
@@ -195,7 +184,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.user = initialUser;
         state.isAuthenticated = undefined;
-        localStorage.removeItem("isAuthenticated")
+        localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("userSelectedCity");
         state.error = action.payload as string;
       })

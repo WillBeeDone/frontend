@@ -13,9 +13,8 @@ interface IDropDown {
   switcher?: number;
   isReadOnly?: boolean;
   "data-testid"?: string;
-  forMyProfile?:boolean;
+  forMyProfile?: boolean;
 }
-
 
 export default function DropDown({
   url,
@@ -27,14 +26,13 @@ export default function DropDown({
   forMyProfile = false,
 }: IDropDown): JSX.Element {
   const isCitySelector = switcher === 1; // Якщо switcher = 1 – це вибір міст
-  
+
   // тернарный оператор, который обьяснит дропДауну на какой ключ из браузерного хранилища ориентироваться
   // это нужно чтоб отображаемое значение в дропДаун в Хедере было синхронизированно со списком оферов
   let storageKey;
-  forMyProfile ? ( storageKey = "userSelectedCity" // Ключ для LocalStorage
-  ) : (storageKey = "selectedCity" // Ключ для LocalStorage
-  );
-  //const storageKey = "userSelectedCity"; // Ключ для LocalStorage
+  forMyProfile
+    ? (storageKey = "userSelectedCity") // Ключ для LocalStorage
+    : (storageKey = "selectedCity"); // Ключ для LocalStorage
 
   const initialValue = isCitySelector
     ? localStorage.getItem(storageKey) || "all"
@@ -65,28 +63,36 @@ export default function DropDown({
     const newElement = event.target.value;
     setSelectedElement(newElement);
 
-    // Якщо це вибір міста, зберігаємо в localStorage
-    if (isCitySelector) {
-      //localStorage.setItem(storageKey, newElement);
-    }
-
     if (onChange) {
       onChange(newElement);
     }
   };
 
   return (
-    <select className={styles.dropdown} value={selectedElement} onChange={handleChange} disabled = {isReadOnly} data-testid={dataTestId}>
-      
-      {switcher === 1 ? ( <option value="all" disabled>{text}</option> )
-      : switcher === 3 ? <option value="all" disabled>{text}</option> : <option value="all">All categories</option>}
+    <select
+      className={styles.dropdown}
+      value={selectedElement}
+      onChange={handleChange}
+      disabled={isReadOnly}
+      data-testid={dataTestId}
+    >
+      {switcher === 1 ? (
+        <option value="all" disabled>
+          {text}
+        </option>
+      ) : switcher === 3 ? (
+        <option value="all" disabled>
+          {text}
+        </option>
+      ) : (
+        <option value="all">All categories</option>
+      )}
 
-
-    {list.map((el, index) => (
-      <option key={index} value={el.value}>
-        {el.element}
-      </option>
-    ))}
-  </select>
+      {list.map((el, index) => (
+        <option key={index} value={el.value}>
+          {el.element}
+        </option>
+      ))}
+    </select>
   );
 }

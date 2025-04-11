@@ -4,10 +4,13 @@ import styles from "./CreateNewOfferLink.module.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function CreateNewOfferLink({ className = "" }: { className?: string }) {
+export default function CreateNewOfferLink({
+  className = "",
+}: {
+  className?: string;
+}) {
   const { user } = useSelector((state: RootState) => state.auth);
   const [showTooltip, setShowTooltip] = useState(false);
- 
 
   const isProfileComplete =
     user?.firstName && user?.secondName && user?.phone && user?.location;

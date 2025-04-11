@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import cn from "classnames";
 import styles from "./myButton.module.css";
-
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getMyProfileDataByAccessToken } from "../../features/auth/authActions";
 import sortAscIcon from "/sort-from-low.png";
@@ -10,17 +9,17 @@ import sortDescIcon from "/sort-from-high.png";
 import { IOfferCard } from "../types/OfferInterfaces";
 
 interface IMyButtonProps {
-  type?: "button" | "submit" | "reset" ;
+  type?: "button" | "submit" | "reset";
   text?: string;
   func?: () => void;
   disabled?: boolean;
-  variant?: "primary" | "danger" | "easy" | "remove" ;
+  variant?: "primary" | "danger" | "easy" | "remove";
   to?: string;
   isSortButton?: boolean;
   "data-testid"?: string;
-  className?:string;
- offerCards?: IOfferCard[];
-   setOfferCards?: (offer: IOfferCard[]) => void;
+  className?: string;
+  offerCards?: IOfferCard[];
+  setOfferCards?: (offer: IOfferCard[]) => void;
 }
 
 function MyButton({
@@ -38,14 +37,14 @@ function MyButton({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.auth.user.accessToken);
- 
+
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const handleClick = async () => {
     if ((text === "My Profile" || text === "Create Offer") && accessToken) {
       try {
         await dispatch(getMyProfileDataByAccessToken()).unwrap();
-        
+
         if (text === "My Profile") {
           navigate("/my-profile");
         } else if (text === "Create Offer") {

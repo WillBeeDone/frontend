@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ShowAll from "../showAll/ShowAll";
 import { IGuestOfferPage } from "../types/OfferInterfaces";
 import { transformGuestOfferPage } from "../backToFrontTransformData/BackToFrontTransformData";
-import styles from "./GuestOfferPage.module.css"
+import styles from "./GuestOfferPage.module.css";
 import { useAppSelector } from "../../app/hooks";
 
 const GuestOfferPage = () => {
@@ -14,34 +14,32 @@ const GuestOfferPage = () => {
   const [error, setError] = useState<string | null>(null);
   const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-  //const offer = guestOfferPageList.find((offer) => offer.id === Number(id));
-  //временно использую тест-данные test data - Offer - offerCards
-
   useEffect(() => {
     const fetchOffer = async () => {
-      console.log("внутри fetchOffer перед запросом, айди офера - ", id);
       let response;
       if (!id) return;
       try {
         const accessToken = localStorage.getItem("accessToken");
-        if(isAuthenticated){
-          response = await fetch(`/api/offers/${id}`,  {headers: {
-            'Authorization' : `Bearer ${accessToken}`
-                }});
-        }else{
+
+        if (isAuthenticated) {
+          response = await fetch(`/api/offers/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+        } else {
           response = await fetch(`/api/offers/${id}`);
         }
         if (!response.ok) {
           throw new Error("Failed to fetch offer");
         }
-        
+
         //состыковка ключей бек => фронт
         const data: IGuestOfferPage = await response.json();
-        console.log("inside - fetchOffer", data);
         const formattedGuestOfferPage = transformGuestOfferPage(data);
         setOffer(formattedGuestOfferPage);
       } catch (error) {
-        setError("Only Active Offers are shown.");
+        setError("Mistake while offer receive.");
         console.error(error);
       } finally {
         setLoading(false);
@@ -55,7 +53,7 @@ const GuestOfferPage = () => {
   if (error) return <p className={styles.errorText}>{error}</p>;
   if (!offer) return <p>Offer not found</p>;
 
-  return <ShowAll source={offer} switcher="guestOfferPage"/>;
+  return <ShowAll source={offer} switcher="guestOfferPage" />;
 };
 
 export default GuestOfferPage;

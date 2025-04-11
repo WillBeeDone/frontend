@@ -11,13 +11,13 @@ export interface IOfferCard {
   profilePicture: string;
 }
 
-//тип для галереи оффера - не знаю финальную нужную структуру, не знаю финальную структуру responce от БЕК-енда, id:number, imageId:number, imageUrl:string
+//тип для галереи оффера
 export interface IGallery {
   id: number;
   imageUrl: string;
 }
 
-//тип для конкретного оффера в режиме Guest, скорее всего нужны изменения в зависимости от структуры IUserOfferPageGallery
+//тип для конкретного оффера в режиме Guest
 export interface IGuestOfferPage {
   id: number;
   firstName: string;
@@ -32,17 +32,6 @@ export interface IGuestOfferPage {
   email: string;
   phone: string;
 }
-
-//тип для конкретного оффера в режиме User
-// export interface IUserOfferPage extends IGuestOfferPage {
-//   email: string;
-//   phone: string;
-// }
-
-// export interface IAdminOfferPage extends IUserOfferPage {
-//   userId: number;
-//   isActive: boolean;
-// }
 
 export interface IOfferForTransformOfferCardPagination {
   id: number;
@@ -62,7 +51,6 @@ export interface IOfferForTransformOfferCardPagination {
   };
 }
 
-
 export interface IMyOfferForTransformOfferCardPagination {
   id: number;
   title: string;
@@ -79,21 +67,16 @@ export interface IMyOfferForTransformOfferCardPagination {
       cityName: string;
     };
   };
-  active:boolean;
-}
-
-export interface IOfferState  {
-    offer: IGuestOfferPage,
-    isLoading: boolean,
-    error: string,
-  };
-
-
-  //тип для моего оффера в общем списке
-export interface IMyOfferCard extends IOfferCard{
   active: boolean;
 }
 
+export interface IOfferState {
+  offer: IGuestOfferPage;
+  isLoading: boolean;
+  error: string;
+}
 
-
-
+//тип для моего оффера в общем списке
+export interface IMyOfferCard extends IOfferCard {
+  active: boolean;
+}

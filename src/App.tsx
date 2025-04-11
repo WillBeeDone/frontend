@@ -58,7 +58,6 @@ function App() {
       path: "/user-agreement",
       element: <UserAgreement />,
     },
-
   ];
 
   const userRoutes = [
@@ -93,32 +92,35 @@ function App() {
       <AuthChecker />
       <OffersProvider>
         <MyOffersProvider>
-        <FavoriteProvider>
-          <HashRouter>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                {guestRoutes.map((el, index) => (
-                  <Route key={index} path={el.path} element={el.element} />
-                ))}
+          <FavoriteProvider>
+            <HashRouter>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  {guestRoutes.map((el, index) => (
+                    <Route key={index} path={el.path} element={el.element} />
+                  ))}
 
-                {userRoutes.map((el, index) => (
-                  <Route
-                    key={index}
-                    path={el.path}
-                    element={<ProtectedRoute outlet={el.element} />}
-                  />
-                ))}
-              </Route>
+                  {userRoutes.map((el, index) => (
+                    <Route
+                      key={index}
+                      path={el.path}
+                      element={<ProtectedRoute outlet={el.element} />}
+                    />
+                  ))}
+                </Route>
 
-              <Route
-                path="/confirm-email/:confirmationCode"
-                element={<ConfirmEmailPage />}
-              />
-              <Route path="/password-recovery-form/:confirmationCode" element={<PasswordRecovery />} />
-              <Route path="*" element={<NoPage />} />
-            </Routes>
-          </HashRouter>
-        </FavoriteProvider>
+                <Route
+                  path="/confirm-email/:confirmationCode"
+                  element={<ConfirmEmailPage />}
+                />
+                <Route
+                  path="/password-recovery-form/:confirmationCode"
+                  element={<PasswordRecovery />}
+                />
+                <Route path="*" element={<NoPage />} />
+              </Routes>
+            </HashRouter>
+          </FavoriteProvider>
         </MyOffersProvider>
       </OffersProvider>
     </Provider>
@@ -126,4 +128,3 @@ function App() {
 }
 
 export default App;
-
