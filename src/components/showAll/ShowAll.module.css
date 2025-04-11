@@ -124,6 +124,10 @@ p {
   margin-bottom: 8px;
   min-height: 100px;
   text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap; /* если нужно сохранять переносы строк */
 }
 
 
@@ -434,4 +438,14 @@ p {
   display: flex;
   justify-content: space-between;
   padding: 10px 60px;
+}
+
+.noFavourites{
+  color: #050505;
+}
+
+.noFavourites img{
+  width: 400px;
+ margin: 50px;
+  color: #050505;
 }
