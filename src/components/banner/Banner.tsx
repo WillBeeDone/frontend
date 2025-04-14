@@ -3,12 +3,14 @@ import styles from "./Banner.module.css";
 import KeyWordInput from "../keyWordInput/KeyWordInput";
 
 interface IKeyWordSelectorProps {
-  selectedKeyWord: string,
+  selectedKeyWord: string;
   setSelectedKeyWord: (keyWord: string) => void;
 }
 
-export default function Banner({selectedKeyWord, setSelectedKeyWord}:IKeyWordSelectorProps): JSX.Element {
-
+export default function Banner({
+  selectedKeyWord,
+  setSelectedKeyWord,
+}: IKeyWordSelectorProps): JSX.Element {
   const [localKeyWord, setLocalKeyWord] = useState(selectedKeyWord);
 
   // фактический перенос значения локальной переменной состояния в переменную для фетч-запроса
@@ -36,7 +38,9 @@ export default function Banner({selectedKeyWord, setSelectedKeyWord}:IKeyWordSel
           onChange={setLocalKeyWord} // изменение поля влияет только на локальную переменную состояния
           onKeyDown={handlePressEnter} // обработка нажатия Enter
         />
-        <button className={styles.searchButton}onClick={handleSearch}>Go →</button>
+        <button className={styles.searchButton} onClick={handleSearch}>
+          Go →
+        </button>
       </div>
     </div>
   );

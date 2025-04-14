@@ -38,6 +38,7 @@ function MyInput({
   isGallery = false,
 }: IMyInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   // видимость Password
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);

@@ -1,4 +1,3 @@
-// components/pagination/Pagination.tsx
 import styles from "./Pagination.module.css";
 
 interface PaginationProps {
@@ -16,11 +15,13 @@ export const Pagination = ({
 
   return (
     <div className={styles.pagination}>
-      <div className={styles.totalPage}>{currentPage + 1} of {totalPages} Pages</div>
+      <div className={styles.totalPage}>
+        {currentPage + 1} of {totalPages} Pages
+      </div>
       <div className={styles.navigationContainer}>
         <button
           onClick={() => {
-            console.log("Previous clicked, currentPage:", currentPage);
+            //console.log("Previous clicked, currentPage:", currentPage);
             onPageChange(currentPage - 1);
           }}
           disabled={currentPage === 0}
@@ -32,7 +33,7 @@ export const Pagination = ({
           <button
             key={page}
             onClick={() => {
-              console.log("Page clicked:", page);
+              //console.log("Page clicked:", page);
               onPageChange(page);
             }}
             className={currentPage === page ? styles.active : ""}
@@ -43,7 +44,7 @@ export const Pagination = ({
 
         <button
           onClick={() => {
-            console.log("Next clicked, currentPage:", currentPage);
+            //console.log("Next clicked, currentPage:", currentPage);
             onPageChange(currentPage + 1);
           }}
           disabled={currentPage === totalPages - 1}
@@ -53,19 +54,19 @@ export const Pagination = ({
       </div>
       <div className={styles.pageOn}>
         <div className={styles.pg}>
-      <p>The page on</p>
-      </div>
-      <select
-        value={currentPage}
-        onChange={(e) => onPageChange(Number(e.target.value))}
-        className={styles.pageSelect}
-      > 
-        {pages.map((page) => (
-          <option key={page} value={page}>
-            {page + 1}
-          </option>
-        ))}
-      </select>
+          <p>The page on</p>
+        </div>
+        <select
+          value={currentPage}
+          onChange={(e) => onPageChange(Number(e.target.value))}
+          className={styles.pageSelect}
+        >
+          {pages.map((page) => (
+            <option key={page} value={page}>
+              {page + 1}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

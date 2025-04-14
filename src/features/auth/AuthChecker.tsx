@@ -14,7 +14,7 @@ const AuthChecker = () => {
     if (isAuthenticated) {
       const accessToken = localStorage.getItem("accessToken");
       if (accessToken) {
-        dispatch(getMyProfileDataByAccessToken(accessToken));
+        dispatch(getMyProfileDataByAccessToken());
       }
     }
   }, [dispatch]);

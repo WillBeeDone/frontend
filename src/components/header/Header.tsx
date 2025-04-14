@@ -12,6 +12,7 @@ import { FixImgUrl } from "../backToFrontTransformData/FixImgUrl";
 import Menu from "../menu/Menu";
 import { useFavorite } from "../../context/FavoriteContext";
 import CreateNewOfferLink from "../createNewOffer/CreateNewOfferLink";
+import { useMyOffers } from "../../context/MyOffersContext";
 
 interface ILink {
   text: React.ReactNode;
@@ -28,7 +29,8 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
   const { user } = useAppSelector((state) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const {fetchFavoriteOffers} = useFavorite();
+  const { fetchFavoriteOffers } = useFavorite();
+  const { fetchMyOffers } = useMyOffers();
 
   const handleBurgerClick = () => {
     setIsMenuOpen((prev) => !prev); // меняем состояние видимости модального окна
@@ -44,10 +46,13 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
     e.stopPropagation(); // останавливаем всплытие, чтобы меню не закрывалось при клике внутри
   };
 
-
-  const handleFetch = () =>{
+  const handleFetchFavoriteOffers = () => {
     fetchFavoriteOffers();
-  }
+  };
+  const handleFetchMyOffers = () => {
+    fetchMyOffers();
+    navigate("/my-offers");
+  };
 
   return (
     <header className={styles.header}>
@@ -81,27 +86,45 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
           <>
             <div className={styles.menuLinkContainer}>
               <div className={styles.linkBlock}>
-                <span>
+                <div
+                  className={
+                    location.pathname === "/favorite" ? styles.selectMenu : ""
+                  }
+                >
                   <Link
                     data-testid="LinkFavoritesInHeader_Jhfyghdg"
                     to="/favorite"
-                    onClick={handleFetch}
+                    onClick={handleFetchFavoriteOffers}
                     className={styles.menuLink}
                   >
-                    Favorites
+                    Favourites
                   </Link>
-                </span>
-                <span
-                  data-testid="LinkMyOffersInHeader_Jjhfyfdg"
-                  onClick={() => navigate("/my-offers")}
-                  className={styles.menuLink}
+
+                  {/* ЛОАДЕР - технічний виклик */}
+                  {/* <MyButton
+                    data-testid="SignUpButtonInHeader_kdjHgf"
+                    text="Loader"
+                    to="/loader"
+                    variant="primary"/>*/}
+                </div>
+
+                <div
+                  className={
+                    location.pathname === "/my-offers" ? styles.selectMenu : ""
+                  }
                 >
-                  My Offers
-                </span >
-                <span className={styles.menuLinkCreateOffer}>
+                  <span
+                    data-testid="LinkMyOffersInHeader_Jjhfyfdg"
+                    onClick={handleFetchMyOffers}
+                    className={styles.menuLink}
+                  >
+                    My Offers
+                  </span>
+                </div>
+                <div className={styles.menuLinkCreateOffer}>
                   {" "}
-                  <CreateNewOfferLink className="menuLinkCreateOffer"/>
-                </span>
+                  <CreateNewOfferLink className="menuLinkCreateOffer" />
+                </div>
               </div>
             </div>
             <div className={styles.authUserProfilePictureBox}>

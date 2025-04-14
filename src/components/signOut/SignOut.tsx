@@ -18,7 +18,7 @@ export default function SignOut({ onSignOut }: ISignOutProps): JSX.Element {
     dispatch(signOut());
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    onSignOut(); 
+    onSignOut();
     setSelectedCategory("all");
     setSelectedKeyWord("");
     fetchOffers("all", "all", "");
