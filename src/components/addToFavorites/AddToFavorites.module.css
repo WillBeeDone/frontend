@@ -39,3 +39,7 @@
   white-space: nowrap;
 }
 
+.tooltip a {
+  color: #E9C740;
+  font-weight: 500;
+}
