@@ -8,6 +8,7 @@ import {
 } from "react";
 import { IOfferCard } from "../components/types/OfferInterfaces";
 import { transformOfferCardPagination } from "../components/backToFrontTransformData/BackToFrontTransformData";
+import apiClient from "../features/auth/apiClient";
 
 interface OffersContextType {
   offerCards: IOfferCard[];
@@ -49,12 +50,10 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchOffersFirstRender = async (page: number = 0) => {
     try {
-      const response = await fetch(`/api/offers?page=${page}&size=12`);
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+      const { data } = await apiClient.get(`/api/offers`, {
+        params: { page, size: 12 },
+      });
 
-      const data = await response.json();
       const formattedOffers = transformOfferCardPagination(data);
       setOfferCards(formattedOffers);
       setTotalPages(data.totalPages);
@@ -75,16 +74,15 @@ export const OffersProvider = ({ children }: { children: ReactNode }) => {
     page: number = 0
   ) => {
     try {
-      const response = await fetch(
-        `/api/offers?page=${page}&cityName=${city}&category=${category}&keyPhrase=${keyWord}`
-      );
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+      const { data } = await apiClient.get(`/api/offers`, {
+        params: {
+          page,
+          cityName: city,
+          category,
+          keyPhrase: keyWord,
+        },
+      });
 
-      const data = await response.json();
-
-      //состыковка ключей бек => фронт
       const formattedOffers = transformOfferCardPagination(data);
       setOfferCards(formattedOffers);
       setTotalPages(data.totalPages);

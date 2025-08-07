@@ -9,6 +9,8 @@ import {
 import { IOfferCard } from "../components/types/OfferInterfaces";
 import { transformOfferCardPagination } from "../components/backToFrontTransformData/BackToFrontTransformData";
 import { useOffers } from "./OffersContext";
+import apiClient from "../features/auth/apiClient";
+
 
 interface FavoritesContextType {
   offerCards: IOfferCard[];
@@ -54,27 +56,21 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   const fetchFavoriteOffers = async (page: number = 0) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      
-      const response = await fetch(
-        `/api/users/favourites?page=${page}&size=12`,
+      const response = await apiClient.get(
+        `/users/favourites?page=${page}&size=12`,
         {
-          method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         }
       );
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const data = await response.json();
+      const data = response.data;
       const formattedFavoriteOffers = transformOfferCardPagination(data);
       setFavoriteOffers(formattedFavoriteOffers);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
     } catch (error) {
-      console.error("Mistake while general favorite offers receive:", error);
+      console.error("Error fetching favorite offers:", error);
     }
   };
 
@@ -93,24 +89,21 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   ) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      
-      const response = await fetch(
-        `/api/users/favourites?page=${page}&size=12&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
+      const response = await apiClient.get(
+        `/users/favourites?page=${page}&size=12&cityName=${city}&category=${category}&keyPhrase=${keyWord}`,
         {
-          method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         }
       );
-
-      const data = await response.json();
+      const data = response.data;
       const formattedFavoriteOffers = transformOfferCardPagination(data);
       setFavoriteOffers(formattedFavoriteOffers);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
     } catch (error) {
-      console.error("Error while receiving filtered favorite offers:", error);
+      console.error("Error fetching filtered favorite offers:", error);
     }
   };
 
@@ -124,18 +117,15 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   }, [selectedCity, selectedCategory, selectedKeyWord]);
 
   // запрос на сервер для добавления в любимые
-  const addFavorite = async (offerId: string) => {
+ const addFavorite = async (offerId: string) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-
-      await fetch(`/api/users/favourites/${offerId}`, {
-        method: "PUT",
+      await apiClient.put(`/users/favourites/${offerId}`, null, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      // находим добавляемый офер в списке чужих оферов (дополнительная проверка)
       const newOffer = offerCards.find((o) => o.id === Number(offerId));
       if (!newOffer) return;
 
@@ -149,8 +139,7 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
   const removeFavorite = async (offerId: string) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      await fetch(`/api/users/favourites/${offerId}`, {
-        method: "DELETE",
+      await apiClient.delete(`/users/favourites/${offerId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -160,16 +149,15 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
         prev.filter((offer) => offer.id !== Number(offerId))
       );
     } catch (error) {
-      console.error("Error while removing from favorites:", error);
+      console.error("Error removing favorite:", error);
     }
   };
 
   // удаление всех любимых
-  const clearFavorite = async () => {
+ const clearFavorite = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      await fetch(`/api/users/favourites`, {
-        method: "DELETE",
+      await apiClient.delete(`/users/favourites`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -177,7 +165,7 @@ export const FavoriteProvider = ({ children }: { children: ReactNode }) => {
 
       setFavoriteOffers([]);
     } catch (error) {
-      console.error("Error while removing all favorites:", error);
+      console.error("Error clearing favorites:", error);
     }
   };
 
