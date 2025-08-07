@@ -1,5 +1,4 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import apiClient from "./apiClient";
 
 // данные емейл&пароль записываються в форме SignUp
@@ -7,7 +6,7 @@ export const signUp = createAsyncThunk(
   "auth/signUp",
   async (userData: { email: string; password: string }, thunkAPI) => {
     try {
-      const responce = await axios.post("api/register", userData);
+      const responce = await apiClient.post("api/register", userData);
 
       return responce.data;
     } catch (error: any) {
@@ -21,7 +20,7 @@ export const emailForPassRecovery = createAsyncThunk(
   "auth/emailForPassRecovery",
   async (userData: { email: string }, thunkAPI) => {
     try {
-      const response = await axios.post("api/auth/reset", userData);
+      const response = await apiClient.post("api/auth/reset", userData);
 
       return response.data;
     } catch (error: any) {
@@ -41,7 +40,7 @@ export const passwordRecovery = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const response = await axios.post(`api/auth/reset/${confirmationCode}`, {
+      const response = await apiClient.post(`api/auth/reset/${confirmationCode}`, {
         password,
       });
 
@@ -63,7 +62,7 @@ export const signInByEmailAndPass = createAsyncThunk(
   "auth/signInByEmailAndPass",
   async (userData: { email: string; password: string }, thunkAPI) => {
     try {
-      const response = await axios.post("api/auth/login", userData);
+      const response = await apiClient.post("api/auth/login", userData);
 
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
@@ -88,7 +87,7 @@ export const signInByAccessToken = createAsyncThunk(
   "auth/signInByAccessToken",
   async (accessToken: string, thunkAPI) => {
     try {
-      const response = await axios.post("api/auth/login", {
+      const response = await apiClient.post("api/auth/login", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -106,7 +105,7 @@ export const signInByRefreshToken = createAsyncThunk(
   "auth/signInByRefreshToken",
   async (refreshToken: string, thunkAPI) => {
     try {
-      const response = await axios.post("api/auth/refresh", {
+      const response = await apiClient.post("api/auth/refresh", {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
@@ -175,7 +174,7 @@ export const myProfile = createAsyncThunk(
 
       const accessToken = localStorage.getItem("accessToken");
 
-      const response = await axios.put("/api/users", body, {
+      const response = await apiClient.put("/api/users", body, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -206,7 +205,7 @@ export const passwordChange = createAsyncThunk(
       const body = { oldPassword, newPassword };
       const accessToken = localStorage.getItem("accessToken");
 
-      const response = await axios.put("/api/auth/change", body, {
+      const response = await apiClient.put("/api/auth/change", body, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

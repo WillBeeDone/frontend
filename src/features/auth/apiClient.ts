@@ -2,7 +2,9 @@ import axios from "axios";
 import { signInByRefreshToken } from "./authActions";
 import { signOut } from "./authSlice";
 
-const apiClient = axios.create();
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080",
+});
 
 // Интерсептор для запросов – добавляет Bearer токен
 apiClient.interceptors.request.use(

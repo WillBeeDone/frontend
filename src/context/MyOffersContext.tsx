@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { IMyOfferCard, IOfferCard } from "../components/types/OfferInterfaces";
 import { transformMyOfferCard } from "../components/backToFrontTransformData/BackToFrontTransformData";
-import axios from "axios";
+import apiClient from "../features/auth/apiClient";
 
 interface MyOffersContextType {
   myOfferCards: IMyOfferCard[];
@@ -28,7 +28,7 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
   const fetchMyOffers = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`/api/users/offers`, {
+      const response = await apiClient.get(`/api/users/offers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -50,18 +50,17 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
 
   const addNewOfferToMyOffers = async (newOffer: IOfferCard) => {
     try {
-      const response = await fetch("/api/add-new-offer-to-my-offers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newOffer),
-      });
+      const response = await apiClient.post(
+        "/api/add-new-offer-to-my-offers",
+        newOffer
+      );
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`Server error: ${response.status}`);
       }
 
-      const savedOffer = await response.json();
-      setMyOfferCards((prevMyOfferCards) => [...prevMyOfferCards, savedOffer]);
+      const savedOffer = response.data;
+      setMyOfferCards((prev) => [...prev, savedOffer]);
       fetchMyOffers();
     } catch (error) {
       console.error("Error while adding new offer:", error);
@@ -70,7 +69,7 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
 
   const removeOfferFromMyOffers = async (id: number) => {
     try {
-      await axios.delete(`/api/users/offers/${id}`, {
+      await apiClient.delete(`/api/users/offers/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -88,7 +87,7 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
 
   const activateDeactivateMyOffers = async (id: number) => {
     try {
-      await axios.put(
+      await apiClient.put(
         `/api/users/offers/${id}`,
         {},
         {
@@ -113,11 +112,9 @@ export const MyOffersProvider = ({ children }: { children: ReactNode }) => {
 
   const clearAllMyOffers = async () => {
     try {
-      const response = await fetch(`/api/clearAllMyOffers`, {
-        method: "DELETE",
-      });
+      const response = await apiClient.delete("/api/clearAllMyOffers");
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`Server error: ${response.status}`);
       }
 

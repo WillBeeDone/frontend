@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import apiClient from "../auth/apiClient";
+
 
 // все данные записываються в форме CreateNewOffer
 export const createNewOffer = createAsyncThunk(
@@ -33,7 +34,7 @@ export const createNewOffer = createAsyncThunk(
 
       const accessToken = localStorage.getItem("accessToken");
 
-      const response = await axios.post("/api/users/offers", body, {
+      const response = await apiClient.post("/api/users/offers", body, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -56,7 +57,7 @@ export const activateDeactivateOffer = createAsyncThunk(
   async ({ id }: { id: number }, thunkAPI) => {
     try {
       const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.put(`api/users/offers/${id}`, {
+      const response = await apiClient.put(`api/users/offers/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -81,7 +82,7 @@ export const removeOffer = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const response = await axios.delete(`api/users/offers/${id}`, {
+      const response = await apiClient.delete(`api/users/offers/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

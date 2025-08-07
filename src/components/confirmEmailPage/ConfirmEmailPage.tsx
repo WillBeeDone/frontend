@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styles from "./ConfirmEmailPage.module.css";
-import axios from "axios";
+import apiClient from "../../features/auth/apiClient";
+
 
 export default function ConfirmEmailPage() {
   const { confirmationCode } = useParams(); // получаем код подтверждения из адресной строки
@@ -10,7 +11,7 @@ export default function ConfirmEmailPage() {
 
   useEffect(() => {
     if (confirmationCode) {
-      axios
+      apiClient
         .get(`/api/register/${confirmationCode}`)
         .then((response) => {
           if (response.data) {

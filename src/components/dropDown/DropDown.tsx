@@ -1,5 +1,6 @@
 import { useState, useEffect, JSX } from "react";
 import styles from "./DropDown.module.css";
+import apiClient from "../../features/auth/apiClient";
 
 interface IDataForSelector {
   element: string;
@@ -44,8 +45,8 @@ export default function DropDown({
   useEffect(() => {
     const fetchElements = async () => {
       try {
-        const response = await fetch(url);
-        const data: string[] = await response.json();
+        const response = await apiClient.get(url);
+        const data: string[] = response.data;
         const formattedList = data.map((element) => ({
           element,
           value: element,
