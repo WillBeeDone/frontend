@@ -25,6 +25,7 @@ import ShowMyOffers from "./components/showMyOffers/ShowMyOffers";
 import Loader from "./components/loader/Loader";
 
 function App() {
+  console.log("✅ API BASE URL:", import.meta.env.VITE_API_BASE_URL);
   const guestRoutes = [
     {
       path: "/",
@@ -107,6 +108,7 @@ function App() {
                       element={<ProtectedRoute outlet={el.element} />}
                     />
                   ))}
+                  
                 </Route>
 
                 <Route
