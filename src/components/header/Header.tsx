@@ -70,7 +70,7 @@ export default function Header({ links }: IHeaderProps): JSX.Element {
 
       <div className={styles.dropdown}>
         <DropDown
-          url="/api/locations"
+          url="backend-production-8470.up.railway.app/api/locations"
           text="Choose city"
           onChange={
             location.pathname === "/favorite"
