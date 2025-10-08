@@ -1,54 +1,65 @@
-# React + TypeScript + Vite
+# WillBeeDone Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** of the WillBeeDone project – a service marketplace for finding local contractors.  
+The frontend works with the **backend** via RESTful APIs and uses a MySQL database.
 
-Currently, two official plugins are available:
+🌎 **Deployment:** [Live Demo](https://willbeedone.up.railway.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📋 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Display of offers (Ads)  
+- Location selection  
+- Price sorting (ascending and descending)  
+- Keyword search  
+- User registration, login, and password recovery  
+- CRUD for **favorites**  
+- CRUD for creating new offers  
+- Image uploads and gallery support  
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **TypeScript** 5.7.2  
+- **React** 19  
+- **Vite**, **npm**  
+- **React Router Dom** (routing)  
+- **Axios** (HTTP client)  
+- **Redux Toolkit + React Redux** (state management)  
+- **Redux Slice Architecture** (structured state architecture)  
+- **Context API** (data sharing between components)  
+- **Formik** (forms and validation)  
+- **Yup** (declarative validation schema)  
+- **Validator** (data validation)  
+- **DOMPurify** (sanitize HTML)  
+- **CKEditor 5** (WYSIWYG editor)  
+- **CSS Modules** (component-scoped styles)  
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🔒 Security
+
+Input validation with Yup, Validator, and DOMPurify
+Forms handled securely via Formik
+Secure communication with backend via JWT token
+
+## ✅ Notes
+
+This frontend is designed to work with the WillBeeDone Backend.
+Supports all CRUD operations and favorites management.
+Responsive design with state management via Redux Toolkit and Context API.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 20+  
+- npm 9+  
+
+### Installation
+```bash
+git clone https://github.com/LutsDM/willbeedone-frontend.git
+cd willbeedone-frontend
+npm install
+npm run dev
