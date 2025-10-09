@@ -14,7 +14,7 @@ The frontend works with the **backend** via RESTful APIs and uses a MySQL databa
 - Price sorting (ascending and descending)  
 - Keyword search  
 - User registration, login, and password recovery  
-- CRUD for **favorites**  
+- CRUD for favorites  
 - CRUD for creating new offers  
 - Image uploads and gallery support  
 
